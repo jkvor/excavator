@@ -1,0 +1,17 @@
+#!/bin/sh
+
+HOSTNAME=`case \`uname\` in Darwin ) echo \`hostname\`;; * ) echo \`hostname --fqdn\`;; esac`
+
+case $1 in
+'console' )
+	erl -setcookie eXcavator-zyx -pa ebin -I include -name excavator@$(HOSTNAME) +W w +A 1 +Ktrue -boot excavator
+	;;
+'start' )
+    echo "not implemented"
+	;;
+'stop' )
+    echo "not implemented"
+    ;;
+*)
+   echo "usage: `basename $0` {console|start|stop}"
+esac
