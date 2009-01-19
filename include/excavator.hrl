@@ -1,0 +1,3 @@
+-record(push, {regexp, xpath, url, source}).
+-record(pop, {num, name, type, action}).
+-record(pretty, {format, args}).
