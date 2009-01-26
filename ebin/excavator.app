@@ -3,9 +3,9 @@
     {vsn, "0.1.1"},
     {modules, [
         excavator,
-		excavator_worker
+		excavator_crawler
     ]},
     {registered, []},
     {mod, {excavator, []}},
-    {applications, [kernel, stdlib]}
+    {applications, [kernel, stdlib, inets]}
 ]}.

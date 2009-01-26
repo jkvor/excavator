@@ -1,3 +1,7 @@
--record(push, {regexp, xpath, url, source}).
--record(pop, {num, name, type, action}).
--record(pretty, {format, args}).
+-record(assign, {function, from, to}).
+-record(assert, {name, type}).
+-record(commit, {name, type}).
+-record(print, {format, args}).
+-record(url, {value}).
+-record(xpath, {value}).
+-record(regexp, {value}).
