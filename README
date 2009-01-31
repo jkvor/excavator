@@ -1,0 +1,16 @@
+%% excavator is a template driven Erlang data miner
+%%
+%% An example set of template instructions:
+[ assign({url, ?ROOT_URL}, scope),
+  assert(scope, has_text),
+
+  [ assign({xpath, scope, "//div[@class='track_name']/text()"}, scope), %% returns multiple text elements
+    print(scope),
+    assert(scope, has_list_items),
+
+	each(scope, [
+		print(scope),
+		assert(scope, has_text)
+	])
+  ],
+]
