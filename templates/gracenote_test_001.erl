@@ -6,8 +6,7 @@
 
 instructions() ->
 	[ assign({url, ?ROOT_URL}, scope),
-	  print(scope),
-	  assert(scope, has_list_items),
+	  assert(scope, has_text),
 
 	  [ assign({xpath, scope, "//div[@class='album-name']/text()"}, scope),
 	    print(scope),

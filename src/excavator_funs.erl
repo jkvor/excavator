@@ -1,6 +1,6 @@
 -module(excavator_funs).
 
--export([assign/2, assert/2, commit/2, print/1, print/2]).
+-export([assign/2, assert/2, commit/2, print/1, print/2, each/2]).
 
 -include("excavator.hrl").
 
@@ -36,3 +36,6 @@ print(Name) when is_atom(Name) ->
 	
 print(Format, Args) ->
 	#print{ format = Format, args = Args }.
+	
+each(Name, Commands) ->
+	#each{ name = Name, commands = Commands}.

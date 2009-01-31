@@ -3,17 +3,25 @@
 
 %% @spec run(Regexp, Subject) -> Result
 %%		 Regexp = {re_pattern, _, _, _}
-%%		 Subject = [<<"subject">>] | "subject"
-%%		 Result = ["captured"|_]
-run(Regexp, [Subject]) when is_tuple(Regexp), is_binary(Subject) ->	
-	run(Regexp, binary_to_list(Subject));
+%%		 Subject = {Type, Value}
+%%		 Result = {nil, _} | {string, _} | {list_of_strings, _}
+run(Regexp, {string, Subject}) when is_tuple(Regexp), is_list(Subject) ->
+	case re:run(Subject, Regexp, [global]) of
+		nomatch -> 
+			[];
+		{match, Match} ->
+			case process(Match, Subject, []) of
+				[] -> {nil, []};
+				[String] when is_list(String) -> {string, String};
+				[String|_] = List when is_list(String) -> {list_of_strings, lists:reverse(List)}
+			end
+	end.
 	
-run(Regexp, Subject) when is_tuple(Regexp), is_list(Subject) ->
-	Value =
-		case re:run(Subject, Regexp) of
-			nomatch -> 
-				[];
-			{match, [_|Captured]} ->
-				[string:substr(Subject, Start+1, Length) || {Start, Length} <- Captured]
-		end,
-	Value.
+process([], _, Acc) -> Acc;
+
+process([ [ {_,_}, {Start,Length} ] |Tail], Subject, Acc) ->
+	Acc1 = [string:substr(Subject, Start+1, Length)|Acc],
+	process(Tail, Subject, Acc1);
+
+process(A,_,_) ->
+	erlang:error("Cannot process regexp results", [A]).

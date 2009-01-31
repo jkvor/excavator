@@ -2,6 +2,7 @@
 -record(assert, {name, type}).
 -record(commit, {name, type}).
 -record(print, {format, args}).
+-record(each, {name, commands}).
 -record(url, {value}).
 -record(xpath, {value}).
 -record(regexp, {value}).
