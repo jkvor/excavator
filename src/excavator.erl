@@ -11,7 +11,6 @@ stop() ->
     Resp.
 
 start(_, _) ->
-	%ok = inets:start(),
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 stop(_) ->
