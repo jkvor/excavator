@@ -9,6 +9,7 @@
 run(XPath, {string, Subject0}) when is_list(XPath), is_list(Subject0) ->
 	case mochiweb_html:parse(Subject0) of
 		Subject when is_tuple(Subject) ->
+			%io:format("html tree: ~n~p~n", [Subject]),
 			run(XPath, {node, Subject});
 		_ ->
 			erlang:error("Error parsing HTML", [XPath, {node, Subject0}])

@@ -7,6 +7,9 @@
 assign({url, URL}, To) ->
 	#assign{ from = #url{ value = URL }, to = To };
 	
+assign({file, File}, To) ->
+	#assign{ from = #file{ name = File }, to = To };
+	
 assign({xpath, From, XPath}, To) ->
 	#assign{ function = #xpath{ value = XPath }, from = From, to = To };
 	
@@ -17,8 +20,14 @@ assign({regexp, From, Regexp}, To) ->
 assign(_, _) ->
 	exit(assign_type_not_supported).
 	
+assert(Name, List) when is_list(List) ->
+	[assert(Name, ListItem) || ListItem <- List];
+	
+assert(Name, {size, Size}) ->
+	#assert{ name = Name, type = {size, Size} };
+	
 assert(Name, Type) 
- when Type == has_list_items; Type == html_tree_has_nodes; Type == has_text ->
+ when Type == has_list_items; Type == has_nodes; Type == has_text; Type == has_node ->
 	#assert{ name = Name, type = Type };
 
 assert(_, _) ->
