@@ -5,8 +5,10 @@
 -record(each, {name, commands}).
 -record(url, {value}).
 -record(file, {name}).
+-record(range, {current, stop}).
 -record(xpath, {value}).
 -record(regexp, {value}).
+-record(state, {instructions, dictionary, stack}).
 
 -define(INFO_MSG, fun(Format0, Args0) -> io:format(Format0, Args0) end).
 %-define(INFO_MSG, fun(Format, Args) -> error_logger:info_msg(Format, Args) end).
