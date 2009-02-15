@@ -11,7 +11,7 @@ assign({file, File}, To) ->
 	#assign{ from = #file{ name = File }, to = To };
 	
 assign({range, Start, End}, To) ->
-	#assign{ from = #range{ current = Start, stop = End }, to = To };
+	#assign{ from = #range{ current = Start, stop = End, incr_fun = fun(A) -> A+1 end }, to = To };
 	
 assign({xpath, From, XPath}, To) ->
 	#assign{ function = #xpath{ value = XPath }, from = From, to = To };

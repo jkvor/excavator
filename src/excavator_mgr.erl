@@ -21,7 +21,11 @@ handle_call({register, Name, Instructions}, _From, Dict) ->
 handle_call({next, Name}, _From, Dict) ->
 	case dict:find(Name, Dict) of
 		{ok, State} ->
+			%{state, I, _, Stack} = State,
+			%io:format("next of ~p~n", [I]),
 			case excavator_consumer:execute(State) of
+				{ok, done} ->
+					{reply, done, dict:erase(Name, Dict)};
 				{ok, State1} ->
 					{reply, ok, dict:store(Name, State1, Dict)};
 				Err ->
@@ -53,7 +57,7 @@ register(Name, Instructions) when is_atom(Name), is_list(Instructions) ->
 	gen_server:call(pg2:get_closest_pid(excavator_mgr_grp), {register, Name, Instructions}, infinity).
 	
 next(Name) when is_atom(Name) ->
-	gen_server:call(pg2:get_closest_pid(excavator_mgr_grp), {load, Name}, infinity).
+	gen_server:call(pg2:get_closest_pid(excavator_mgr_grp), {next, Name}, infinity).
 
 stop(Name) when is_atom(Name) ->
-	gen_server:call(pg2:get_closest_pid(excavator_mgr_grp), {load, Name}, infinity).
+	gen_server:call(pg2:get_closest_pid(excavator_mgr_grp), {stop, Name}, infinity).

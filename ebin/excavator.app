@@ -3,7 +3,8 @@
     {vsn, "0.1.1"},
     {modules, [
         excavator,
-		excavator_crawler
+		excavator_mgr,
+		excavator_consumer
     ]},
     {registered, []},
     {mod, {excavator, []}},

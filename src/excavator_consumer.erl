@@ -22,9 +22,8 @@ init(_) ->
     {ok, []}.
 
 handle_call({execute, {state, Instructions, Dict, Stack}}, _From, S) ->	
-	{ok, State1} = process_instructions(Instructions, Dict, Stack),
-	{reply, {ok, State1}, S};
-		
+	{reply, process_instructions(Instructions, Dict, Stack), S};
+	
 handle_call(_Message, _From, State) -> {reply, {error, invalid_call}, State}.
 
 handle_cast(_Message, State) -> {noreply, State}.
@@ -53,16 +52,16 @@ process_instructions([#assign{ from = #file{ name = Filename }, to = To }|Tail],
 			erlang:error("Error reading file: " ++ Reason, [Filename])
 	end;
 	
-process_instructions([#assign{ from = #range{ current = Current, stop = Stop }, to = To }|Tail], Dict, Stack) ->
-	{ok, {state, Tail, dict:store(To, {range, Current, Stop, fun(A) -> A+1 end}, Dict), Stack}};
+process_instructions([#assign{ from = #range{} = Range, to = To }|Tail], Dict, Stack) ->
+	{ok, {state, Tail, dict:store(To, Range, Dict), Stack}};
 	
 process_instructions([#assign{ from = From, to = To, function = #xpath{ value = XPath } }|Tail], Dict, Stack) ->
-	{FromType, FromValue} = lookup(From, State),
+	{FromType, FromValue} = lookup(From, Dict),
 	ToValue = excavator_xpath:run(XPath, {FromType, FromValue}),
 	{ok, {state, Tail, dict:store(To, ToValue, Dict), Stack}};
 	
 process_instructions([#assign{ from = From, to = To, function = #regexp{ value = Regexp } }|Tail], Dict, Stack) ->		
-	{FromType, FromValue} = lookup(From, State),
+	{FromType, FromValue} = lookup(From, Dict),
 	ToValue = excavator_re:run(Regexp, {FromType, FromValue}),
 	{ok, {state, Tail, dict:store(To, ToValue, Dict), Stack}};
 
@@ -70,7 +69,7 @@ process_instructions([#assign{ from = From, to = To, function = #regexp{ value =
 %% 						  ASSERT						%%
 %% ==================================================== %%
 process_instructions([#assert{ name = Name, type = Type }=Assert|Tail], Dict, Stack) ->
-	case assert(lookup(Name, State),Type) of
+	case assert(lookup(Name, Dict),Type) of
 		true -> 
 			?INFO_MSG("Assert passed: [~p, ~p]~n", [Name, Type]),
 			ok;
@@ -82,21 +81,30 @@ process_instructions([#assert{ name = Name, type = Type }=Assert|Tail], Dict, St
 %% ==================================================== %%
 %% 						   EACH							%%
 %% ==================================================== %%	
-process_instructions([#each{ name = Name, commands = Commands }|Tail], Dict, Stack) ->
-	case lookup(Name, State) of
+process_instructions([#each{ name = Name, commands = Commands }|Tail]=Instrs, Dict, Stack) ->
+	case lookup(Name, Dict) of
 		{_, []} -> 
 			{ok, {state, Tail, Dict, Stack}};
-		{list_of_strings, List0} ->
-			List = [{string, Item} || Item <- List0],
+		{list_of_strings, [Head|Rest]} ->
+			Dict1 = dict:store(Name, {string, Head}, Dict),
+			Dict2 = dict:store(Name, {list_of_strings, Rest}, Dict),
+			NewStack = [{Dict2, Instrs},{Dict, Tail}|Stack],
+			{ok, {state, Commands, Dict1, NewStack}};
+		{list_of_nodes, [Head|Rest]} ->
+			Dict1 = dict:store(Name, {node, Head}, Dict),
+			Dict2 = dict:store(Name, {list_of_nodes, Rest}, Dict),
+			NewStack = [{Dict2, Instrs}|Stack],
+			{ok, {state, Commands, Dict1, NewStack}};		
+		{range, Stop, Stop, _} ->
+			Dict1 = dict:store(Name, {string, Stop}, Dict),
 			NewStack = [{Dict, Tail}|Stack],
-			{ok, {state, List, Dict, NewStack}};
-		{list_of_nodes, List} ->
-			List = [{node, Item} || Item <- List0],
-			NewStack = [{Dict, Tail}|Stack],
-			{ok, {state, List, Dict, NewStack}};
-		{range, _Current, _Stop, _Inc_Fun} = Range ->
-			NewStack = [{Dict, Tail}|Stack],
-			{ok, {state, Range, Dict, NewStack}}
+			{ok, {state, Commands, Dict1, NewStack}};
+		{range, Current, Stop, Inc_Fun} ->
+			Dict1 = dict:store(Name, {string, Current}, Dict),
+			NewRange = {range, Inc_Fun(Current), Stop, Inc_Fun},
+			Dict2 = dict:store(Name, NewRange, Dict),
+			NewStack = [{Dict2, Instrs}|Stack],
+			{ok, {state, Commands, Dict1, NewStack}}
 	end;
 	
 %% ==================================================== %%
@@ -110,7 +118,7 @@ process_instructions([#commit{ name = _Name, type = _Type }|Tail], Dict, Stack) 
 %% 						   PRINT						%%
 %% ==================================================== %%
 process_instructions([#print{ format = Format, args = Args }|Tail], Dict, Stack) ->
-	Args1 = [lookup(Arg, State) || Arg <- Args],
+	Args1 = [lookup(Arg, Dict) || Arg <- Args],
 	?INFO_MSG(Format, Args1),
 	{ok, {state, Tail, Dict, Stack}};
 
@@ -118,7 +126,7 @@ process_instructions([#print{ format = Format, args = Args }|Tail], Dict, Stack)
 %% 						    POP							%%
 %% ==================================================== %%
 process_instructions([], _, []) ->
-	{ok, #state{}};
+	{ok, done};
 
 process_instructions([], _, [{Dict, Tail}|Stack]) ->
 	{ok, {state, Tail, Dict, Stack}};
@@ -136,8 +144,8 @@ process_instructions([Head|Tail], Dict, Stack) when is_list(Head) ->
 process_instructions(A, B, C) ->
 	erlang:error(instruction_not_supported, [A, B, C]).
 
-lookup(Key, State) ->
-	case dict:find(Key, State) of
+lookup(Key, Dict) ->
+	case dict:find(Key, Dict) of
 		{ok, Value} ->
 			Value;
 		error ->

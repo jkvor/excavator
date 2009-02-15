@@ -18,7 +18,8 @@ stop(_) ->
 
 init(_) ->
     {ok, {{one_for_one, 10, 10}, [
-        {excavator_crawler, {excavator_crawler, start_link, [none]}, permanent, 5000, worker, [excavator_crawler]}
+        {excavator_mgr, {excavator_mgr, start_link, [none]}, permanent, 5000, worker, [excavator_mgr]},
+		{excavator_consumer, {excavator_consumer, start_link, [none]}, permanent, 5000, worker, [excavator_consumer]}
     ]}}.
 
 build_rel() ->
