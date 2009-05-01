@@ -1,4 +1,4 @@
--module(excavator_web).
+-module(ex_web).
 -export([
 	request/4
 ]).
@@ -17,13 +17,13 @@ request(Method, Url, [], Body) -> request(Method, Url, ?HEADERS, Body);
 request(Method, Url, Headers, []) 
  when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
 	case http:request(Method, {Url, Headers}, [], []) of
-		{ok, Response} -> Response;
-		{error, Reason} -> exit(Reason)
+		{ok, Response} -> {string, Response};
+		{error, Reason} -> exit({?MODULE, ?LINE, Reason})
 	end;
 	
 request(Method, Url, Headers, Body) 
  when Method == post; Method == put ->
 	case http:request(Method, {Url, Headers, "text/html", Body}, [], []) of
-		{ok, Response} -> Response;
-		{error, Reason} -> exit(Reason)
+		{ok, Response} -> {string, Response};
+		{error, Reason} -> exit({?MODULE, ?LINE, Reason})
 	end.

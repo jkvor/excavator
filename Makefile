@@ -1,6 +1,6 @@
 all:
 	mkdir -p ebin/
-	(cd templates;$(MAKE))
+	#(cd templates;$(MAKE))
 	(cd src;$(MAKE))
 
 test: all

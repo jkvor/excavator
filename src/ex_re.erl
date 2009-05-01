@@ -1,4 +1,4 @@
--module(excavator_re).
+-module(ex_re).
 -export([run/2]).
 
 %% @spec run(Regexp, Subject) -> Result
@@ -8,7 +8,7 @@
 run(Regexp, {string, Subject}) when is_tuple(Regexp), is_list(Subject) ->
 	case re:run(Subject, Regexp, [global]) of
 		nomatch -> 
-			[];
+			{nil, []};
 		{match, Match} ->
 			case process(Match, Subject, []) of
 				[] -> {nil, []};
