@@ -1,11 +1,14 @@
 -module(ex_xpath).
--export([run/2]).
+-export([run/2, reassemble/1]).
 
 
 %% @spec run(XPath, Subject) -> Result
 %%		 XPath = string()
 %%		 Subject = {Type, Value}
 %%		 Result = {nil, []} | {node, _} | {list_of_nodes, _} | {string, _} | {list_of_strings, _}
+run(XPath, {http_response, _, _, Body}) ->
+    run(XPath, {string, Body});
+    
 run(XPath, {string, Subject0}) when is_list(XPath), is_list(Subject0) ->
 	case mochiweb_html:parse(Subject0) of
 		Subject when is_tuple(Subject) ->
@@ -33,3 +36,6 @@ run(XPath, {node, Subject}) when is_list(XPath), is_tuple(Subject) ->
 		_ -> 
 			exit({?MODULE, ?LINE, XPath, Subject})
 	end.
+	
+reassemble({node, Node}) ->
+    {string, binary_to_list(iolist_to_binary(mochiweb_html:to_html(Node)))}.

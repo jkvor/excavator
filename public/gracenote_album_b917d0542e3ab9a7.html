@@ -1,0 +1,453 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- BEGIN main -->
+<title>Gracenote: Album > The Beatles - The Beatles (White Album) [Disc 1]</title>
+<script type="text/javascript" src="/javascript/jquery-1.2.1.min.js" language="javascript"></script> 
+<script type="text/javascript" src="/javascript/jquery.toggleval.js" language="javascript"></script>
+<script type="text/javascript" src="/javascript/swfobject/swfobject.js"language="javascript"></script>
+<script type="text/javascript" src="/javascript/toggle.js" language="javascript"></script>
+<script type="text/javascript" src="/javascript/navigation.js" language="javascript"></script>
+<script type="text/javascript" src="/javascript/sleight.js" language="javascript"></script>
+<style type="text/css" media="all">
+@import url(/styles/gracenote.css);
+@import url(/styles/menu.css);
+@import url(/styles/reset.css);
+</style>
+<style type="text/css" media="print">
+@import url(/styles/print.css);
+</style>
+<!--[if IE]><style type="text/css" media="all"> @import url(/styles/ie.css); </style><![endif]--><!--[if IE 6 .partners .partner {behavior: url(/javascript/iepngfix.htc);}</style><![endif]-->
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+</head>
+<body id="d">
+
+<!-- Header Starts -->
+
+<div id="header">
+  <div id="logo" class="gracenote"><a href="/"></a></div>
+  <div id="search-form">
+  <form action="/search/" method="get" name="search" id="search">
+    <input type="text" name="query" id="searchBox" value="Search music here..." size="20" onfocus="this.className='focus'" onBlur="this.className=''" />
+    <input type="image" src="/images/button_go.gif" alt="Go Button" class="go_button" />
+    <input type="hidden" name="search_type" id="searchtype" value="" />
+    
+    <!-- Top Navigation Text Link Starts -->
+    <div id="top-navigation-text" class="top-navigation-text"> 
+    <a id="artist_selector" onClick="update_type(this, 'artist');" >Artists</a>|<a id="album_selector" onClick="update_type(this, 'album');">Albums</a>|<a id="track_selector" onClick="update_type(this, 'track');">Tracks</a>|<!--<a id="lyrics_selector" onClick="update_type(this, 'lyrics');"> Lyrics</a>--></div>
+    <div class="preload"><img src="/images/magnifyingGlass_sm.gif" /><img src="/images/search_album_sm.gif" /><img src="/images/search_track_sm.gif" /><img src="/images/search_artist_sm.gif" /></div>
+  </form>
+    
+</div>
+  <ul id="nav">
+    <li class="searchTools"><a href="/search_tools/"></a>
+      <ul>
+        <li><a href="/search/charts.php?chart=top10" class="red">Digital Top Ten</a></li>
+        <li><a href="/map/" class="red">Music Map</a></li>
+        <li><a href="/search/charts.php" class="red">Elite 100</a></li>
+        <li><a href="/search" class="red">Music Search</a></li>
+      </ul>
+    </li>
+    <li class="powered"><a href="/powered_by_gracenote/"></a>
+      <ul>
+        <li class="daddy"><a href="/powered_by_gracenote/auto/" class="red">Automotive</a>
+          <ul>
+            <li><a href="/powered_by_gracenote/auto/alpine/"class="red">Alpine</a></li>
+            <li><a href="/powered_by_gracenote/auto/carstars/" class="red">CarStars</a></li>
+			<li><a href="/powered_by_gracenote/auto/cadillac/" class="red">Cadillac CTS</a></li>
+            <li><a href="/powered_by_gracenote/auto/clarion/" class="red">Clarion</a></li>
+            <li><a href="/powered_by_gracenote/auto/eclipse/" class="red">Eclipse</a></li>
+            <li><a href="/powered_by_gracenote/auto/fujitsu/" class="red">Fujitsu Ten</a></li>
+            <li><a href="/powered_by_gracenote/auto/lincoln/" class="red">Lincoln MKS</a></li>
+            <li><a href="/powered_by_gracenote/auto/myGig/" class="red">My Gig</a></li>
+            <li><a href="/powered_by_gracenote/auto/panasonic/" class="red">Panasonic</a></li>
+            <li><a href="/powered_by_gracenote/auto/phatnoise_car/" class="red">Phatnoise</a></li>
+            <li><a href="/powered_by_gracenote/auto/sanyo/" class="red">Sanyo</a></li>
+          </ul>
+        </li>
+        <li class="daddy"><a href="/powered_by_gracenote/home/" class="red">Home Entertainment</a>
+          <ul>
+            <li><a href="/powered_by_gracenote/home/escient/" class="red">Escient</a></li>
+            <li><a href="/powered_by_gracenote/home/imerge/" class="red">Imerge</a> </li>
+            <li><a href="/powered_by_gracenote/home/harmonkardon/" class="red">Harman/Kardon</a> </li>
+            <li><a href="/powered_by_gracenote/home/phatnoise/" class="red">Phatnoise</a> </li>
+            <li> <a href="/powered_by_gracenote/home/philips/" class="red">Philips</a> </li>
+            <li><a href="/powered_by_gracenote/home/riptopia/" class="red">Riptopia</a> </li>
+            <li><a href="/powered_by_gracenote/home/yamaha/" class="red">Yamaha</a> </li>
+          </ul>
+        </li>
+        <li class="daddy"><a href="/powered_by_gracenote/mobile/" class="red">Mobile</a>
+          <ul>
+            <li><a href="/powered_by_gracenote/mobile/kddi/" class="red">KDDI</a> </li>
+            <li><a href="/powered_by_gracenote/mobile/rim/" class="red">RIM BlackBerry</a></li>
+            <li><a href="/powered_by_gracenote/mobile/samsung/" class="red">Samsung</a> </li>
+            <li><a href="/powered_by_gracenote/mobile/sonyEricsson/" class="red">Sony
+                Ericsson</a></li>
+          </ul>
+        </li>
+        <li class="daddy"><a href="/powered_by_gracenote/portables/" class="red">Portables</a>
+          <ul>
+            <li><a href="/powered_by_gracenote/portables/ipod/" class="red">Apple iPod</a></li>
+            <li><a href="/powered_by_gracenote/portables/creative/" class="red">Creative</a></li>
+            <li><a href="/powered_by_gracenote/portables/iriver/" class="red">iRiver</a></li> 
+            <li><a href="/powered_by_gracenote/portables/samsung/" class="red">Samsung</a> </li>
+          </ul>
+        </li>
+        <li class="daddy"><a href="/powered_by_gracenote/software/" class="red">Software</a>
+          <ul>
+            <li><a href="/powered_by_gracenote/software/itunes/" class="red">Apple iTunes</a></li>
+            <li><a href="/powered_by_gracenote/software/lala/" class="red">Lala</a> </li>
+            <li><a href="/powered_by_gracenote/software/tuneup/" class="red">TuneUp</a> </li>
+            <li><a href="/powered_by_gracenote/software/winamp/" class="red">Winamp</a> </li>
+            <li class="red"><a href="/powered_by_gracenote/software/yahoo/" class="red">Yahoo!</a> </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="solutions"><a href="/business_solutions/"></a>
+      <ul>
+        <li><a href="/business_solutions/cmi/" class="red">Classical Music Initiative</a></li>
+        <li><a href="/business_solutions/discover/" class="red">Discover</a></li>
+        <li><a href="/business_solutions/lyrics/" class="red">Lyrics</a></li>
+        <li><a href="/business_solutions/mediaVOCS/" class="red">MediaVOCS</a></li>
+        <li><a href="/business_solutions/mobileMusic/" class="red">Mobile MusicID</a></li>
+        <li><a href="/business_solutions/enrich/" class="red">Music Enrichment</a></li>
+        <li><a href="/business_solutions/music_id/" class="red">MusicID</a></li>
+        <li><a href="/business_solutions/playlist/" class="red">Playlist</a></li>
+        <li><a href="/business_solutions/playlist_plus/" class="red">Playlist
+            Plus</a></li>
+        <li><a href="/business_solutions/video_id/" class="red">VideoID</a></li>    
+      </ul>
+    </li>
+  </ul>
+</div>
+ <!-- Header Ends -->
+
+<div id="main-container">
+  <h1 id="title">The Beatles</h1>
+  <!-- Breadcrumb Starts -->
+  <div id="breadcrumb">
+    <div class="breadcrumb-text"><a href="">Home</a> > <a href="/search/">Search</a> > The Beatles - The Beatles (White Album) [Disc 1]</div>
+  </div>
+  <!-- Breadcrumb ends -->
+  <!-- Main Content Starts -->
+  
+  <div id="main-content">
+    <div class="album detail">
+      <div class="album-image"><img src="/covers/muze/81/8144/81443.jpg"></div>
+      
+      <div class="album-name"><strong>Album</strong> > The Beatles (White Album) [Disc 1]</div>
+      
+      
+      
+      <div class="artist-name"><strong>Artist</strong> > <span name="76f1ec93ff8167d0"><a href="/artist/artist.php?artist_id=76f1ec93ff8167d0">The Beatles</a></span></div>
+      
+      
+      <div class="year"><strong>Year of Release</strong> > 1968</div>
+      
+      
+      <div class="label"><strong>Label</strong> > Apple</div>
+      
+    </div>
+    <br clear="all"/>
+    <div class="track-list">
+     <div id="featured" class="component">
+      <div class="header">
+        <h2 class="header-title">Tracks </h2>
+      </div>
+      <div class="content">
+        <div class="container">
+      
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA9T0Ng7Q3I2PyuC%2Fp3GAb4rH8t8SjYQrSCjbOqCj%2F6kuB%2FbD338hP5ZQsGi506AI6z9mhkmh%2FLTRlXn2nQRAWn2rJAI5IQUuQe9wu0uPK615m5eM0IAo7nb53QdYJIlqAH4Y8uyh80KYMOXcYg4vPigcHPtXieJz1uUQTQXmZ%2FhhZDXCPG9xFLD0U0hO8RiPkQAoUVPCQiIHqmStaVsy&artist=The+Beatles&title=Back+In+The+USSR" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">1.</div>
+        <div class="track_name">Back In The USSR</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA5IIuG9k2tJ0du%2BnKCDDS8N9m9dvgh665k0RV7kgzTuuW1ntH024yi4rkuOSteJMVYRevW3yzJ1Mc%2Ft2IzBXqNBD%2FREDK3lGK1RAM8nD8lWdHkNe0IABvfw%2FPZT0ms5ZSKocoVpWyPB0HcSTSaw1Nsy3E%2B0u56YKvheOU6DLcAm%2FzhOXj%2FQXTOZ7iDdzlrpyrXkfoUfZOp6rsCmsH4F%2F&artist=The+Beatles&title=Dear+Prudence" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">2.</div>
+        <div class="track_name">Dear Prudence</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxAzibzKfzGOSJb%2FtVO8ypc9GcctL9dpF9OGI9GKjgX14KX%2BAMzE1T4orfGyRofPs6bZm3aDAz2iQLc%2FS5ghAmZixOxiubZVMbuREsw6AxWqAl0rX%2BMhJEmTDUa1GO6pkkCItzkvYCtJ2an0JYqNvVuNPJy8Op5KOBXJkS9qYk7NC8mZk38nL0HcIfjbC8yebVlrvsR%2BT6c5aON3fHvNpA&artist=The+Beatles&title=Glass+Onion" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">3.</div>
+        <div class="track_name">Glass Onion</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA%2Fzcobtj9xiDLsHS1mhAiqMKYoOvVYASE56t0LHzhgPpsmTmvPLyS2mifPjtCutSiDQo9AhSMs3N%2B%2FsEnUrQWY%2B8xyIxnI1HcQUXoTIhdQbPzCsdcEP7rKO2dm9ZSoPNtkNyF8SvMGNRR%2FMrELJpJQflANhjn1uFUCQNqkM7e8Vsx2y5wqISetmw5L16YrOqDjW9E7vTBC1RE6SoNbo%3D&artist=The+Beatles&title=Ob-La-Di%2C+Ob-La-Da" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">4.</div>
+        <div class="track_name">Ob-La-Di, Ob-La-Da</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA9KYbMUDh6NMPJhnnqQdgssmvWG0gc7Qoga%2BT7he1V5Fa53O4Q1ezK3FDv%2FlCDrtF6VET%2FtElbi1iRDe1KPXEo8PBd6nFrqgVx3LIXgU7nSDFHYMBVD75MdPFZSVKBZicwW5SKlwJIGW7%2BoXVhrypHwpE18s8Ih68bCOE50zGO%2FsOf9Q%2B2FAVoWjKe4ZsVm8CS0oc6bifyIHJLW6nJD3&artist=The+Beatles&title=Wild+Honey+Pie" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">5.</div>
+        <div class="track_name">Wild Honey Pie</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA8UlT3DXslC9WEbXPlOUGcrR1xiJ3V31uBvihe5TjvnnGIi3cVqTytO%2Ft6SZL6gclLRIb%2BILQswOufPr62ji0%2Fve77ma5cuO9ZLVUW3U8EDWietIAX9eCU3OjUghZZ%2F2Lyex2kqvYj%2FtvA84lDk4xsYICzG2a1BNcsC%2BwezmdAwJk7E5uINvik1CJBaHjHJvVNhHLXGETdjbr2s2Ad9%2B&artist=The+Beatles&title=The+Continuing+Story+Of+Bungalow+Bill" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">6.</div>
+        <div class="track_name">The Continuing Story Of Bungalow Bill</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA8lQCDxLToodZ0akXVuqzi%2B4iTJmbsdJGqoyhhfBk36R5p5JvIw19Mca6oqaVYLqiEtqec5Z5v59n8yQapXE3JjUotuW5aDlqjrTvKx7KGvP6SHuZ%2F0t6P%2BbFW%2BVZwX6VLcbR9SfFUtZob%2FqXHgKyZLINZKYLqhGUFbjyNdzSCwiebpO68ZfwL4iuHlD3uLSwNNKOwhSzY%2Bg6B653JGi&artist=The+Beatles&title=While+My+Guitar+Gently+Weeps" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">7.</div>
+        <div class="track_name">While My Guitar Gently Weeps</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA3wAFIaDc%2B%2BQuU5Hil8gsN0F8Ej9aycEDbFxeQ5XdcscMC%2FPkoBUTHMk2xC9ZsyN7RhbHy9%2FAFtjp7J5wvnF2Aq0Ynts6K4ISlCFM13vUX4w%2BcpF%2F5tZ7XUdHkNoiwvq%2B%2BgCwBznntFsTzldcsWD6JXmhIiTbMxo4AJBObydWy9zWkZ0%2BDEi5iBmGB%2BANW1FCM93fMfc1UwN0ER1NUQa&artist=The+Beatles&title=Happiness+Is+A+Warm+Gun" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">8.</div>
+        <div class="track_name">Happiness Is A Warm Gun</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA8uIhipB2RfTzhEsfP6oqsJa0j2xWlMFD62ze0hdNR6G%2FmaEEKz0jXhTLpro8e9snVXD00s5ofslIjb7CtfkI5RrPFt5oUHfDBKNdvf8IhxO5eIMTBFOD%2Fhn5Fxgd0vHLbvutCyJPfGexNjKQKE3zYhb0grbC1GO%2FSMCy6%2Fd9NhWLVhK5EQVWZlo6zDm4suYfGD%2BYSmI%2BqC3z%2BpjMM4%3D&artist=The+Beatles&title=Martha+My+Dear" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">9.</div>
+        <div class="track_name">Martha My Dear</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA9zyy0zBUZ3T8Qraf%2FLh2sSpG%2F%2FvMq2sJFZ5f6KCBkOSh%2BmAazEM4kwX%2Bp6mQXI9L4yRgcDatoaLkaelDvjhiwMQwZFviBpHtZIsRDKMl3A1pWIFpB9d0wqfc9iQtgOZtv3NnWEx9HSMDjhwTHVcZ2rHwgigeiAZPk8LW3z8Dw7snBgaqdBhkB2BmqcPAwFYGxUbHsIE0Tm4RoMj%2BMFD&artist=The+Beatles&title=I%27m+So+Tired" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">10.</div>
+        <div class="track_name">I'm So Tired</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA%2BFAko96nrp%2BbTImAnAzCLZaFbH5u1er3QyVL8xycW0zPsxWPcwcLEDIjz769vjOBCtShAwja50za7ONRWHih9vJQqpVlqfIIQRuW7bIIMm%2FPjX6h%2BqmS9uuuYodhuObGnp9QeYomTRfp4YBUUCtPGQSjGtgAVH6X3rlQn6x6WmQj4b9zP4oFjR14LUbFJvu2o1tX%2FIuSwrqfqEFKVevVA%3D%3D&artist=The+Beatles&title=Blackbird" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">11.</div>
+        <div class="track_name">Blackbird</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA7I6DSXX6fevSIr2jY%2B%2FSYSuaJ2nMyKjiHrkCrLlDnLA85iWMDdVMDLnHxI6Ss3Tg7i9Wf3aW91gDFjGJctgrQCOgAi4UqLraZZkqe8dgPWUaMtqW05Ay8KHPqGc1u7Kw%2FMPU%2Br1kVgWeCuEDZxcDG0%2B75%2FevGthWs3TjLCKPcwH2Lep7Ul%2BY8DOSTmvHaxrJMtt6OlhADhn2Ng0%2BLF%2F1g%3D%3D&artist=The+Beatles&title=Piggies" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">12.</div>
+        <div class="track_name">Piggies</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA7g9yds1%2BDsLbqw3HFOEQ%2B%2BjI%2BEnab4SpsAYRF7q7%2FM3bvX3gmMCoMftFNVYjDk%2B1d4XtWx5nyMsHONNpUprDVKkxuhHFgQ79aolRdedrEVRNVjylDg%2FZeMNHLIkxfYUiqs90eI%2FUlfm1ShjTRbTLrcUN1h%2FyzkZ9tr1ClMlKCqTo2bsGByfYIa%2FHjMs6FSQkfNkud8bauVSrwO4OsNj1g%3D%3D&artist=The+Beatles&title=Rocky+Racoon" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">13.</div>
+        <div class="track_name">Rocky Racoon</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA%2BsA2aEjykyolvRudNengPJODhDS5vBGrKnk6GNla0C48WKn%2Fg4Ic3GNZRYH1ssvZM09UVkrPXHxQa1Mk%2B1CZ9Dy4EulEJE8pis%2BJ8AW5aBkLd5bKSvgzsAYoL1cpkiUsB7rv%2F1bSoKCZFmiPCl6rq0fMGGjmdHA4GAT6k6PHb5M203RypDdUAZX1nd2ZbTzhFjpm%2Bzer7Nav3tx45311w%3D%3D&artist=The+Beatles&title=Don%27t+Pass+Me+By" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">14.</div>
+        <div class="track_name">Don't Pass Me By</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA7GFBLUfEzRVKuOXRX6F2I%2FBoQIq67r37WcuVsYwn1MjF5DZP4MOLpaGEmoSkuz2CGiF36YJ64JeRxcLgR8QHs8R3Iwn0gju25033OIDs%2FdodrTQHDCPti2LNVF4SjRUNyAplrmXlcLZ2hwDiMlAxMdmUBNzJJsqo2QAI5OOJNMEOqgLFaJJF0pY7r1eD6klxp1sQIJFOsUe4QvKx0edDA%3D%3D&artist=The+Beatles&title=Why+Don%27t+We+Do+It+In+The+Road%3F" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">15.</div>
+        <div class="track_name">Why Don't We Do It In The Road?</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxAzaX0jb%2F3EvWCs7GfQ0D5AjSPMDNFvi7Qupm55NsD6Bu2vTkJWiPxtvL5RZ3g5eFKn12914Mc9xcbXUxlIAu3q7e%2FEHDWrJ7g9alq%2B5iVzW0J0Kgk4jQm7wInLko7Oa0xq5HbXTYDs7t8YTIgYeVfFz7Ha%2B6NLskI2gcymf26MLlHtvCXs0ntWdhOve11bS1Cispbip9MZUnFyrov9rgpA%3D%3D&artist=The+Beatles&title=I+Will" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">16.</div>
+        <div class="track_name">I Will</div>
+        
+        
+	 <div class="buy">
+     
+	  
+	  
+          <div class="lyric_button"><a href="lyrics.php?gdo=WEcxA5x2RzqJH97pTl56rYZrfnAu3Lzal584lKFBQ9uXyCPa%2F%2FlcPsv6wsWQ0h2wvkb7CbKub7Ek%2B2flFsmBPH7yeV86cklmE9BXiNWCTM0mcBtjStTcNOIjbuH1j89DUZblhjKQPC%2B220Yyp8kOMDpgjkOUsusE%2F5%2FsDoERI2LGsNXV2x4Z6Vwid0zoQWhOyTRIhNAWZDEAG%2BWEOvxOTvt6Zw%3D%3D&artist=The+Beatles&title=Julia" style="cursor:pointer"><img src="../images/lyrics_button_small.png"></a></div>
+	  
+	 </div>
+        
+        <div class="track_num">17.</div>
+        <div class="track_name">Julia</div>
+        
+        
+      
+	</div>
+    <div class="footer3"></div>
+  </div>
+  
+</div>
+
+    </div>
+    
+    <!-- END main -->
+    
+    <div class="partners"><span class="partner"><a href="http://www.amazon.com/gp/redirect.html?ie=UTF8&location=http://www.amazon.com/dp/B000002UAX/&tag=cddb&linkCode=ur2&camp=1789&creative=9325" target="_BLANK"><img src="/images/partnerLinks.amazon.png" alt=""border="0"></a><img src="http://www.assoc-amazon.com/e/ir?t=cddb&amp;l=ur2&amp;o=1" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /></span></div>
+    
+  </div>
+  <!-- Main Content Ends -->
+  <!-- Right Column Content Starts -->
+  <div class="column-right">
+  
+    
+    <div class="content-googleAd"> 
+     
+<!-- Begin Adify tag for "160x600 - General Content - Test Server" Ad Space (160x600) ID #5541607 -->
+<script type="text/javascript">
+
+
+       sr_adspace_id = 5541607;
+	sr_adspace_width = 160;
+	sr_adspace_height = 600;
+	sr_adspace_type = "graphic";
+	sr_ad_new_window = true;
+	
+	
+</script>
+<h1 align="center"><script type="text/javascript" src="http://ad.afy11.net/srad.js?azId=5541607"></h1>
+</script>
+<a href="http://mog.com/blog_post/content">Member of MOG Music Network</a>
+<!-- End Adify tag for "160x600 - General Content - Test Server" Ad Space (160x600) ID #5541607 -->
+
+    </div>
+  </div>
+
+    <!-- INCLUDE2 ../includes/google_ad.html -->
+  <!-- Right Column Content Ends -->
+  <br clear="all" />
+ 
+</div>
+        <!-- Start Quantcast tag -->
+        <script type="text/javascript">
+        _qoptions={
+        qacct:"p-c4o3JsfzdTxY6"
+        };
+        </script>
+        <script type="text/javascript" src="http://edge.quantserve.com/quant.js"></script>
+        <noscript>
+        <a href="http://www.quantcast.com/p-c4o3JsfzdTxY6" target="_blank"><img src="http://pixel.quantserve.com/pixel/p-c4o3JsfzdTxY6.gif" style="text-align: center;" border="0" height="1" width="1" alt="Quantcast"/></a>
+        </noscript>
+        <!-- End Quantcast tag -->
+
+        <!-- Start Google Analytics -->
+        <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script>
+        <script type="text/javascript">
+        try {
+        var pageTracker = _gat._getTracker("UA-3220615-1");
+        pageTracker._trackPageview();
+        } catch(err) {}</script>
+        <!-- End Google Analytics -->
+        
+        <!-- Footer Starts -->
+				<div id="footer">
+					<div class="main-links">
+					<a href="/company_info/">Company Info</a> | <a href="/company_info/contacts/">Contact
+					Us</a> | <a href="/company_info/FAQ/FAQs/">FAQ</a> | <a href="https://doors.gracenote.com/developer/" target="_blank">Developer Zone</a> | <a href="/company_info/privacy/">Privacy
+					Policy</a> | <a href="/company_info/terms/">Terms of Use</a>  
+          
+          </div>
+					<div class="i18n"><div class="international" ><span>International:</span> </div><a href="http://www.cddb.jp" class="japanese"><span>Japanese</span> </a><a href="/gn_china/prof_home.html" class="chinese" ><span>Chinese</span> </a><a href="/gn_korea/prof_home.html" class="korean" ><span>Korean</span></a></div>
+				</div>
+		<!-- Footer Ends -->
+<div class="muse footer"><a href="/muze-details/" target="_blank">editorial content &copy; 2007 Muze</a></div>
+</body>
+<!-- END main -->
+</html>

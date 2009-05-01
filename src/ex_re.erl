@@ -5,6 +5,9 @@
 %%		 Regexp = {re_pattern, _, _, _}
 %%		 Subject = {Type, Value}
 %%		 Result = {nil, _} | {string, _} | {list_of_strings, _}
+run(Regexp, {node, Subject}) when is_tuple(Regexp), is_tuple(Subject) ->
+    run(Regexp, ex_xpath:reassemble({node, Subject}));
+    
 run(Regexp, {string, Subject}) when is_tuple(Regexp), is_list(Subject) ->
 	case re:run(Subject, Regexp, [global]) of
 		nomatch -> 

@@ -1,10 +1,11 @@
 -module(ex_consumer).
--export([execute/2, fetch/3, assign/3, assert/3, commit/3, each/4, configure/3]).
+-export([execute/2, fetch/3, assign/3, assert/3, commit/3, commit/4, each/4, configure/3, function/2, print/2, onfail/3]).
 
 -include("excavator.hrl").
 
 %% @spec execute(instr(), State) -> State1
 execute({instr, Function, Args}, State) ->
+    ?INFO_MSG("~p(~p)~n", [Function, [state|Args]]),
     apply(?MODULE, Function, [State|Args]).
    
 %% template functions 
@@ -13,51 +14,97 @@ fetch(State, Key, {Method, Url}) when Method==options;Method==get;Method==head;M
 fetch(State, Key, {Method, Url, Headers}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
     fetch(State, Key, {Method, Url, Headers, []});
 fetch(State, Key, {Method, Url, Headers, Body}) ->
-    Response = ex_web:request(Method, Url, Headers, Body),
+    Url1 = lists:flatten([begin
+        case I of
+            String when is_list(String) -> String; 
+            Atom when is_atom(Atom) -> to_string(?FETCH(State, Atom));
+            Other -> Other 
+        end
+    end || I <- Url]),
+    io:format("url: ~p~n", [Url1]),
+    Response = ex_web:request(Method, Url1, Headers, Body),
     ?STORE(State, Key, Response).
     
 assign(State, Key, Term) ->
-    ?STORE(State, Key, evaluate(State, Term)).
+    ?STORE(State, Key, compute(State, Term)).
 
 assert(State, Key, Assertion) ->
     assert_true(?FETCH(State, Key), Assertion),
     State.
     
-commit(State, _Key, _Value) ->
+commit(State, Key, Value) ->
+    %Key1 = evaluate(State, Key),
+    Value1 = evaluate(State, Value),
+    io:format("commit ~p:~p~n", [Key, Value1]),
     %% commit Key/Value to CouchDB or some disk-based key/value store
     State.
+    
+commit(State, Key, Value, {CallbackModule, CallbackFunction}) ->
+    %Key1 = evaluate(State, Key),
+    Value1 = evaluate(State, Value),
+    io:format("commit ~p:~p~n", [Key, Value1]),
+    spawn(CallbackModule, CallbackFunction, [Key, Value1]),
+    State.
 
-each(#state{stack=Stack, instructions=OldInstructions}=State, Key, Source, NewInstructions) ->
-    case ?FETCH(Source) of
-        Val when Val==undefined; Val==[] ->
+each(#state{stack=Stack}=State, Key, Source, NewInstructions) ->
+    case ?FETCH(State, Source) of
+        {_Type, Val} when Val==undefined; Val==[] ->
             exit({?MODULE, ?LINE, fetch_failed, Source, Val});
-        [Val] -> %% last item in each list
-            NewState = ?STORE(State, Key, Val),
+        {Type, [Val]} -> %% last item in list
+            NewState = ?STORE(State, Key, typify_value(Type, Val)),
             NewState#state{instructions=NewInstructions};
-        [Val|Tail] ->
-            OldState0 = ?STORE(State, Source, Tail), %% insert list tail for source key
-            %% add this instruction to head of list so that when stack is popped 
-            %% and this state begins processing again, the each list is the next instruction still
-            OldState1 = OldState0#state{instructions=[{instr, each, [Key, Source, NewInstructions]}|OldInstructions]},
-            NewState = ?STORE(State, Key, Val),
-            NewState#state{instructions=NewInstructions, stack=[OldState1|Stack]} %% push old state on to stack of new state
+        {Type, [Val|Tail]} ->
+            OldState = ?STORE(State, Source, {Type, Tail}), %% insert list tail for source key
+            NewState = ?STORE(State, Key, typify_value(Type, Val)), %% insert item from source
+            NewState#state{instructions=NewInstructions, stack=[OldState|Stack]} %% push old state on to stack of new state
             %% next instruction processed will be first from Instructions
     end.
     
 configure(State, Key, Value) ->
     ?CONFIGURE(State, Key, Value).
     
+function(State, Fun) when is_function(Fun) ->
+    Fun(State),
+    State.
+    
+print(State, Key) ->
+    error_logger:info_report({print, ?FETCH(State, Key)}),
+    State.
+        
+onfail(#state{stack=Stack}=State, AttemptInstrs, _FailInstr) when is_list(AttemptInstrs) ->
+    State#state{instructions=AttemptInstrs, stack=[State|Stack]}.
+    
 %% internal functions
-evaluate(State, {xpath, Source, XPath}) ->
+compute(State, {xpath, Source, XPath}) ->
     ex_xpath:run(XPath, ?FETCH(State, Source));
-evaluate(State, {regexp, Source, Regexp}) ->
+compute(State, {regexp, Source, Regexp}) ->
     ex_re:run(Regexp, ?FETCH(State, Source)).
     
+evaluate(State, Tuple) when is_tuple(Tuple) ->
+    list_to_tuple([evaluate(State, I) || I <- tuple_to_list(Tuple)]);
+evaluate(State, Key) when is_atom(Key) ->
+    case ?FETCH(State, Key) of undefined -> Key; {_, Other} -> Other end;
+evaluate(_State, Other) -> Other.
+    
 assert_true({nil, Key}, nil) when Key==[]; Key==undefined -> ok;    
-assert_true({string, Key}, string) when is_list(Key) -> ok;
+assert_true({string, Key}, string) when is_list(Key), length(Key) > 0 -> ok;
 assert_true({node, Key}, node) when is_tuple(Key) -> ok;
+assert_true(Key, node) when is_tuple(Key) -> ok;
 assert_true({list_of_strings, Key}, list_of_strings) when is_list(Key) -> [assert_true(Item, string) || Item <- Key], ok;
 assert_true({list_of_nodes, Key}, list_of_nodes) when is_list(Key) -> [assert_true(Item, node) || Item <- Key], ok;
+assert_true({http_response, _S, _H, Body}, string) when is_list(Body), length(Body) > 0 -> ok;
+assert_true({http_response, Status, _H, _B}, {status, Status}) -> ok;
 assert_true(Key, Assertion) -> exit({?MODULE, assertion_failed, {Key, Assertion}}).
 
-
+typify_value(list_of_strings, {string, String}) ->
+    {string, String};
+typify_value(list_of_strings, String) when is_list(String) ->
+    {string, String};
+typify_value(list_of_nodes, {node, Node}) ->
+    {node, Node};
+typify_value(list_of_nodes, Node) ->
+    {node, Node}.
+    
+to_string(List) when is_list(List) -> List;
+to_string({string, String}) -> String;
+to_string({node, Node}) -> to_string(ex_xpath:reassemble({node, Node})).

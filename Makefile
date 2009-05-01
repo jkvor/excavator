@@ -2,6 +2,7 @@ all:
 	mkdir -p ebin/
 	#(cd templates;$(MAKE))
 	(cd src;$(MAKE))
+	(cd t;$(MAKE))
 
 test: all
 	prove -v t/*.t

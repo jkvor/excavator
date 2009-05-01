@@ -17,13 +17,13 @@ request(Method, Url, [], Body) -> request(Method, Url, ?HEADERS, Body);
 request(Method, Url, Headers, []) 
  when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
 	case http:request(Method, {Url, Headers}, [], []) of
-		{ok, Response} -> {string, Response};
+		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> {http_response, RspStatus, RspHeaders, RspBody};
 		{error, Reason} -> exit({?MODULE, ?LINE, Reason})
 	end;
 	
 request(Method, Url, Headers, Body) 
  when Method == post; Method == put ->
 	case http:request(Method, {Url, Headers, "text/html", Body}, [], []) of
-		{ok, Response} -> {string, Response};
+		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> {http_response, RspStatus, RspHeaders, RspBody};
 		{error, Reason} -> exit({?MODULE, ?LINE, Reason})
 	end.
