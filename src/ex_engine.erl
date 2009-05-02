@@ -30,7 +30,7 @@ run(#state{instructions=[Instr|Instrs], stack=Stack}=State) ->
             case Stack of
                 [#state{instructions=[{instr, onfail, [_, FailInstrs]}|InstrsTail]}=OldState|StackTail] ->
                     NewStack = [OldState#state{instructions=InstrsTail}|StackTail],
-                    NewState1 = #state{instructions=FailInstrs, stack=NewStack},
+                    NewState1 = OldState#state{instructions=FailInstrs, stack=NewStack},
                     run(NewState1);
                 _ ->
                     exit(Error) %% perhaps someone else will enjoy this

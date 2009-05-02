@@ -1,37 +1,22 @@
-[   throttle(qps, 10),
+[   configure(qps, 10),
+    configure(commit_callback, {ex_default_storage, store}),
     
     fetch(beatles_artist_page, "http://gracenote.com/artists/the-beatles"),
-    assert(beatles_artist_page, list(char())),
+    assert(beatles_artist_page, string),
 
     assign(beatles_albums, xpath(beatles_artist_page, "//div[@class='album']")),
-    assert(beatles_albums, list(node())),
+    assert(beatles_albums, list_of_nodes),
 
     each(album, beatles_albums, [
         assign(album_id, regexp(album, "id=([0-9]*)")),
-        assert(album_id, list(char())),
+        assert(album_id, string),
         
         fetch(beatles_album_page, ["http://gracenote.com/albums/", album_id]),
-        assert(beatles_album_page, list(char())),
+        assert(beatles_album_page, string),
         
         assign(album_name, xpath(beatles_album_page, "//div[@class='name']/text()")),
-        assert(album_name, list(char())),
+        assert(album_name, string),
         
         commit({album, beatles}, {album_id, album_name})
     ]
-].
-
-[   {instr, configure, [qps, 10]},
-    {instr, fetch, [beatles_artist_page, {get, "http://gracenote.com/artists/the-beatles"}]},
-    {instr, assert, [beatles_artist_page, string]},
-    {instr, assign, [beatles_albums, {xpath, beatles_artist_page, "//div[@class='album']"}]},
-    {instr, assert, [beatles_albums, list_of_nodes]},
-    {instr, each, [album, beatles_albums, [
-        {instr, assign, [album_id, {regexp, album, "id=([0-9]*)"}]},
-        {instr, assert, [album_id, string]},
-        {instr, fetch, [beatles_album_page, ["http://gracenote.com/albums/", album_id]]},
-        {instr, assert, [beatles_album_page, string]},
-        {instr, assign, [album_name, {xpath, beatles_album_page, "//div[@class='name']/text()"}]},
-        {instr, assert, [album_name, string]},
-        {instr, commit, [{album, beatles}, {album_id, album_name}]}
-    ]]}
 ].

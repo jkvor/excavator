@@ -21,7 +21,6 @@ fetch(State, Key, {Method, Url, Headers, Body}) ->
             Other -> Other 
         end
     end || I <- Url]),
-    io:format("url: ~p~n", [Url1]),
     Response = ex_web:request(Method, Url1, Headers, Body),
     ?STORE(State, Key, Response).
     
@@ -33,16 +32,15 @@ assert(State, Key, Assertion) ->
     State.
     
 commit(State, Key, Value) ->
-    %Key1 = evaluate(State, Key),
-    Value1 = evaluate(State, Value),
-    io:format("commit ~p:~p~n", [Key, Value1]),
-    %% commit Key/Value to CouchDB or some disk-based key/value store
-    State.
+    case ?FETCH_CONFIG(State, commit_callback) of
+        undefined ->
+            commit(State, Key, Value, {ex_default_storage, store});
+        {M,F} ->
+            commit(State, Key, Value, {M, F})
+    end.
     
 commit(State, Key, Value, {CallbackModule, CallbackFunction}) ->
-    %Key1 = evaluate(State, Key),
-    Value1 = evaluate(State, Value),
-    io:format("commit ~p:~p~n", [Key, Value1]),
+    Value1 = ?EVALUATE(State, Value),
     spawn(CallbackModule, CallbackFunction, [Key, Value1]),
     State.
 
@@ -79,12 +77,6 @@ compute(State, {xpath, Source, XPath}) ->
     ex_xpath:run(XPath, ?FETCH(State, Source));
 compute(State, {regexp, Source, Regexp}) ->
     ex_re:run(Regexp, ?FETCH(State, Source)).
-    
-evaluate(State, Tuple) when is_tuple(Tuple) ->
-    list_to_tuple([evaluate(State, I) || I <- tuple_to_list(Tuple)]);
-evaluate(State, Key) when is_atom(Key) ->
-    case ?FETCH(State, Key) of undefined -> Key; {_, Other} -> Other end;
-evaluate(_State, Other) -> Other.
     
 assert_true({nil, Key}, nil) when Key==[]; Key==undefined -> ok;    
 assert_true({string, Key}, string) when is_list(Key), length(Key) > 0 -> ok;
