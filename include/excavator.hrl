@@ -1,14 +1,17 @@
 -record(state, {
     instructions=[], %% [instr()]
     dictionary=dict:new(), %% term store
-    stack=[], %% [state()]
+    parent, %% state()
     configuration=dict:new()
 }).
 
-%-define(INFO_MSG, fun(Format0, Args0) -> io:format(Format0, Args0) end).
--define(INFO_MSG, fun(Format0, Args0) -> error_logger:info_msg(Format0, Args0) end).
+-define(INFO_MSG, fun(Format0, Args0) -> io:format(Format0, Args0) end).
+-define(INFO_REPORT, fun(Args0) -> io:format("~p~n", [Args0]) end).
 -define(ERR_MSG, fun(Format0, Args0) -> io:format(Format0, Args0) end).
-%-define(ERROR_MSG, fun(Format0, Args0) -> error_logger:error_msg(Format0, Args0) end).
+
+% -define(INFO_REPORT, fun(Args0) -> error_logger:info_report(Args0) end).
+% -define(INFO_MSG, fun(Format0, Args0) -> error_logger:info_msg(Format0, Args0) end).
+% -define(ERROR_MSG, fun(Format0, Args0) -> error_logger:error_msg(Format0, Args0) end).
 
 -define(STORE, fun ex_util:store/3).
 -define(FETCH, fun ex_util:fetch/2).
