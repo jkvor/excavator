@@ -64,7 +64,7 @@ assign_print(State, Key, _) ->
 assert(State, Key, Assertion) ->
     assert_true(Key, ?FETCH(State, Key), Assertion),
     State.
-
+	
 assert_print(State, Key, Assertion) ->
 	?INFO_MSG(">> assert/3 ~p : ~p~n", [Key, Assertion]),
 	State.
@@ -144,7 +144,7 @@ next_state(#state{instructions=[_|TailInstrs]}=S) ->
 handle_failure(#state{fail={Err1, FailInstrs}}=S, Err2) ->
 	case compare(Err1, Err2) of
 		true ->
-			S#state{instructions=FailInstrs, fail=undefined};
+			{stop, S#state{instructions=FailInstrs, fail=undefined}};
 		false ->
 			exit(Err2)
 	end.

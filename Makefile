@@ -5,7 +5,7 @@ all:
 	(cd t;$(MAKE))
 
 test: all
-	prove -v t/*.t
+	prove t/*.t
 
 clean:
 	(cd templates;$(MAKE) clean)
