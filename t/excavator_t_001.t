@@ -46,8 +46,8 @@ start() ->
     end,
         
     Instrs =
-        [   {instr, configure, [qps, 10]},
-            {instr, configure, [commit_callback, {ex_default_storage, store}]},
+        [   {instr, configure, [qps, 10]}, %% not implemented
+            {instr, configure, [commit_callback, {ex_default_storage, store}]}, %% not implemented
             {instr, fetch, [artist_page, {get, "http://127.0.0.1:8888/gracenote_albums.html"}]},
             {instr, assert, [artist_page, {status, 200}]},
             {instr, assert, [artist_page, string]},
@@ -60,6 +60,7 @@ start() ->
                 {instr, fetch, [album_page, {get, ["http://127.0.0.1:8888/gracenote_album_", album_id, ".html"]}]},
                 {instr, function, [ValidateAlbumID]},
                 {instr, onfail, [
+					{assertion_failed, {album_page, '_', {status, 200}}},
                     [   {instr, assert, [album_page, {status, 200}]},
                         {instr, assert, [album_page, string]},
                         {instr, assign, [album_name_node, {xpath, album_page, "//div[@class='album-name']"}]},

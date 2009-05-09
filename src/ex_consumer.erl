@@ -18,7 +18,12 @@ execute(State, [], _) -> State;
 execute(State, [{Default, Function}|TailFunctions], Args) ->
 	case proplists:get_value(Function, proplists:get_value(exports, ex_consumer:module_info())) of
 		Len when Len == length(Args)+1 ->
-			execute(apply(?MODULE, Function, [State|Args]), TailFunctions, Args);
+			case catch apply(?MODULE, Function, [State|Args]) of
+				{'EXIT', Err} ->
+					execute(handle_failure(State, Err), TailFunctions, Args);
+				NewState when is_record(NewState, state) ->
+					execute(NewState, TailFunctions, Args)
+			end;
 		_ ->
 			execute(Default(State), TailFunctions, Args)
 	end.
@@ -57,7 +62,7 @@ assign_print(State, Key, _) ->
 
 %% =============================================================================
 assert(State, Key, Assertion) ->
-    assert_true(?FETCH(State, Key), Assertion),
+    assert_true(Key, ?FETCH(State, Key), Assertion),
     State.
 
 assert_print(State, Key, Assertion) ->
@@ -96,6 +101,17 @@ each_print(State, Key, Source, _) ->
 	?INFO_MSG(">> each/4 ~p in ~p~n", [Key, Source]),
 	State.
 
+%% ============================================================================= 
+onfail(State, _, _, _) -> State.
+
+onfail_next_state(#state{instructions=[_|TailInstrs]}=S, Error, AttemptInstrs, FailInstrs) ->
+	Parent = S#state{instructions=TailInstrs},
+	S#state{instructions=AttemptInstrs, parent=Parent, fail={Error, FailInstrs}}.
+
+onfail_print(State, Error, _, _) ->
+	?INFO_MSG(">> onfail/4 ~p~n", [Error]),
+	State.
+	
 %% =============================================================================	
 configure(State, Key, Value) ->
     ?CONFIGURE(State, Key, Value).
@@ -109,10 +125,7 @@ function(State, Fun) when is_function(Fun) ->
 print(State, Key) ->
     ?INFO_REPORT({print, ?FETCH(State, Key)}),
     State.
-            
-%onfail(#state{stack=Stack}=State, AttemptInstrs, _FailInstr) when is_list(AttemptInstrs) ->
-%    State#state{instructions=AttemptInstrs, stack=[State|Stack]}.
-    
+      	       
 %% =============================================================================
 %% == Internal Functions
 %% =============================================================================
@@ -128,6 +141,32 @@ default(S) -> S.
 next_state(#state{instructions=[_|TailInstrs]}=S) ->
 	S#state{instructions=TailInstrs}.
 	
+handle_failure(#state{fail={Err1, FailInstrs}}=S, Err2) ->
+	case compare(Err1, Err2) of
+		true ->
+			S#state{instructions=FailInstrs, fail=undefined};
+		false ->
+			exit(Err2)
+	end.
+	
+compare(Item, Item) -> true;
+
+compare(Item1, Item2) when is_tuple(Item1), is_tuple(Item2) ->
+	compare(tuple_to_list(Item1), tuple_to_list(Item2));
+	
+compare(Item1, Item2) when is_list(Item1), is_list(Item2) ->
+	if
+		length(Item1) == length(Item2) ->
+			lists:foldl(
+				fun (_, false) -> false;
+					({'_', _}, _) -> true;
+					({A, B}, _) -> compare(A,B)
+				end, true, lists:zip(Item1, Item2));
+		true -> false
+	end;
+	
+compare(_, _) -> false.
+	
 compute(State, {xpath, Source, XPath}) ->
     ex_xpath:run(XPath, ?FETCH(State, Source));
 compute(State, {regexp, Source, Regexp}) ->
@@ -135,15 +174,15 @@ compute(State, {regexp, Source, Regexp}) ->
 compute(_State, {range, Current, Last}) ->
     {range, Current, Last}.
     
-assert_true({nil, Key}, nil) when Key==[]; Key==undefined -> ok;    
-assert_true({string, Key}, string) when is_list(Key), length(Key) > 0 -> ok;
-assert_true({node, Key}, node) when is_tuple(Key) -> ok;
-assert_true({list_of_strings, Key}, list_of_strings) when is_list(Key) -> [assert_true(Item, string) || Item <- Key], ok;
-assert_true({list_of_nodes, Key}, list_of_nodes) when is_list(Key) -> [assert_true(Item, node) || Item <- Key], ok;
-assert_true({http_response, _S, _H, Body}, string) when is_list(Body), length(Body) > 0 -> ok;
-assert_true({http_response, Status, _H, _B}, {status, Status}) -> ok;
-assert_true({mixed, List}, mixed) when is_list(List) -> ok;
-assert_true(Key, Assertion) -> exit({?MODULE, assertion_failed, {Key, Assertion}}).
+assert_true(_K, {nil, Val}, nil) when Val==[]; Val==undefined -> ok;    
+assert_true(_K, {string, Val}, string) when is_list(Val), length(Val) > 0 -> ok;
+assert_true(_K, {node, Val}, node) when is_tuple(Val) -> ok;
+assert_true(_K, {list_of_strings, Val}, list_of_strings) when is_list(Val) -> [assert_true(_K, Item, string) || Item <- Val], ok;
+assert_true(_K, {list_of_nodes, Val}, list_of_nodes) when is_list(Val) -> [assert_true(_K, Item, node) || Item <- Val], ok;
+assert_true(_K, {http_response, _S, _H, Body}, string) when is_list(Body), length(Body) > 0 -> ok;
+assert_true(_K, {http_response, Status, _H, _B}, {status, Status}) -> ok;
+assert_true(_K, {mixed, List}, mixed) when is_list(List) -> ok;
+assert_true(Key, Val, Assertion) -> exit({assertion_failed, {Key, Val, Assertion}}).
 
 store_next_value(State, Key, Source, {range, Last, Last}) when is_integer(Last) ->
     OldState = ?STORE(State, Source, {nil, []}),

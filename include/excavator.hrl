@@ -2,6 +2,7 @@
     instructions=[], %% [instr()]
     dictionary=dict:new(), %% term store
     parent, %% state()
+	fail, %% {Error::tuple(), FailInstructions::list()}
     configuration=dict:new()
 }).
 
