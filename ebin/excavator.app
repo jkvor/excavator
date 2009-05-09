@@ -3,8 +3,15 @@
     {vsn, "0.1.1"},
     {modules, [
         excavator,
-		excavator_mgr,
-		excavator_consumer
+		ex_consumer,
+		ex_default_storage,
+		ex_engine,
+		ex_pp,
+		ex_re,
+		ex_scheduler,
+		ex_util,
+		ex_web,
+		ex_xpath
     ]},
     {registered, []},
     {mod, {excavator, []}},
