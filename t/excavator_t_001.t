@@ -75,7 +75,8 @@ start() ->
             ]]}
         ],
         
-    ex_engine:run(Instrs),
+    io:format("~p~n", [Instrs]),
+    %ex_engine:run(Instrs),
     
     ok.
     

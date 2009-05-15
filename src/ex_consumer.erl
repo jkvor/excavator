@@ -16,16 +16,21 @@ execute({stop, State}, _, _) -> State;
 execute(State, [], _) -> State;
 
 execute(State, [{Default, Function}|TailFunctions], Args) ->
-	case proplists:get_value(Function, proplists:get_value(exports, ex_consumer:module_info())) of
-		Len when Len == length(Args)+1 ->
-			case catch apply(?MODULE, Function, [State|Args]) of
-				{'EXIT', Err} ->
-					execute(handle_failure(State, Err), TailFunctions, Args);
-				NewState when is_record(NewState, state) ->
-					execute(NewState, TailFunctions, Args)
-			end;
-		_ ->
-			execute(Default(State), TailFunctions, Args)
+    case proplists:get_all_values(Function, proplists:get_value(exports, ex_consumer:module_info())) of
+        [] ->
+            execute(Default(State), TailFunctions, Args);
+        Arities ->
+            case lists:member(length(Args)+1, Arities) of
+                true ->
+        			case catch apply(?MODULE, Function, [State|Args]) of
+        				{'EXIT', Err} ->
+        					execute(handle_failure(State, Err), TailFunctions, Args);
+        				NewState when is_record(NewState, state) ->
+        					execute(NewState, TailFunctions, Args)
+        			end;
+        		false ->
+        		    execute(Default(State), TailFunctions, Args)
+        	end
 	end.
 	   
 %% =============================================================================
@@ -101,6 +106,30 @@ each_print(State, Key, Source, _) ->
 	?INFO_MSG(">> each/4 ~p in ~p~n", [Key, Source]),
 	State.
 
+%% =============================================================================     
+condition_next_state(State, Op, TrueInstrs) ->
+    condition_next_state(State, Op, TrueInstrs, []).
+    
+condition_next_state(#state{instructions=[_|TailInstructions]}=State, {op, Op, Left, Right}, TrueInstrs, FalseInstrs) ->
+    case is_condition(State, Op, expand_operand(State, Left), expand_operand(State, Right)) of
+        true ->
+            Parent = State#state{instructions=TailInstructions},
+            State#state{instructions=TrueInstrs, parent=Parent};
+        false when FalseInstrs == [] ->
+            State#state{instructions=TailInstructions};
+        false ->
+            Parent = State#state{instructions=TailInstructions},
+            State#state{instructions=FalseInstrs, parent=Parent}
+    end.
+    
+condition_print(State, {op, Op, Left, Right}, _) ->
+    ?INFO_MSG(">> condition/3 ~p ~p ~p~n", [Left, Op, Right]),
+    State.
+    
+condition_print(State, {op, Op, Left, Right}, _, _) ->
+    ?INFO_MSG(">> condition/4 ~p ~p ~p~n", [Left, Op, Right]),
+    State.
+
 %% ============================================================================= 
 onfail(State, _, _, _) -> State.
 
@@ -147,8 +176,38 @@ handle_failure(#state{fail={Err1, FailInstrs}}=S, Err2) ->
 			{stop, S#state{instructions=FailInstrs, fail=undefined}};
 		false ->
 			exit(Err2)
-	end.
-	
+	end;
+
+handle_failure(_, Err) -> exit(Err).
+
+is_condition(S, Op, {op, Op1, Left, Right}, B) ->
+    is_condition(S, Op, is_condition(S, Op1,expand_operand(S, Left),expand_operand(S, Right)), B);
+is_condition(S, Op, A, {op, Op1, Left, Right}) ->
+    is_condition(S, Op, A, is_condition(S, Op1,expand_operand(S, Left),expand_operand(S, Right)));
+is_condition(_, 'orelse', A, B) when A orelse B -> true;
+is_condition(_, 'andalso', A, B) when A andalso B -> true;
+is_condition(_, '==', A, A) -> true;
+is_condition(_, '=:=', A, A) -> true;
+is_condition(_, '=/=', A, B) when A =/= B -> true;
+is_condition(_, '>', A, B) when A > B -> true;
+is_condition(_, '>=', A, B) when A >= B -> true;
+is_condition(_, '<', A, B) when A < B -> true;
+is_condition(_, '=<', A, B) when A =< B -> true;
+is_condition(_, _, _, _) -> false.
+
+expand_operand(State, Operand) ->
+    case Operand of
+        Key when is_atom(Key) ->
+            case ?FETCH(State, Key) of
+                undefined ->
+                    Operand;
+                {_, Value} ->
+                    Value
+            end;
+        Other ->
+            Other
+    end.
+
 compare(Item, Item) -> true;
 
 compare(Item1, Item2) when is_tuple(Item1), is_tuple(Item2) ->
@@ -172,7 +231,9 @@ compute(State, {xpath, Source, XPath}) ->
 compute(State, {regexp, Source, Regexp}) ->
     ex_re:run(Regexp, ?FETCH(State, Source));
 compute(_State, {range, Current, Last}) ->
-    {range, Current, Last}.
+    {range, Current, Last};
+compute(_State, {Type, Value}) ->
+    {Type, Value}.
     
 assert_true(_K, {nil, Val}, nil) when Val==[]; Val==undefined -> ok;    
 assert_true(_K, {string, Val}, string) when is_list(Val), length(Val) > 0 -> ok;

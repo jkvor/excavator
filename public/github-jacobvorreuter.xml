@@ -1,0 +1,1632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">
+  <id>tag:github.com,2008:/JacobVorreuter</id>
+  <link type="text/html" rel="alternate" href="http://github.com/"/>
+  <link type="application/atom+xml" rel="self" href="http://github.com/JacobVorreuter.atom"/>
+  <title>JacobVorreuter's Activity</title>
+  <updated>2009-05-14T18:12:04-07:00</updated>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49919188</id>
+    <published>2009-05-14T18:12:04-07:00</published>
+    <updated>2009-05-14T18:12:04-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>JacobVorreuter pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/f6808a4cf47ba0027f92c70e46bad9b4c0bc78a1"&gt;f6808a4cf47ba0027f92c70e46bad9b4c0bc78a1&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/f6808a4cf47ba0027f92c70e46bad9b4c0bc78a1"&gt;f6808a4c&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="fix bug in decode_many of double/float values"&gt;
+              fix bug in decode_many of double/float values
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49850864</id>
+    <published>2009-05-14T13:06:39-07:00</published>
+    <updated>2009-05-14T13:06:39-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/cab8a42cc60d3a1bf854937fe085881f8e0463d9"&gt;cab8a42cc60d3a1bf854937fe085881f8e0463d9&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/cab8a42cc60d3a1bf854937fe085881f8e0463d9"&gt;cab8a42c&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="incrementing version"&gt;
+              incrementing version
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:IssuesEvent/49823329</id>
+    <published>2009-05-14T11:04:12-07:00</published>
+    <updated>2009-05-14T11:04:12-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/issues/1/find"/>
+    <title>JacobVorreuter opened issue 1 on JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    &lt;blockquote&gt;
+      active mode is_required guards should preserve order found in original guard
+    &lt;/blockquote&gt;    
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49809678</id>
+    <published>2009-05-14T09:57:39-07:00</published>
+    <updated>2009-05-14T09:57:39-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/0ba9ab3c0b247136a10e2f639697fc30740ac843"&gt;0ba9ab3c0b247136a10e2f639697fc30740ac843&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/0ba9ab3c0b247136a10e2f639697fc30740ac843"&gt;0ba9ab3c&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding example to readme"&gt;
+              adding example to readme
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49684991</id>
+    <published>2009-05-13T21:02:35-07:00</published>
+    <updated>2009-05-13T21:02:35-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/c6b694521177c2d58cf89a0f04c0d91ba4e2dc46"&gt;c6b694521177c2d58cf89a0f04c0d91ba4e2dc46&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/c6b694521177c2d58cf89a0f04c0d91ba4e2dc46"&gt;c6b69452&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding make test target"&gt;
+              adding make test target
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49684961</id>
+    <published>2009-05-13T21:01:52-07:00</published>
+    <updated>2009-05-13T21:01:52-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/828909659676bb64a15be8cbf2b150ddbb56e19a"&gt;828909659676bb64a15be8cbf2b150ddbb56e19a&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/828909659676bb64a15be8cbf2b150ddbb56e19a"&gt;82890965&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding is_member guard"&gt;
+              adding is_member guard
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49640583</id>
+    <published>2009-05-13T15:43:08-07:00</published>
+    <updated>2009-05-13T15:43:08-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/8848a327d4efa4436d849022040fabc5862c1950"&gt;8848a327d4efa4436d849022040fabc5862c1950&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/8848a327d4efa4436d849022040fabc5862c1950"&gt;8848a327&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="updating makefile"&gt;
+              updating makefile
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49613693</id>
+    <published>2009-05-13T13:18:31-07:00</published>
+    <updated>2009-05-13T13:18:31-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/1715847534cc0d826841a35ee0c518457737b432"&gt;1715847534cc0d826841a35ee0c518457737b432&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/1715847534cc0d826841a35ee0c518457737b432"&gt;17158475&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding more tests"&gt;
+              adding more tests
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49596473</id>
+    <published>2009-05-13T12:05:46-07:00</published>
+    <updated>2009-05-13T12:05:46-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/359101bf9105fc63992a8338bf88e3204adbcb0d"&gt;359101bf9105fc63992a8338bf88e3204adbcb0d&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/359101bf9105fc63992a8338bf88e3204adbcb0d"&gt;359101bf&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="updating readme"&gt;
+              updating readme
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49590160</id>
+    <published>2009-05-13T11:54:17-07:00</published>
+    <updated>2009-05-13T11:54:17-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/5a9aea6c0612570a1fe583ebf10c810da8fa1108"&gt;5a9aea6c0612570a1fe583ebf10c810da8fa1108&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/5a9aea6c0612570a1fe583ebf10c810da8fa1108"&gt;5a9aea6c&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding test"&gt;
+              adding test
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49455492</id>
+    <published>2009-05-12T22:01:07-07:00</published>
+    <updated>2009-05-12T22:01:07-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/46b1434038c324d42d419a55a214d474e0e845ef"&gt;46b1434038c324d42d419a55a214d474e0e845ef&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/46b1434038c324d42d419a55a214d474e0e845ef"&gt;46b14340&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding some edoc code"&gt;
+              adding some edoc code
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49426597</id>
+    <published>2009-05-12T18:18:42-07:00</published>
+    <updated>2009-05-12T18:18:42-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/e3fc5261b948eefa3cf09596373c2e7937cb4c77"&gt;e3fc5261b948eefa3cf09596373c2e7937cb4c77&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/e3fc5261b948eefa3cf09596373c2e7937cb4c77"&gt;e3fc5261&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding example output to readme"&gt;
+              adding example output to readme
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49426508</id>
+    <published>2009-05-12T18:16:22-07:00</published>
+    <updated>2009-05-12T18:16:22-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/custom_guards/tree/ae4b22a3d384d84bcb77e75d8a5f26cb0ff7bd5e"&gt;ae4b22a3d384d84bcb77e75d8a5f26cb0ff7bd5e&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/custom_guards/commit/ae4b22a3d384d84bcb77e75d8a5f26cb0ff7bd5e"&gt;ae4b22a3&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding license and readme example"&gt;
+              adding license and readme example
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:CreateEvent/49425867</id>
+    <published>2009-05-12T18:11:20-07:00</published>
+    <updated>2009-05-12T18:11:20-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards/tree/master"/>
+    <title>JacobVorreuter created branch master at JacobVorreuter/custom_guards</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    
+      New branch is at &lt;a href="http://github.com/JacobVorreuter/custom_guards/tree/master"&gt;JacobVorreuter/custom_guards/tree/master&lt;/a&gt;
+    
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:CreateEvent/49425782</id>
+    <published>2009-05-12T18:10:22-07:00</published>
+    <updated>2009-05-12T18:10:22-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/custom_guards"/>
+    <title>JacobVorreuter created repository custom_guards</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    
+      New repository is at &lt;a href="http://github.com/JacobVorreuter/custom_guards"&gt;JacobVorreuter/custom_guards&lt;/a&gt;
+    
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49323628</id>
+    <published>2009-05-12T10:50:32-07:00</published>
+    <updated>2009-05-12T10:50:32-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>JacobVorreuter pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/a9069e979c90d905c5d6172529187b46e145a12f"&gt;a9069e979c90d905c5d6172529187b46e145a12f&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/a9069e979c90d905c5d6172529187b46e145a12f"&gt;a9069e97&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="updating quickcheck tests with float values"&gt;
+              updating quickcheck tests with float values
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49180428</id>
+    <published>2009-05-11T21:55:45-07:00</published>
+    <updated>2009-05-11T21:55:45-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>JacobVorreuter pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/48a30003a4a69c45c78960668be037f65103fef3"&gt;48a30003a4a69c45c78960668be037f65103fef3&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/48a30003a4a69c45c78960668be037f65103fef3"&gt;48a30003&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding error case to decode"&gt;
+              adding error case to decode
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49145498</id>
+    <published>2009-05-11T18:44:31-07:00</published>
+    <updated>2009-05-11T18:44:31-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/teh_pokemons/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/teh_pokemons</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/teh_pokemons/tree/cc07c4f7a8abdc6815e866841e6a93ceb00d5f92"&gt;cc07c4f7a8abdc6815e866841e6a93ceb00d5f92&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/teh_pokemons/commit/cc07c4f7a8abdc6815e866841e6a93ceb00d5f92"&gt;cc07c4f7&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding some machine epsilon code"&gt;
+              adding some machine epsilon code
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49124540</id>
+    <published>2009-05-11T16:54:29-07:00</published>
+    <updated>2009-05-11T16:54:29-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>JacobVorreuter pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/d50be5c4cd8ba788855abed6ce0f5e44bf0cf80a"&gt;d50be5c4cd8ba788855abed6ce0f5e44bf0cf80a&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/d50be5c4cd8ba788855abed6ce0f5e44bf0cf80a"&gt;d50be5c4&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="fixing double passed in as int"&gt;
+              fixing double passed in as int
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:FollowEvent/48925860</id>
+    <published>2009-05-11T10:49:34-07:00</published>
+    <updated>2009-05-11T10:49:34-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/jchris"/>
+    <title>JacobVorreuter started following jchris</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+    
+  
+  &lt;div class="message"&gt;
+    jchris has 
+    29 
+    public repos 
+    and 125
+   followers.
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48910747</id>
+    <published>2009-05-11T10:09:37-07:00</published>
+    <updated>2009-05-11T10:09:37-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>JacobVorreuter pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/4759dbbc8f03bd589f0165bfd7a4e9fdba308457"&gt;4759dbbc8f03bd589f0165bfd7a4e9fdba308457&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/4759dbbc8f03bd589f0165bfd7a4e9fdba308457"&gt;4759dbbc&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding support for negative int32 and int64 encoding"&gt;
+              adding support for negative int32 and int64 encoding
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48887907</id>
+    <published>2009-05-11T08:31:32-07:00</published>
+    <updated>2009-05-11T08:31:32-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/4247c536b4ee420ff5895eec438336874e9bc67d"&gt;4247c536b4ee420ff5895eec438336874e9bc67d&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/4247c536b4ee420ff5895eec438336874e9bc67d"&gt;4247c536&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding example ex template"&gt;
+              adding example ex template
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48786683</id>
+    <published>2009-05-10T18:10:31-07:00</published>
+    <updated>2009-05-10T18:10:31-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/4d3538b2d38bd8ab88a53a5eff23af981133b988"&gt;4d3538b2d38bd8ab88a53a5eff23af981133b988&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/4d3538b2d38bd8ab88a53a5eff23af981133b988"&gt;4d3538b2&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="handling more instrs"&gt;
+              handling more instrs
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48685733</id>
+    <published>2009-05-09T23:33:13-07:00</published>
+    <updated>2009-05-09T23:33:13-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/06e71ebd4a785c05391d433a43325b90b3fcf1c2"&gt;06e71ebd4a785c05391d433a43325b90b3fcf1c2&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/06e71ebd4a785c05391d433a43325b90b3fcf1c2"&gt;06e71ebd&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="updating parser"&gt;
+              updating parser
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48554156</id>
+    <published>2009-05-09T00:29:16-07:00</published>
+    <updated>2009-05-09T00:29:16-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/250782c012111dfc2c7576b298735aedc6129b6b"&gt;250782c012111dfc2c7576b298735aedc6129b6b&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/250782c012111dfc2c7576b298735aedc6129b6b"&gt;250782c0&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="fixing onfail bug"&gt;
+              fixing onfail bug
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48551919</id>
+    <published>2009-05-08T23:32:29-07:00</published>
+    <updated>2009-05-08T23:32:29-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/e03bbc5350f08201c98b7cbed6a3b3112420932c"&gt;e03bbc5350f08201c98b7cbed6a3b3112420932c&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/e03bbc5350f08201c98b7cbed6a3b3112420932c"&gt;e03bbc53&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="fixing onfail instruction"&gt;
+              fixing onfail instruction
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48547118</id>
+    <published>2009-05-08T22:15:00-07:00</published>
+    <updated>2009-05-08T22:15:00-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/409cfe2b1344237317036333690775b81b0b8703"&gt;409cfe2b1344237317036333690775b81b0b8703&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/409cfe2b1344237317036333690775b81b0b8703"&gt;409cfe2b&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="updating xpath code"&gt;
+              updating xpath code
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48547102</id>
+    <published>2009-05-08T22:14:28-07:00</published>
+    <updated>2009-05-08T22:14:28-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/mochixpath/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/mochixpath</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/mochixpath/tree/5d55e9e9fc85322397d0178122010ded7687b274"&gt;5d55e9e9fc85322397d0178122010ded7687b274&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/mochixpath/commit/5d55e9e9fc85322397d0178122010ded7687b274"&gt;5d55e9e9&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="handle binary data in string() function"&gt;
+              handle binary data in string() function
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48361864</id>
+    <published>2009-05-07T21:43:26-07:00</published>
+    <updated>2009-05-07T21:43:26-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/mochixpath/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/mochixpath</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/mochixpath/tree/5aa4a003485417a61c5d1ca5bfe6a19d7a606d24"&gt;5aa4a003485417a61c5d1ca5bfe6a19d7a606d24&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/mochixpath/commit/5aa4a003485417a61c5d1ca5bfe6a19d7a606d24"&gt;5aa4a003&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding string() function"&gt;
+              adding string() function
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48333046</id>
+    <published>2009-05-07T19:11:51-07:00</published>
+    <updated>2009-05-07T19:11:51-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/teh_pokemons/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/teh_pokemons</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/teh_pokemons/tree/1bb000eb1178263d75a6b25117ab4db715cab310"&gt;1bb000eb1178263d75a6b25117ab4db715cab310&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/teh_pokemons/commit/1bb000eb1178263d75a6b25117ab4db715cab310"&gt;1bb000eb&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Merge branch 'master' of git@github.com:JacobVorreuter/teh_pokemons"&gt;
+              Merge branch 'master' of git@github.com:JacobVorreuter/teh_pokemons
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+        
+        
+        &lt;li class=""&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/teh_pokemons/commit/79d39aa4797eeb2b96d94a6af990b5c168705135"&gt;79d39aa4&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding format module"&gt;
+              adding format module
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:GistEvent/48303626</id>
+    <published>2009-05-07T16:04:52-07:00</published>
+    <updated>2009-05-07T16:04:52-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://gist.github.com/108459"/>
+    <title>JacobVorreuter created gist: 108459</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    F = fun(B,Val) -&amp;gt; hd(io_lib:format(&amp;quot;~.&amp;quot; ++ integer_to_list(B) ++ &amp;quot;B&amp;quot;, [Val])) end. F(2, 250). F(1...
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48095577</id>
+    <published>2009-05-06T18:12:31-07:00</published>
+    <updated>2009-05-06T18:12:31-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/8d8105657a0354f4e96f3a8d84947fba72987d47"&gt;8d8105657a0354f4e96f3a8d84947fba72987d47&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/8d8105657a0354f4e96f3a8d84947fba72987d47"&gt;8d810565&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="refactoring"&gt;
+              refactoring
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47105450</id>
+    <published>2009-05-01T17:40:48-07:00</published>
+    <updated>2009-05-01T17:40:48-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/7d93c9f8b89aeb519f6da192062521b90a5b9993"&gt;7d93c9f8b89aeb519f6da192062521b90a5b9993&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/7d93c9f8b89aeb519f6da192062521b90a5b9993"&gt;7d93c9f8&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="adding test"&gt;
+              adding test
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47053759</id>
+    <published>2009-05-01T14:33:10-07:00</published>
+    <updated>2009-05-01T14:33:10-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/eb12b70afe1c95021fd44a14770e4131b378f70f"&gt;eb12b70afe1c95021fd44a14770e4131b378f70f&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/eb12b70afe1c95021fd44a14770e4131b378f70f"&gt;eb12b70a&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="expanding instruction list"&gt;
+              expanding instruction list
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/46932601</id>
+    <published>2009-04-30T23:21:17-07:00</published>
+    <updated>2009-04-30T23:21:17-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/JacobVorreuter/excavator/commits/master"/>
+    <title>JacobVorreuter pushed to master at JacobVorreuter/excavator</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/JacobVorreuter/excavator/tree/c7834ccf578676498fb508304961f283b5db0836"&gt;c7834ccf578676498fb508304961f283b5db0836&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;span class="committer"&gt;Jacob Vorreuter&lt;/span&gt;
+          
+
+          committed
+          &lt;a href="/JacobVorreuter/excavator/commit/c7834ccf578676498fb508304961f283b5db0836"&gt;c7834ccf&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="kinda starting over...again"&gt;
+              kinda starting over...again
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>JacobVorreuter</name>
+    </author>
+  </entry>
+</feed>

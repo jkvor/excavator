@@ -1,49 +1,48 @@
 -module(ex_pp).
-%-export([parse/1]).
+%-export([parse/1, parse/2]).
 -compile(export_all).
 
 -define(L, 4).
 
 %% excavator pre-processor
 
-parse(Filename) when is_list(Filename) ->
+parse(Filename) when is_list(Filename) -> parse(Filename, []).
+parse(Filename, MainArgs) when is_list(Filename) ->
 	case catch epp:parse_file(Filename,[],[]) of
-		{ok, Tokens} ->
-			Tokens1 = validate([file_attr,function_main], Tokens),
-			Tokens2 = lists:reverse(build_instrs(Tokens1, [])),
-			ModName = string:join(string:tokens(filename:absname(Filename), "/"), "."),
-			Forms = [
-				{attribute,1,file,{Filename,1}},
-				{attribute,1,module,list_to_atom(ModName)},
-				{attribute,2,export,[{main,0}]},
-				{function,3,main,0,[{clause,3,[],[],[to_cons(Tokens2)]}]}],
-			{ok, Mod, Bins} = compile:forms(Forms),
-			code:load_binary(Mod, atom_to_list(Mod), Bins),
-			erlang:apply(Mod, main, []);
+		{ok, [A,B|Rest]} ->			
+			case A of
+        		{attribute,_,file,{_,_}} ->
+        			ok;
+        		Other ->
+        			exit({bad_file_attribute, Other})
+        	end,
+        	
+        	case B of
+        		{function,_,main,Arity,[{clause,_,Args,[],Tokens}]} ->
+                    Tokens1 = lists:reverse(build_instrs(Tokens, [])),
+        			%ModName = string:join(string:tokens(filename:absname(Filename), "/"), "."),
+        			Forms = [
+        				{attribute,1,file,{Filename,1}},
+        				{attribute,1,module,module_name()},
+        				{attribute,2,compile,[export_all]},
+        				{function,3,main,Arity,[{clause,3,Args,[],[to_cons(Tokens1)]}]}
+        			|Rest],
+        			{ok, Mod, Bins} = compile:forms(Forms),
+        			code:load_binary(Mod, atom_to_list(Mod), Bins),
+        			erlang:apply(Mod, main, MainArgs);
+        		Other1 ->
+        			exit({missing_main_function, Other1})
+        	end;
 		{'EXIT', Err} ->
 			exit(Err);
 		Other ->
 			exit({parse_error, Other})
 	end.
-			
-validate([file_attr|TailVals], [Token|TailTokens]) ->
-	case Token of
-		{attribute,_,file,{_,_}} ->
-			validate(TailVals, TailTokens);
-		Other ->
-			exit({bad_file_attribute, Other})
-	end;
 	
-validate([function_main|_TailVals], [Token|_TailTokens]) ->
-	case Token of
-		{function,_,main,0,[{clause,_,[],[],Tokens}]} ->
-			Tokens;
-		Other ->
-			exit({missing_main_function, Other})
-	end;
-	
-validate([Val|_], _) ->
-	exit({validation_failed, Val}).
+module_name() ->
+    {A,B,C} = now(),
+    random:seed(A,B,C),
+    list_to_atom([random:uniform(26) + 96 || _ <- lists:seq(1,32)]).
 
 build_instrs([], Acc) -> Acc;
 build_instrs([Instr|Tail], Acc) ->
@@ -52,15 +51,24 @@ build_instrs([Instr|Tail], Acc) ->
 build_instr({call, _, {atom, _, each}, [Key, Source, Instrs]}) ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,each}, to_cons([Key, Source, build_instr(Instrs)])]};
 
+build_instr({call, _, {atom, _, condition}, [Condition, Instrs]}) ->
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,condition}, to_cons([expand_condition(Condition), build_instr(Instrs)])]};
+
+build_instr({call, _, {atom, _, condition}, [Condition, TrueInstrs, FalseInstrs]}) ->
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,condition}, to_cons([expand_condition(Condition), build_instr(TrueInstrs), build_instr(FalseInstrs)])]};
+    
 build_instr({call, _, {atom, _, onfail}, [Error, Instrs]}) ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,onfail}, to_cons([Error, build_instr(Instrs)])]};
+	
+build_instr({call, _, {atom, _, function}, [Function]}) ->
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,function}, to_cons([Function])]};
 	
 build_instr({cons,_,Instr,{nil,_}}) ->
 	{cons, ?L, build_instr(Instr), {nil,?L}};
 	
 build_instr({cons,_,Instr,Cons}) ->
 	{cons, ?L, build_instr(Instr), build_instr(Cons)};
-	
+		
 build_instr({call, _, {atom, _, Instr}, Args}) 
 	when Instr==configure; Instr==assign; Instr==assert; 
 		 Instr==fetch; Instr==print; Instr==function; 
@@ -70,6 +78,11 @@ build_instr({call, _, {atom, _, Instr}, Args})
 build_instr(Instr) ->
 	exit({unrecognized_instruction, Instr}).
 	
+expand_condition({op, _, Op, Left, Right}) ->
+    {tuple, ?L, [{atom, ?L, op}, {atom, ?L, Op}, expand_condition(Left), expand_condition(Right)]};
+    
+expand_condition(Other) -> Other.
+
 preprocess_arg({tuple, _, [{atom,_,regexp},{atom,_,Key},{string,_,Regexp}]}) ->
 	{ok, {re_pattern, A, B, Bin}} = re:compile(Regexp),
 	Pattern = {tuple,?L,[

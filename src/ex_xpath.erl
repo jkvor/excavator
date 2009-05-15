@@ -1,7 +1,6 @@
 -module(ex_xpath).
 -export([run/2, reassemble/1]).
 
-
 %% @spec run(XPath, Subject) -> Result
 %%		 XPath = string()
 %%		 Subject = {Type, Value}
