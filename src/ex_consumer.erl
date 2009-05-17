@@ -1,3 +1,25 @@
+%% Copyright (c) 2009 Jacob Vorreuter <jacob.vorreuter@gmail.com>
+%% 
+%% Permission is hereby granted, free of charge, to any person
+%% obtaining a copy of this software and associated documentation
+%% files (the "Software"), to deal in the Software without
+%% restriction, including without limitation the rights to use,
+%% copy, modify, merge, publish, distribute, sublicense, and/or sell
+%% copies of the Software, and to permit persons to whom the
+%% Software is furnished to do so, subject to the following
+%% conditions:
+%% 
+%% The above copyright notice and this permission notice shall be
+%% included in all copies or substantial portions of the Software.
+%% 
+%% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+%% EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+%% OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+%% NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+%% HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+%% WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+%% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+%% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_consumer).
 -compile(export_all).
 
@@ -51,7 +73,7 @@ fetch(State, Key, {Method, Url, Headers, Body}) ->
     %?INFO_MSG("fetching ~p~n", [Url1]),
     Response = ex_web:request(Method, Url1, Headers, Body),
     %?INFO_MSG("response: ~p~n", [Response]),
-    ?STORE(State, Key, Response).
+    ?STORE(State#state{request_times=update_request_times(State)}, Key, Response).
 
 fetch_print(State, _Key, Request) ->
 	?INFO_MSG(">> fetch/3 ~p~n", [Request]),
@@ -85,8 +107,12 @@ commit(State, Key, Value) ->
     
 commit(State, Key, Value, {CallbackModule, CallbackFunction}) ->
     Value1 = ?EVALUATE(State, Value),
-    spawn(CallbackModule, CallbackFunction, [Key, Value1]),
-    State.
+    case catch apply(CallbackModule, CallbackFunction, [Key, Value1]) of
+        State1 when is_record(State1, state) ->
+            State1;
+        _ ->
+            State
+    end.
 
 %% =============================================================================    
 each(State, Key, Source, _) ->
@@ -147,8 +173,12 @@ configure(State, Key, Value) ->
     
 %% =============================================================================
 function(State, Fun) when is_function(Fun) ->
-    Fun(State),
-    State.
+    case Fun(State) of
+        NewState when is_record(NewState, state) ->
+            NewState;
+        _ ->
+            State
+    end.
 
 %% =============================================================================    
 print(State, Key) ->
@@ -232,8 +262,18 @@ compute(State, {regexp, Source, Regexp}) ->
     ex_re:run(Regexp, ?FETCH(State, Source));
 compute(_State, {range, Current, Last}) ->
     {range, Current, Last};
-compute(_State, {Type, Value}) ->
-    {Type, Value}.
+compute(_State, {Type, Value}) when is_atom(Type) ->
+    {Type, Value};
+compute(_State, [H|_]=String) when is_integer(H) ->
+    {string, String};
+compute(_State, [[H|_]|_]=Strings) when is_integer(H) ->
+    {list_of_strings, [{string, String} || String <- Strings]};
+compute(_State, Int) when is_integer(Int) ->
+    {integer, Int};
+compute(_State, {_,_,_}=Node) ->
+    {node, Node};
+compute(_State, [{_,_,_}|_]=Nodes) ->
+    {list_of_nodes, [{node, Node} || Node <- Nodes]}.
     
 assert_true(_K, {nil, Val}, nil) when Val==[]; Val==undefined -> ok;    
 assert_true(_K, {string, Val}, string) when is_list(Val), length(Val) > 0 -> ok;
@@ -273,6 +313,13 @@ typify_value(list_of_nodes, {node, Node}) ->
 typify_value(list_of_nodes, Node) ->
     {node, Node}.
     
+update_request_times(#state{request_times=Times}) ->
+    Secs = ex_util:seconds(),
+    [Secs|lists:filter(
+        fun(S) ->
+            S >= Secs-1
+        end, Times)].
+        
 to_string(List) when is_list(List) -> List;
 to_string({string, String}) -> String;
 to_string({node, Node}) -> to_string(ex_xpath:reassemble({node, Node})).

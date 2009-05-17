@@ -1,0 +1,1453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xml:lang="en-US" xmlns="http://www.w3.org/2005/Atom">
+  <id>tag:github.com,2008:/ngerakines</id>
+  <link type="text/html" rel="alternate" href="http://github.com/"/>
+  <link type="application/atom+xml" rel="self" href="http://github.com/ngerakines.atom"/>
+  <title>ngerakines's Activity</title>
+  <updated>2009-05-14T15:06:07-07:00</updated>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49882650</id>
+    <published>2009-05-14T15:06:07-07:00</published>
+    <updated>2009-05-14T15:06:07-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/sgte/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/sgte</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/sgte/tree/12311d7039ba7b6d591d0b099a2f649e1e6eed6d"&gt;12311d7039ba7b6d591d0b099a2f649e1e6eed6d&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/sgte/commit/12311d7039ba7b6d591d0b099a2f649e1e6eed6d"&gt;12311d70&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Updating package target."&gt;
+              Updating package target.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49882418</id>
+    <published>2009-05-14T15:03:12-07:00</published>
+    <updated>2009-05-14T15:03:12-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/sgte/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/sgte</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/sgte/tree/293f5e2fcbad13f9630bcd4a285b8c2b977edc12"&gt;293f5e2fcbad13f9630bcd4a285b8c2b977edc12&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/sgte/commit/293f5e2fcbad13f9630bcd4a285b8c2b977edc12"&gt;293f5e2f&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Replacing build system with something that does not depend on autoconf tools"&gt;
+              Replacing build system with something that does not depend on autoconf tools
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:FollowEvent/49851636</id>
+    <published>2009-05-14T13:10:21-07:00</published>
+    <updated>2009-05-14T13:10:21-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/sfanning"/>
+    <title>ngerakines started following sfanning</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+    
+  
+  &lt;div class="message"&gt;
+    sfanning has 
+    0 
+    public repos 
+    and 4
+   followers.
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49847218</id>
+    <published>2009-05-14T12:46:47-07:00</published>
+    <updated>2009-05-14T12:46:47-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/stateless_server/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/stateless_server</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/stateless_server/tree/a189cc700d58d4a50b6e0dd8b0c55104ac6a3c00"&gt;a189cc700d58d4a50b6e0dd8b0c55104ac6a3c00&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/stateless_server/commit/a189cc700d58d4a50b6e0dd8b0c55104ac6a3c00"&gt;a189cc70&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Adding a .app file and bumping to 0.1.2."&gt;
+              Adding a .app file and bumping to 0.1.2.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49845949</id>
+    <published>2009-05-14T12:42:23-07:00</published>
+    <updated>2009-05-14T12:42:23-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/stateless_server/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/stateless_server</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/stateless_server/tree/e9d14dc298eac95d8d4339cc9dbd4729ce9c1060"&gt;e9d14dc298eac95d8d4339cc9dbd4729ce9c1060&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/stateless_server/commit/e9d14dc298eac95d8d4339cc9dbd4729ce9c1060"&gt;e9d14dc2&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Applying patch from Jacob."&gt;
+              Applying patch from Jacob.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:ForkApplyEvent/49597825</id>
+    <published>2009-05-13T12:11:58-07:00</published>
+    <updated>2009-05-13T12:11:58-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/tree/master"/>
+    <title>ngerakines applied fork commits to erlang_protobuffs/master</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    &lt;b&gt;master&lt;/b&gt; was changed to &lt;a href="http://github.com/ngerakines/erlang_protobuffs/commit/3ca1ee66112f081551867f55ce3cd66f012736c1"&gt;3ca1ee&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:ForkApplyEvent/49597546</id>
+    <published>2009-05-13T12:11:38-07:00</published>
+    <updated>2009-05-13T12:11:38-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/tree/master"/>
+    <title>ngerakines applied fork commits to erlang_protobuffs/master</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    &lt;b&gt;master&lt;/b&gt; was changed to &lt;a href="http://github.com/ngerakines/erlang_protobuffs/commit/65caa33764c30a0b0fb6f5db570b728905d7e17e"&gt;65caa3&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49596922</id>
+    <published>2009-05-13T12:08:49-07:00</published>
+    <updated>2009-05-13T12:08:49-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/b5d3f2fe627c089bb2a276327b00b16d831fbe7f"&gt;b5d3f2fe627c089bb2a276327b00b16d831fbe7f&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/b5d3f2fe627c089bb2a276327b00b16d831fbe7f"&gt;b5d3f2fe&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Removing eqc code compile from make test."&gt;
+              Removing eqc code compile from make test.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49596569</id>
+    <published>2009-05-13T12:06:37-07:00</published>
+    <updated>2009-05-13T12:06:37-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_wowarmory/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_wowarmory</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_wowarmory/tree/b712d133c700b8809af5060497bb8b97178692a8"&gt;b712d133c700b8809af5060497bb8b97178692a8&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_wowarmory/commit/b712d133c700b8809af5060497bb8b97178692a8"&gt;b712d133&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Updating armory3 documentation, misc code cleanup. Removing blank include file rules from make package."&gt;
+              Updating armory3 documentation, misc code cleanup. Removing blank include file rules from make package.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49398695</id>
+    <published>2009-05-12T15:56:45-07:00</published>
+    <updated>2009-05-12T15:56:45-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/sgte/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/sgte</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/sgte/tree/a40fb6533bb290860f8dbf979d3836de49202ffe"&gt;a40fb6533bb290860f8dbf979d3836de49202ffe&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/sgte/commit/a40fb6533bb290860f8dbf979d3836de49202ffe"&gt;a40fb653&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Fixing another bug in package target."&gt;
+              Fixing another bug in package target.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49397209</id>
+    <published>2009-05-12T15:54:35-07:00</published>
+    <updated>2009-05-12T15:54:35-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/sgte/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/sgte</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/sgte/tree/abdd5f5941dbdbc53e071877180c015c2def0305"&gt;abdd5f5941dbdbc53e071877180c015c2def0305&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/sgte/commit/abdd5f5941dbdbc53e071877180c015c2def0305"&gt;abdd5f59&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Fixing bug in package target."&gt;
+              Fixing bug in package target.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49385616</id>
+    <published>2009-05-12T14:56:39-07:00</published>
+    <updated>2009-05-12T14:56:39-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/sgte/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/sgte</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/sgte/tree/77786139e21db48d8bc4f4a12d5fba812a9baa28"&gt;77786139e21db48d8bc4f4a12d5fba812a9baa28&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/sgte/commit/77786139e21db48d8bc4f4a12d5fba812a9baa28"&gt;77786139&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Fixing errors in clean Makefile target."&gt;
+              Fixing errors in clean Makefile target.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49385309</id>
+    <published>2009-05-12T14:54:07-07:00</published>
+    <updated>2009-05-12T14:54:07-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/sgte/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/sgte</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/sgte/tree/c9c4a577c885d066960bec14012c034388e38fde"&gt;c9c4a577c885d066960bec14012c034388e38fde&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/sgte/commit/c9c4a577c885d066960bec14012c034388e38fde"&gt;c9c4a577&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Adding package and install targets to the Makefile."&gt;
+              Adding package and install targets to the Makefile.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:ForkEvent/49384547</id>
+    <published>2009-05-12T14:49:27-07:00</published>
+    <updated>2009-05-12T14:49:27-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/sgte/"/>
+    <title>ngerakines forked filippo/sgte</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    
+      Forked repository is at &lt;a href="http://github.com/ngerakines/sgte/tree"&gt;ngerakines/sgte&lt;/a&gt;
+    
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49350957</id>
+    <published>2009-05-12T12:50:44-07:00</published>
+    <updated>2009-05-12T12:50:44-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/79928495072d372fa540c4875a04355119e41814"&gt;79928495072d372fa540c4875a04355119e41814&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/79928495072d372fa540c4875a04355119e41814"&gt;79928495&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Bumping rev to 0.2"&gt;
+              Bumping rev to 0.2
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/49048685</id>
+    <published>2009-05-11T13:16:15-07:00</published>
+    <updated>2009-05-11T13:16:15-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_wowarmory/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_wowarmory</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_wowarmory/tree/bcf8c649f29a86ddf294c1da5cce0548fe924dd4"&gt;bcf8c649f29a86ddf294c1da5cce0548fe924dd4&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_wowarmory/commit/bcf8c649f29a86ddf294c1da5cce0548fe924dd4"&gt;bcf8c649&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Improving the crawler client code in armory3."&gt;
+              Improving the crawler client code in armory3.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48815108</id>
+    <published>2009-05-10T22:52:48-07:00</published>
+    <updated>2009-05-10T22:52:48-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/socklabs-blog/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/socklabs-blog</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/socklabs-blog/tree/dbaa9371d0ec7f7451fa3352d2eb7673f7258bf6"&gt;dbaa9371d0ec7f7451fa3352d2eb7673f7258bf6&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/socklabs-blog/commit/dbaa9371d0ec7f7451fa3352d2eb7673f7258bf6"&gt;dbaa9371&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Blogging about a rabbitmq proof-of-concept application based on the erlang_wowarmory project."&gt;
+              Blogging about a rabbitmq proof-of-concept application based on the erlang_wowarmory project.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48811264</id>
+    <published>2009-05-10T22:16:40-07:00</published>
+    <updated>2009-05-10T22:16:40-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_wowarmory/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_wowarmory</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_wowarmory/tree/dff0ba747ab69042948ebce592f047ad3c8262de"&gt;dff0ba747ab69042948ebce592f047ad3c8262de&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_wowarmory/commit/dff0ba747ab69042948ebce592f047ad3c8262de"&gt;dff0ba74&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Mitigating pain felt when start up is out of order."&gt;
+              Mitigating pain felt when start up is out of order.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/48809463</id>
+    <published>2009-05-10T22:06:42-07:00</published>
+    <updated>2009-05-10T22:06:42-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_wowarmory/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_wowarmory</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_wowarmory/tree/f9c4a6942e472d3ae3721accd11c802236f69b92"&gt;f9c4a6942e472d3ae3721accd11c802236f69b92&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_wowarmory/commit/f9c4a6942e472d3ae3721accd11c802236f69b92"&gt;f9c4a694&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Adding a proof-of-concept rabbitmq queuing model."&gt;
+              Adding a proof-of-concept rabbitmq queuing model.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:MemberEvent/48264735</id>
+    <published>2009-05-07T13:36:16-07:00</published>
+    <updated>2009-05-07T13:36:16-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs"/>
+    <title>ngerakines added JacobVorreuter to erlang_protobuffs</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    
+      erlang_protobuffs is at &lt;a href="http://github.com/ngerakines/erlang_protobuffs/tree"&gt;ngerakines/erlang_protobuffs&lt;/a&gt;  
+    
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:GistEvent/47808742</id>
+    <published>2009-05-05T12:43:00-07:00</published>
+    <updated>2009-05-05T12:43:00-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://gist.github.com/107149"/>
+    <title>ngerakines updated gist: 107149</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    -module(stocks).
+
+-include_lib(&amp;quot;rabbitmq_server/include/rabbit.hrl&amp;quot;).
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:GistEvent/47805204</id>
+    <published>2009-05-05T12:29:48-07:00</published>
+    <updated>2009-05-05T12:29:48-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://gist.github.com/107149"/>
+    <title>ngerakines created gist: 107149</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    -module(stocks).
+
+-include_lib(&amp;quot;rabbitmq_server/include/rabbit.hrl&amp;quot;).
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47764923</id>
+    <published>2009-05-05T09:30:40-07:00</published>
+    <updated>2009-05-05T09:30:40-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_protobuffs/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_protobuffs</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_protobuffs/tree/61c5364b95792183fc8e93ede5d661a18af4544b"&gt;61c5364b95792183fc8e93ede5d661a18af4544b&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_protobuffs/commit/61c5364b95792183fc8e93ede5d661a18af4544b"&gt;61c5364b&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Misc package cleanup and documentation"&gt;
+              Misc package cleanup and documentation
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47763222</id>
+    <published>2009-05-05T09:16:31-07:00</published>
+    <updated>2009-05-05T09:16:31-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/stateless_server/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/stateless_server</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/stateless_server/tree/53c982628a8783efa2d9ce3cad4e19f5c27ef796"&gt;53c982628a8783efa2d9ce3cad4e19f5c27ef796&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/stateless_server/commit/53c982628a8783efa2d9ce3cad4e19f5c27ef796"&gt;53c98262&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="documentation"&gt;
+              documentation
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47536339</id>
+    <published>2009-05-04T12:05:44-07:00</published>
+    <updated>2009-05-04T12:05:44-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/stateless_server/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/stateless_server</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/stateless_server/tree/cf31b9a458939503fed880112181df7dbfc02ac9"&gt;cf31b9a458939503fed880112181df7dbfc02ac9&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/stateless_server/commit/cf31b9a458939503fed880112181df7dbfc02ac9"&gt;cf31b9a4&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Adding tests"&gt;
+              Adding tests
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47531421</id>
+    <published>2009-05-04T11:37:24-07:00</published>
+    <updated>2009-05-04T11:37:24-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/stateless_server/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/stateless_server</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/stateless_server/tree/7f143f4bbbd98585bb4c46f4613479ee6848d036"&gt;7f143f4bbbd98585bb4c46f4613479ee6848d036&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/stateless_server/commit/7f143f4bbbd98585bb4c46f4613479ee6848d036"&gt;7f143f4b&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Using gen:call/3 within stateless_server:call/2."&gt;
+              Using gen:call/3 within stateless_server:call/2.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47237372</id>
+    <published>2009-05-02T21:43:16-07:00</published>
+    <updated>2009-05-02T21:43:16-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/etap/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/etap</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/etap/tree/e67dfc39a0a9a66edb6a8b496629d85762181f4c"&gt;e67dfc39a0a9a66edb6a8b496629d85762181f4c&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/etap/commit/e67dfc39a0a9a66edb6a8b496629d85762181f4c"&gt;e67dfc39&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Misc changes and fixes."&gt;
+              Misc changes and fixes.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47220261</id>
+    <published>2009-05-02T17:30:54-07:00</published>
+    <updated>2009-05-02T17:30:54-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/socklabs-blog/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/socklabs-blog</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/socklabs-blog/tree/aae160caf295a67668fa16adada75946f4e77de0"&gt;aae160caf295a67668fa16adada75946f4e77de0&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/socklabs-blog/commit/aae160caf295a67668fa16adada75946f4e77de0"&gt;aae160ca&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Fixing typo in title"&gt;
+              Fixing typo in title
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47220231</id>
+    <published>2009-05-02T17:29:25-07:00</published>
+    <updated>2009-05-02T17:29:25-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/socklabs-blog/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/socklabs-blog</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/socklabs-blog/tree/be12286d47637f4d099a88dd5dbdc0453d52a903"&gt;be12286d47637f4d099a88dd5dbdc0453d52a903&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/socklabs-blog/commit/be12286d47637f4d099a88dd5dbdc0453d52a903"&gt;be12286d&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Blogging about Erlang-Factory 2009"&gt;
+              Blogging about Erlang-Factory 2009
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/47220205</id>
+    <published>2009-05-02T17:26:49-07:00</published>
+    <updated>2009-05-02T17:26:49-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang-factory/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang-factory</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang-factory/tree/7e93057fe6ff8dda566304ab2678e08f8974752c"&gt;7e93057fe6ff8dda566304ab2678e08f8974752c&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang-factory/commit/7e93057fe6ff8dda566304ab2678e08f8974752c"&gt;7e93057f&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Adding the keynote presentation to the repos."&gt;
+              Adding the keynote presentation to the repos.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:CreateEvent/47220085</id>
+    <published>2009-05-02T17:25:16-07:00</published>
+    <updated>2009-05-02T17:25:16-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang-factory/tree/master"/>
+    <title>ngerakines created branch master at ngerakines/erlang-factory</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    
+      New branch is at &lt;a href="http://github.com/ngerakines/erlang-factory/tree/master"&gt;ngerakines/erlang-factory/tree/master&lt;/a&gt;
+    
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:CreateEvent/47219986</id>
+    <published>2009-05-02T17:25:02-07:00</published>
+    <updated>2009-05-02T17:25:02-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang-factory"/>
+    <title>ngerakines created repository erlang-factory</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    
+      New repository is at &lt;a href="http://github.com/ngerakines/erlang-factory"&gt;ngerakines/erlang-factory&lt;/a&gt;
+    
+  &lt;/div&gt;
+&lt;/div&gt;
+</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/46931756</id>
+    <published>2009-04-30T23:14:55-07:00</published>
+    <updated>2009-04-30T23:14:55-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_couchdb/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_couchdb</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_couchdb/tree/8d25fd2b23d395720cf11921c6ebf2c0a5eb4491"&gt;8d25fd2b23d395720cf11921c6ebf2c0a5eb4491&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_couchdb/commit/8d25fd2b23d395720cf11921c6ebf2c0a5eb4491"&gt;8d25fd2b&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Updating TCC in document related functionality."&gt;
+              Updating TCC in document related functionality.
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:ForkApplyEvent/46901635</id>
+    <published>2009-04-30T18:51:05-07:00</published>
+    <updated>2009-04-30T18:51:05-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_couchdb/tree/master"/>
+    <title>ngerakines applied fork commits to erlang_couchdb/master</title>
+    <content type="html">
+&lt;div class="details"&gt;
+  
+  &lt;div class="message"&gt;
+    &lt;b&gt;master&lt;/b&gt; was changed to &lt;a href="http://github.com/ngerakines/erlang_couchdb/commit/77ae4c1f2d15f4003f5e9583b6fdabd3711454ee"&gt;77ae4c&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+  <entry>
+    <id>tag:github.com,2008:PushEvent/46901559</id>
+    <published>2009-04-30T18:49:58-07:00</published>
+    <updated>2009-04-30T18:49:58-07:00</updated>
+    <link type="text/html" rel="alternate" href="http://github.com/ngerakines/erlang_couchdb/commits/master"/>
+    <title>ngerakines pushed to master at ngerakines/erlang_couchdb</title>
+    <content type="html">
+
+
+
+&lt;div class="details"&gt;
+  
+  HEAD is &lt;a href="/ngerakines/erlang_couchdb/tree/07b08c468a3b652109e67c7614e71ed75c012a79"&gt;07b08c468a3b652109e67c7614e71ed75c012a79&lt;/a&gt; 
+  
+  
+  
+
+  &lt;div class="commits" &gt;
+    &lt;ul&gt;
+      
+      
+        
+        
+        &lt;li class="first"&gt;
+          
+
+          
+
+          
+            &lt;a href="/ngerakines" class="committer"&gt;ngerakines&lt;/a&gt;
+          
+
+          committed
+          &lt;a href="/ngerakines/erlang_couchdb/commit/07b08c468a3b652109e67c7614e71ed75c012a79"&gt;07b08c46&lt;/a&gt;:
+
+          &lt;div class="message"&gt;
+            &lt;blockquote title="Committing changes from Erlang-Factory (improving test code coverage)."&gt;
+              Committing changes from Erlang-Factory (improving test code coverage).
+            &lt;/blockquote&gt;
+          &lt;/div&gt;
+        &lt;/li&gt;
+      
+      
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</content>
+    <author>
+      <name>ngerakines</name>
+    </author>
+  </entry>
+</feed>

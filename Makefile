@@ -8,7 +8,6 @@ test: all
 	prove t/*.t
 
 clean:
-	(cd templates;$(MAKE) clean)
 	(cd src;$(MAKE) clean)
 	rm -rf erl_crash.dump *.boot *.rel *.script ebin/*.beam
 

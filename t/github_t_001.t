@@ -18,8 +18,6 @@ start() ->
     application:start(inets),
     test_server:start_link(),
 
-    Instrs = ex_pp:parse("t/github.ex", ["jacobvorreuter"]),
-    %io:format("~p~n", [Instrs]),
+    Instrs = ex_pp:parse("t/github.ex", [["jacobvorreuter", "ngerakines"]]),
     ex_engine:run(Instrs),
-    
     ok.

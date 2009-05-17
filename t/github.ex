@@ -1,37 +1,54 @@
-main(User) ->
-    assign(user, {string, User}),
-    fetch(public_activity, {get, ["http://127.0.0.1:8888/github-", user, ".xml"]}),
-    assert(public_activity, {status, 200}),
-    assign(entries, {xpath, public_activity, "//entry"}),
-    assert(entries, list_of_nodes),
-    each(entry, entries, [
-        assign(entry_id, {xpath, entry, "//id/text()"}),
-        assert(entry_id, string),
-        assign(event_type, {regexp, entry_id, "tag:github.com,[0-9]{4}:(.*)/[0-9]*"}),
-        assert(event_type, string),
-        condition((event_type == "PushEvent") orelse (event_type == "IssuesEvent"), [
-            assign(published, {xpath, entry, "//published/text()"}),
-            assert(published, string),
+main(Users) ->
+    assign(users, Users),
+    each(user, users, [
+        %% fetch user's public activity
+        fetch(public_activity, {get, ["http://127.0.0.1:8888/github-", user, ".xml"]}),
+        assert(public_activity, {status, 200}),
+        
+        %% pull entry nodes
+        assign(entries, {xpath, public_activity, "//entry"}),
+        assert(entries, list_of_nodes),
+        
+        each(entry, entries, [
+        
+            %% pull entry_id fields
+            assign(entry_id, {xpath, entry, "//id/text()"}),
+            assert(entry_id, string),
             
-            assign(title, {xpath, entry, "//title/text()"}),
-            assert(title, string),
+            %% pull event_type fields
+            assign(event_type, {regexp, entry_id, "tag:github.com,[0-9]{4}:(.*)/[0-9]*"}),
+            assert(event_type, string),
             
-            commit({user, published}, {user, published, event_type}),
+            %% process PUSH and ISSUES events
+            condition((event_type == "PushEvent") orelse (event_type == "IssuesEvent"), [
             
-            assign(author, {xpath, entry, "//author/name/text()"}),
-            
-            function(fun validate_supported_event_types/1)
-        ], [
-            function(fun validate_unsupported_event_types/1)
+                %% pull published date
+                assign(published, {xpath, entry, "//published/text()"}),
+                assert(published, string),
+
+                %% pull author field
+                assign(author, {xpath, entry, "//author/name/text()"}),
+                assert(author, string),
+                
+                %% commit published date and event type
+                commit({user, published}, {user, published, event_type}),
+                
+                %% run etap test
+                function(fun validate_supported_event_types/1)
+            ], [
+                %% run etap test
+                function(fun validate_unsupported_event_types/1)
+            ])
         ])
     ]).
     
 validate_supported_event_types(S) ->
     {string, ET} = ex_util:fetch(S, event_type),
     {string, Auth} = ex_util:fetch(S, author),
+    {string, U} = ex_util:fetch(S, user),
     etap:ok(ET == "PushEvent" orelse ET == "IssuesEvent", "event type matches"),
-    etap:is(Auth, "JacobVorreuter", "author matches").
+    etap:is(string:to_lower(Auth), string:to_lower(U), "author matches").
 
 validate_unsupported_event_types(S) -> 
-    {string, ET} = ex_util:fetch(S, event_type), 
+    {string, ET} = ex_util:fetch(S, event_type),
     etap:ok(ET =/= "PushEvent" andalso ET =/= "IssuesEvent", "unsupported event type matches").
