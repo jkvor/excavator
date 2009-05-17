@@ -2,6 +2,9 @@
 excavator is an Erlang application for ingesting data from various 
 sources (APIs, data feeds, web content, etc).
 
+== DEPENDENCIES ==
+* mochixpath <http://github.com/JacobVorreuter/mochixpath>
+
 == LICENSE ==
 %% Copyright (c) 2009 Jacob Vorreuter <jacob.vorreuter@gmail.com>
 %% 
