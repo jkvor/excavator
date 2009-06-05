@@ -3,17 +3,20 @@ PKGNAME=excavator
 LIBDIR=`erl -eval 'io:format("~s~n", [code:lib_dir()])' -s init stop -noshell`
 ROOTDIR=`erl -eval 'io:format("~s~n", [code:root_dir()])' -s init stop -noshell`
 
-all:
+all: app
 	mkdir -p ebin/
 	(cd src;$(MAKE))
 	(cd t;$(MAKE))
+
+app:
+	sh ebin/$(PKGNAME).app.in $(VERSION)
 
 test: all
 	prove t/*.t
 
 clean:
 	(cd src;$(MAKE) clean)
-	rm -rf erl_crash.dump *.boot *.rel *.script ebin/*.beam
+	rm -rf erl_crash.dump *.boot *.rel *.script ebin/*.beam ebin/*.app
 
 rel: all
 	erl -pa ebin -noshell -run excavator build_rel -s init stop
