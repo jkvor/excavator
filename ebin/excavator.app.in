@@ -1,0 +1,17 @@
+#!/bin/bash
+
+VERSION=${1}
+MODULES=`ls -1 src/*.erl | awk -F[/.] '{ print "\t\t" $2 }' | sed '$q;s/$/,/g'`
+
+cat > ebin/excavator.app << EOF
+{application, excavator, [
+    {description, "Erlang Data Miner"},
+    {vsn, "${VERSION}"},
+    {modules, [
+${MODULES}
+    ]},
+    {registered, []},
+    {mod, {excavator, []}},
+    {applications, [kernel, stdlib, inets]}
+]}.
+EOF

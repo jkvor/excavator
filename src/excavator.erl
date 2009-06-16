@@ -44,28 +44,15 @@ init(_) ->
 
 build_rel() ->
     {ok, FD} = file:open("excavator.rel", [write]),
-    RootDir = code:root_dir(),
-    Patterns = [
-        {RootDir ++ "/", "erts-*"},
-        {RootDir ++ "/lib/", "kernel-*"},
-        {RootDir ++ "/lib/", "stdlib-*"},
-        {RootDir ++ "/lib/", "sasl-*"},
-        {RootDir ++ "/lib/", "crypto-*"}
-    ],
-    [Erts, Kerne, Stdl, Sasl, Crypto] = [begin
-        [R | _ ] = filelib:wildcard(P, D),
-        [_ | [Ra] ] = string:tokens(R, "-"),
-        Ra
-    end || {D, P} <- Patterns],
     RelInfo = {release,
-        {"excavator", "0.1.1"},
-        {erts, Erts}, [
-            {kernel, Kerne},
-            {stdlib, Stdl},
-            {sasl, Sasl},
-            {crypto, Crypto},
+        {"excavator", "0.0.1"},
+        {erts, "5.7.1"}, [
+            {kernel, "2.13.1"},
+            {stdlib, "1.16.1"},
+            {sasl, "2.1.6"},
+            {crypto, "1.6"},
 			{inets, "5.0.13"},
-            {excavator, "0.1.1"}
+            {excavator, "0.0.1"}
         ]
     },
     io:format(FD, "~p.", [RelInfo]),
