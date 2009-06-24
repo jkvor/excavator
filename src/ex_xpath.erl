@@ -61,10 +61,8 @@ run(XPath, {node, Subject}) when is_list(XPath), is_tuple(Subject) ->
 						{mixed, [{string, binary_to_list(Bin)}|Acc]};
 					({_,_,_}=Node, {list_of_nodes, Acc}) ->
 						{list_of_nodes, [{node, Node}|Acc]};
-					({_,_,_}=Node, {node, Acc}) ->
-						{list_of_nodes, [{node, Node}, {node, Acc}]};
 					({_,_,_}=Node, {undefined, []}) ->
-						{node, Node};
+						{list_of_nodes, [{node, Node}]};
 					({_,_,_}=Node, {list_of_strings, Acc}) ->
 						{mixed, [{node, Node}|Acc]};
 					({_,_,_}=Node, {mixed, Acc}) ->

@@ -21,10 +21,19 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_util).
--export([store/3, fetch/2, fetch_value/2, configure/3, fetch_config/2, evaluate/2, seconds/0]).
+-export([add/3, store/3, fetch/2, fetch_value/2, configure/3, fetch_config/2, evaluate/2, seconds/0]).
 
 -include("excavator.hrl").
 
+add(#state{dictionary=D}=S, K, V) ->
+    V2 =
+        case dict:find(K, D) of
+            {ok, V1} when is_list(V1) -> lists:append(V1, [V]);
+            {ok, V1} -> [V1, V]; 
+            error -> [V]
+        end,
+    S#state{dictionary=dict:store(K, V2, D)}.
+    
 store(#state{dictionary=D}=S, K, V) ->
     S#state{dictionary=dict:store(K, V, D)}.
     
@@ -36,9 +45,16 @@ fetch(#state{dictionary=D}, K) ->
     
 fetch_value(#state{dictionary=D}, K) ->
     case dict:find(K, D) of
-        {ok, {_T, V}} -> V;
+        {ok, {_T, V}} -> strip_types(V);
         error -> undefined
     end.
+    
+strip_types({Type, Val}) when Type==string;Type==nil;Type==node;Type==list_of_nodes;Type==list_of_strings;Type==mixed ->
+    Val;
+strip_types(List) when is_list(List) ->
+    [strip_types(I) || I <- List];
+strip_types(Val) ->
+    Val.
     
 configure(#state{configuration=C}=S, K, V) ->
     S#state{configuration=dict:store(K, V, C)}.
@@ -52,7 +68,9 @@ fetch_config(#state{configuration=C}, K) ->
 evaluate(State, Tuple) when is_tuple(Tuple) ->
     list_to_tuple([evaluate(State, I) || I <- tuple_to_list(Tuple)]);
 evaluate(State, Key) when is_atom(Key) ->
-    case ?FETCH(State, Key) of undefined -> Key; {_, Other} -> Other end;
+    ?FETCH_VALUE(State, Key);
+evaluate(State, List) when is_list(List) ->
+    [evaluate(State, I) || I <- List];
 evaluate(_State, Other) -> Other.
 
 seconds() ->

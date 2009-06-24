@@ -32,6 +32,12 @@ stop() ->
     Resp.
 
 start(_, _) ->
+    LogLevel =
+        case application:get_env(excavator, log_level) of
+            {ok, L} -> L;
+            undefined -> info
+        end,
+    ex_loglevel:set(LogLevel),
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
 stop(_) ->

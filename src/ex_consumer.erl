@@ -63,14 +63,8 @@ fetch(State, Key, {Method, Url}) when Method==options;Method==get;Method==head;M
 fetch(State, Key, {Method, Url, Headers}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
     fetch(State, Key, {Method, Url, Headers, []});
 fetch(State, Key, {Method, Url, Headers, Body}) ->
-    Url1 = lists:flatten([begin
-        case I of
-            String when is_list(String) -> String; 
-            Atom when is_atom(Atom) -> to_string(?FETCH(State, Atom));
-            Other -> Other 
-        end
-    end || I <- Url]),
-    %?INFO_MSG("fetching ~p~n", [Url1]),
+    Url1 = flatten_url(State, Url),
+    ?INFO_MSG("fetching ~p~n", [Url1]),
     Response = ex_web:request(Method, Url1, Headers, Body),
     %?INFO_MSG("response: ~p~n", [Response]),
     ?STORE(State#state{request_times=update_request_times(State)}, Key, Response).
@@ -85,6 +79,14 @@ assign(State, Key, Term) ->
 
 assign_print(State, Key, _) ->
 	?INFO_MSG(">> assign/3: ~p~n", [Key]),
+	State.
+	
+%% =============================================================================
+add(State, Key, Term) ->
+    ?ADD(State, Key, compute(State, Term)).
+    
+add_print(State, Key, _) ->
+	?INFO_MSG(">> add/3: ~p~n", [Key]),
 	State.
 
 %% =============================================================================
@@ -188,6 +190,27 @@ print(State, Key) ->
 %% =============================================================================
 %% == Internal Functions
 %% =============================================================================
+flatten_url(State, {Url, Props}) ->
+    Url1 = flatten_url(State, Url),
+    Props1 = [
+        case V of
+            V1 when is_atom(V1) ->
+                {K, to_string(?FETCH(State, V))};
+            _ ->
+                {K, V}
+        end || {K,V} <- Props],
+    Props2 = mochiweb_util:urlencode(Props1),
+    Url1 ++ "?" ++ Props2;
+    
+flatten_url(State, Url) ->
+    lists:flatten([begin
+        case I of
+            String when is_list(String) -> String; 
+            Atom when is_atom(Atom) -> to_string(?FETCH(State, Atom));
+            Other -> Other 
+        end
+    end || I <- Url]).
+    
 mk_f(Function, Postfix) ->
 	list_to_atom(lists:concat([Function, "_", Postfix])).
 
@@ -219,6 +242,7 @@ is_condition(_, 'andalso', A, B) when A andalso B -> true;
 is_condition(_, '==', A, A) -> true;
 is_condition(_, '=:=', A, A) -> true;
 is_condition(_, '=/=', A, B) when A =/= B -> true;
+is_condition(_, '/=', A, B) when A /= B -> true;
 is_condition(_, '>', A, B) when A > B -> true;
 is_condition(_, '>=', A, B) when A >= B -> true;
 is_condition(_, '<', A, B) when A < B -> true;
@@ -256,6 +280,14 @@ compare(Item1, Item2) when is_list(Item1), is_list(Item2) ->
 	
 compare(_, _) -> false.
 	
+compute(State, {FirstLast, Key}) when FirstLast==first;FirstLast==last ->
+    case ?FETCH(State, Key) of
+        {Type, Values} when (Type==list_of_nodes orelse Type==list_of_strings) andalso is_list(Values) ->
+            [Val|_] = if FirstLast==first -> Values; true -> lists:reverse(Values) end,
+            Val;
+        Other ->
+            exit({bad_data, {FirstLast, Key, Other}})
+    end;
 compute(State, {xpath, Source, XPath}) ->
     ex_xpath:run(XPath, ?FETCH(State, Source));
 compute(State, {regexp, Source, Regexp}) ->
@@ -273,7 +305,9 @@ compute(_State, Int) when is_integer(Int) ->
 compute(_State, {_,_,_}=Node) ->
     {node, Node};
 compute(_State, [{_,_,_}|_]=Nodes) ->
-    {list_of_nodes, [{node, Node} || Node <- Nodes]}.
+    {list_of_nodes, [{node, Node} || Node <- Nodes]};
+compute(State, [Atom|_]=List) when is_atom(Atom) ->
+    {mixed, [?FETCH(State, Item) || Item <- List]}.
     
 assert_true(_K, {nil, Val}, nil) when Val==[]; Val==undefined -> ok;    
 assert_true(_K, {string, Val}, string) when is_list(Val), length(Val) > 0 -> ok;

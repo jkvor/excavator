@@ -94,7 +94,7 @@ build_instr({cons,_,Instr,Cons}) ->
 build_instr({call, _, {atom, _, Instr}, Args}) 
 	when Instr==configure; Instr==assign; Instr==assert; 
 		 Instr==fetch; Instr==print; Instr==function; 
-		 Instr==onfail; Instr==commit ->
+		 Instr==onfail; Instr==commit; Instr==add ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,Instr}, to_cons(Args)]};
 	
 build_instr(Instr) ->
