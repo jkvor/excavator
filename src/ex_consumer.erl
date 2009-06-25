@@ -109,7 +109,7 @@ commit(State, Key, Value) ->
     
 commit(State, Key, Value, {CallbackModule, CallbackFunction}) ->
     Value1 = ?EVALUATE(State, Value),
-    case catch apply(CallbackModule, CallbackFunction, [Key, Value1]) of
+    case apply(CallbackModule, CallbackFunction, [Key, Value1]) of
         State1 when is_record(State1, state) ->
             State1;
         _ ->
