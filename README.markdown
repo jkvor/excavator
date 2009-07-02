@@ -16,17 +16,21 @@ excavator runs off of template files written in Erlang. Templates contain custom
 
 ## Template Functions
 * configure: set a configuration parameter. The following examples illustrate supported conifguration parameters:
+
 	configure(qps, 10)
 	configure(commit_callback, {my_monkey_maker, new_monkey})
 * assign: assign a static value of result of an instruction to a state key in the current scope
+
 	assign(user_ids, {xpath, users_xml, "//id/text()"})
 	assign(user_ids, {regexp, users_txt, "id=([0-9]+)"}),
 	assign(pokemons, {http, get, "http://yummymeatwhiz.com/?page_id=223"})
 	assign(new_pokemon, {http, post, "http://yummymeatwhiz.com/?page_id=223", [{application_id, "monkeybrains"}], <<"Let me show you it">>})
 * gassign: the same as assign, associates value with state key in the global scope
 * add: similar to assign, but instead of overwriting the value of a state key it will append the value and build up a list
+
 	add(user_ids, {xpath, user_xml, "//id/text()"})
 * assert: assert that the value associated with a state key meets certain criteria. The following assertions are supported:
+
 	assert(user_id, string)
 	assert(user_ids, list_of_strings)
 	assert(user_info, node)
@@ -35,16 +39,20 @@ excavator runs off of template files written in Erlang. Templates contain custom
 	assert(user, nil)
 	assert(user_page, {status, 200}),
 * print: evaluates a term and prints its value through the error_logger
+
 	print(username)
 	print("Hello World")
 * commit: calls either the default commit mfa, or the commit_callback module and function set as a configuration parameter with a commit_key/state_key pair as the arguments. The commit_key is used to overload the commit function and allow multiple commit points in a template. The state_key is used to pull the associated value and pass that in as the second argument to the commit function.
- 	commit({user, friend_profile}, profile_url)
+ 
+	commit({user, friend_profile}, profile_url)
 	commit(username, username)
 * each: iterate over a list associated with a state key
+
 	each(user, users, [
 		print(user)
 	])
 * condition: execute a block of code based on a boolean condition. State keys will be evaluated and replaced with their corresponding values before the condition is evaluated.
+
 	condition(username == "monkey", [
 		print("Hello monkey")
 	])
@@ -54,6 +62,7 @@ excavator runs off of template files written in Erlang. Templates contain custom
 		print(names)
 	])
 * onfail: suppress exceptions of a certain type inside a block of code
+
 	onfail({assertion_failed, {users_xml, '_', {status, 200}}}, [
 		assign(pokemons, {http, get, "http://yummymeatwhiz.com/?page_id=223"})
 		assert(pokemons, {status, 200}),
@@ -61,6 +70,7 @@ excavator runs off of template files written in Erlang. Templates contain custom
 	]),
 	print("this instruction will always execute")
 * function: provides a mechanism for executing custom logic. The instruction expects a single parameter, which is a function or arity 1. The function's argument is the state object.
+
 	function(fun(State) -> io:format("POKEMONS!! ~p~n", [ex_util:fetch_value(State, pokemons)]) end)
 
 ## Example Templates
