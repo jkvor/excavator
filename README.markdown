@@ -103,6 +103,17 @@ The convention when creating excavator templates is to use the .ex extension. Th
 			%% a value would be present in the current scope.
 			print("name is undefined")
 		]).
+
+## Getting started
+
+	$ make rel
+	$ sudo make install
+	$ erl -name excavator@`hostname` +W w +A 1 +Ktrue -boot excavator
+		
+## Running excavator
+To initiate a single run of a template you must parse the template and then feed the instructions to the excavator engine:
+
+	(excavator@idk.local)1> ex_engine:run(ex_pp:parse("templates/github.ex", ["jvorreuter", "ngerakines"])).
 		
 ## License
 	%% Copyright (c) 2009 Jacob Vorreuter <jacob.vorreuter@gmail.com>
