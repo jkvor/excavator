@@ -58,24 +58,11 @@ execute(State, [{Default, Function}|TailFunctions], Args) ->
 %% =============================================================================
 %% == Template Functions
 %% =============================================================================
-fetch(State, Key, {Method, Url}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
-    fetch(State, Key, {Method, Url, [], []});
-fetch(State, Key, {Method, Url, Headers}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
-    fetch(State, Key, {Method, Url, Headers, []});
-fetch(State, Key, {Method, Url, Headers, Body}) ->
-    Url1 = flatten_url(State, Url),
-    ?INFO_MSG("fetching ~p~n", [Url1]),
-    Response = ex_web:request(Method, Url1, Headers, Body),
-    %?INFO_MSG("response: ~p~n", [Response]),
-    ?STORE(State#state{request_times=update_request_times(State)}, Key, Response).
-
-fetch_print(State, _Key, Request) ->
-	?INFO_MSG(">> fetch/3 ~p~n", [Request]),
-	State.
-
-%% =============================================================================
 assign(State, Key, Term) ->
     ?STORE(State, Key, compute(State, Term)).
+    
+assign_next_state(#state{instructions=[_|TailInstrs]}=S) ->
+	S#state{instructions=TailInstrs, request_times=update_request_times(S)}.
 
 assign_print(State, Key, _) ->
 	?INFO_MSG(">> assign/3: ~p~n", [Key]),
@@ -192,7 +179,7 @@ function(State, Fun) when is_function(Fun) ->
 
 %% =============================================================================    
 print(State, Key) ->
-    ?INFO_REPORT({print, ?FETCH(State, Key)}),
+    ?INFO_REPORT({print, compute(State, Key)}),
     State.
       	       
 %% =============================================================================
@@ -287,7 +274,7 @@ compare(Item1, Item2) when is_list(Item1), is_list(Item2) ->
 	end;
 	
 compare(_, _) -> false.
-	
+    
 compute(State, {FirstLast, Key}) when FirstLast==first;FirstLast==last ->
     case ?FETCH(State, Key) of
         {Type, Values} when (Type==list_of_nodes orelse Type==list_of_strings) andalso is_list(Values) ->
@@ -296,6 +283,13 @@ compute(State, {FirstLast, Key}) when FirstLast==first;FirstLast==last ->
         Other ->
             exit({bad_data, {FirstLast, Key, Other}})
     end;
+compute(State, {http, Method, Url}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
+    compute(State, {http, Method, Url, [], []});
+compute(State, {http, Method, Url, Headers}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
+    compute(State, {http, Method, Url, Headers, []});
+compute(State, {http, Method, Url, Headers, Body}) ->
+    Url1 = flatten_url(State, Url),
+    ex_web:request(Method, Url1, Headers, Body);
 compute(State, {xpath, Source, XPath}) ->
     ex_xpath:run(XPath, ?FETCH(State, Source));
 compute(State, {regexp, Source, Regexp}) ->
@@ -314,6 +308,11 @@ compute(_State, {_,_,_}=Node) ->
     {node, Node};
 compute(_State, [{_,_,_}|_]=Nodes) ->
     {list_of_nodes, [{node, Node} || Node <- Nodes]};
+compute(State, Key) when is_atom(Key) ->
+    case ?FETCH(State, Key) of
+        undefined -> Key;
+        Value -> Value
+    end;
 compute(State, [Atom|_]=List) when is_atom(Atom) ->
     {mixed, [?FETCH(State, Item) || Item <- List]}.
     

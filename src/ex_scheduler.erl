@@ -141,7 +141,7 @@ code_change(_OldVsn, State, _Extra) ->
 %%% Internal functions
 %%--------------------------------------------------------------------
 
-next(#state{instructions=[{instr, fetch, _}|_], request_times=[Last|_]=Times}=State, RefreshStateFun) ->
+next(#state{instructions=[{instr, assign, Http}|_], request_times=[Last|_]=Times}=State, RefreshStateFun) when is_tuple(Http), element(1, Http) == http ->
     case ex_util:fetch_config(State, qps) of
         undefined -> 
             ok;

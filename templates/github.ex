@@ -2,7 +2,7 @@ main(Users) ->
     assign(users, Users),
     each(user, users, [
         %% fetch user's public activity
-        fetch(public_activity, {get, ["http://127.0.0.1:8888/github-", user, ".xml"]}),
+        assign(public_activity, {http, get, ["http://127.0.0.1:8888/github-", user, ".xml"]}),
         assert(public_activity, {status, 200}),
         
         %% pull entry nodes

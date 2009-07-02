@@ -16,6 +16,7 @@ main(_) ->
 start() ->
     error_logger:tty(false),
     application:start(inets),
+    application:start(excavator),
     test_server:start_link(),
 
     GoodAlbumIDs = ["b917d0542e3ab9a7", "2021ab38530960de", "4177542aee34ad84"],
@@ -46,9 +47,7 @@ start() ->
     end,
         
     Instrs =
-        [   {instr, configure, [qps, 10]}, %% not implemented
-            {instr, configure, [commit_callback, {ex_default_storage, store}]}, %% not implemented
-            {instr, fetch, [artist_page, {get, "http://127.0.0.1:8888/gracenote_albums.html"}]},
+        [   {instr, assign, [artist_page, {http, get, "http://127.0.0.1:8888/gracenote_albums.html"}]},
             {instr, assert, [artist_page, {status, 200}]},
             {instr, assert, [artist_page, string]},
             {instr, assign, [albums, {xpath, artist_page, "//div[@class='album-meta-data-wrapper']"}]},
@@ -57,14 +56,14 @@ start() ->
                 {instr, assign, [album_href, {xpath, album, "//a[1]/@href"}]},
                 {instr, assign, [album_id, {regexp, album_href, compile_re("tui_id=(.*)tui")}]},
                 {instr, assert, [album_id, string]},
-                {instr, fetch, [album_page, {get, ["http://127.0.0.1:8888/gracenote_album_", album_id, ".html"]}]},
+                {instr, assign, [album_page, {http, get, ["http://127.0.0.1:8888/gracenote_album_", album_id, ".html"]}]},
                 {instr, function, [ValidateAlbumID]},
                 {instr, onfail, [
-					{assertion_failed, {album_page, '_', {status, 200}}},
+                    {assertion_failed, {album_page, '_', {status, 200}}},
                     [   {instr, assert, [album_page, {status, 200}]},
                         {instr, assert, [album_page, string]},
                         {instr, assign, [album_name_node, {xpath, album_page, "//div[@class='album-name']"}]},
-                        {instr, assert, [album_name_node, node]},
+                        {instr, assert, [album_name_node, list_of_nodes]},
                         {instr, assign, [album_name, {regexp, album_name_node, compile_re(" &gt; (.*)</div>")}]},
                         {instr, assert, [album_name, string]},
                         {instr, commit, [{album, beatles}, {album_id, album_name}]},

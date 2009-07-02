@@ -30,6 +30,17 @@
 run(Regexp, {node, Subject}) when is_tuple(Regexp), is_tuple(Subject) ->
     run(Regexp, ex_xpath:reassemble({node, Subject}));
     
+run(Regexp, {list_of_nodes, Nodes}) when is_tuple(Regexp), is_list(Nodes) ->
+    String1 = lists:concat([begin 
+        {string, String} = ex_xpath:reassemble({node, Subject}), 
+        String 
+    end || {node, Subject} <- Nodes]),
+    run(Regexp, {string, String1});
+    
+run(Regexp, {list_of_strings, Strings}) when is_tuple(Regexp), is_list(Strings) ->
+    String1 = lists:concat([String || {string, String} <- Strings]), 
+    run(Regexp, {string, String1});
+    
 run(Regexp, {string, Subject}) when is_tuple(Regexp), is_list(Subject) ->
 	case re:run(Subject, Regexp, [global]) of
 		nomatch -> 

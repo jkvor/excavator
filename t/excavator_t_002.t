@@ -16,6 +16,7 @@ main(_) ->
 start() ->
     error_logger:tty(false),
     application:start(inets),
+    application:start(excavator),
     test_server:start_link(),
     
     TestData = [
@@ -80,7 +81,7 @@ start() ->
     Instrs =
         [   {instr, assign, [page_range, {range, 1, 3}]},
             {instr, each, [page_num, page_range, [
-                {instr, fetch, [search_result_page, {get, ["http://127.0.0.1:8888/search_twitter_page", page_num, ".html"]}]},
+                {instr, assign, [search_result_page, {http, get, ["http://127.0.0.1:8888/search_twitter_page", page_num, ".html"]}]},
                 {instr, assert, [search_result_page, {status, 200}]},
                 {instr, assert, [search_result_page, string]},
                 {instr, assign, [search_results, {xpath, search_result_page, "//li[@class='result ']"}]},

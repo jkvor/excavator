@@ -16,8 +16,9 @@ main(_) ->
 start() ->
     error_logger:tty(false),
     application:start(inets),
+    application:start(excavator),
     test_server:start_link(),
 
-    Instrs = ex_pp:parse("t/github.ex", [["jacobvorreuter", "ngerakines"]]),
+    Instrs = ex_pp:parse("templates/github.ex", [["jacobvorreuter", "ngerakines"]]),
     ex_engine:run(Instrs),
     ok.
