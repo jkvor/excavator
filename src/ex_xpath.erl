@@ -75,24 +75,6 @@ run(XPath, {node, Subject}) when is_list(XPath), is_tuple(Subject) ->
 		_ ->
 			exit({?MODULE, ?LINE, XPath, Subject})
 	end.
-		
-	% 	[Node] when is_tuple(Node) -> 
-	% 		{node, Node};
-	% 	[Text] when is_list(Text) -> 
-	% 		{string, Text};
-	% 	[Text] when is_binary(Text) -> 
-	% 		{string, binary_to_list(Text)};
-	% 	[Node|_] = Nodes when is_tuple(Node) -> 
-	% 		{list_of_nodes, Nodes};
-	% 	[Text|_] = List when is_list(Text) -> 
-	% 		{list_of_strings, List};
-	% 	[Text|_] = List when is_binary(Text) -> 
-	% 		{list_of_strings, [binary_to_list(Bin) || Bin <- List]};
-	% 	String when is_list(String) ->
-	% 		{string, String};
-	% 	_ -> 
-	% 		exit({?MODULE, ?LINE, XPath, Subject})
-	% end.
 	
 reassemble({node, Node}) ->
     {string, binary_to_list(iolist_to_binary(mochiweb_html:to_html(Node)))}.

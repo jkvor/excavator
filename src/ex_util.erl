@@ -21,7 +21,7 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_util).
--export([add/3, store/3, fetch/2, fetch_value/2, configure/3, fetch_config/2, evaluate/2, seconds/0]).
+-export([add/3, store/3, store_value/3, global_store/3, fetch/2, fetch_value/2, configure/3, fetch_config/2, evaluate/2, seconds/0]).
 
 -include("excavator.hrl").
 
@@ -36,6 +36,17 @@ add(#state{dictionary=D}=S, K, V) ->
     
 store(#state{dictionary=D}=S, K, V) ->
     S#state{dictionary=dict:store(K, V, D)}.
+    
+store_value(S, K, V) ->
+    store(S, K, {get_type(V), V}).
+
+global_store(#state{parent=P}=S, K, V) ->
+    P1 = case P of
+        undefined -> P;
+        _ -> global_store(P, K, V)
+    end,
+    S1 = store(S, K, V),
+    S1#state{parent=P1}.
     
 fetch(#state{dictionary=D}, K) ->
     case dict:find(K, D) of
@@ -55,6 +66,25 @@ strip_types(List) when is_list(List) ->
     [strip_types(I) || I <- List];
 strip_types(Val) ->
     Val.
+    
+get_type(undefined) -> nil;
+get_type([]) -> nil;
+get_type([{A,B,C}|Rest]) when is_binary(A), is_list(B), is_list(C) -> 
+    case [undefined || {D,E,F} <- Rest, is_binary(D), is_list(E), is_list(F)] of
+        [] -> list_of_nodes;
+        _ -> mixed
+    end;
+get_type([A|Rest]) when is_integer(A) ->
+    case [I || I <- Rest, not is_integer(I)] of
+        [] -> string;
+        _ -> mixed
+    end;    
+get_type([A|Rest]) when is_list(A) ->
+    case [I || I <- Rest, not is_list(I)] of
+        [] -> list_of_strings;
+        _ -> mixed
+    end;
+get_type({A,B,C}) when is_binary(A), is_list(B), is_list(C) -> node.
     
 configure(#state{configuration=C}=S, K, V) ->
     S#state{configuration=dict:store(K, V, C)}.

@@ -24,6 +24,8 @@
 
 -define(ADD, fun ex_util:add/3).
 -define(STORE, fun ex_util:store/3).
+-define(STORE_VALUE, fun ex_util:store_value/3).
+-define(GLOBAL_STORE, fun ex_util:global_store/3).
 -define(FETCH, fun ex_util:fetch/2).
 -define(FETCH_VALUE, fun ex_util:fetch_value/2).
 -define(CONFIGURE, fun ex_util:configure/3).

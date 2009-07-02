@@ -72,12 +72,20 @@ fetch(State, Key, {Method, Url, Headers, Body}) ->
 fetch_print(State, _Key, Request) ->
 	?INFO_MSG(">> fetch/3 ~p~n", [Request]),
 	State.
-    
+
 %% =============================================================================
 assign(State, Key, Term) ->
     ?STORE(State, Key, compute(State, Term)).
 
 assign_print(State, Key, _) ->
+	?INFO_MSG(">> assign/3: ~p~n", [Key]),
+	State.
+	    
+%% =============================================================================
+gassign(State, Key, Term) ->
+    ?GLOBAL_STORE(State, Key, compute(State, Term)).
+
+gassign_print(State, Key, _) ->
 	?INFO_MSG(">> assign/3: ~p~n", [Key]),
 	State.
 	
