@@ -9,7 +9,9 @@ sources (APIs, data feeds, web content, etc).
 
 <http://github.com/JacobVorreuter/dynamic_compile>
 
-<http://github.com/JacobVorreuter/mochiweb_server_behavior> (required to run tests only)
+<http://github.com/ngerakines/etap> (required only if running test suite)
+
+<http://github.com/JacobVorreuter/mochiweb_server_behavior> (required only if running test suite)
 
 ## Templates
 excavator runs off of template files written in Erlang. Templates contain custom meta functions that are processed into instruction sets for the excavator engine to ingest. A full listing of these custom functions and their definitions can be found below in the __Template Functions__ section.
