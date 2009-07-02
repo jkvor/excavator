@@ -1,11 +1,13 @@
-== ABOUT ==
+## ABOUT
 excavator is an Erlang application for ingesting data from various 
 sources (APIs, data feeds, web content, etc).
 
-== DEPENDENCIES ==
-* mochixpath <http://github.com/JacobVorreuter/mochixpath>
+## DEPENDENCIES
+<http://github.com/ngerakines/mochiweb>
+<http://github.com/JacobVorreuter/mochixpath>
+<http://github.com/JacobVorreuter/dynamic_compile>
 
-== LICENSE ==
+## LICENSE
 %% Copyright (c) 2009 Jacob Vorreuter <jacob.vorreuter@gmail.com>
 %% 
 %% Permission is hereby granted, free of charge, to any person
@@ -28,6 +30,3 @@ sources (APIs, data feeds, web content, etc).
 %% WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
-
-== TODO ==
-* assign(myvar, {string, to_lower, [myvar]})
