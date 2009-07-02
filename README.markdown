@@ -4,7 +4,9 @@ sources (APIs, data feeds, web content, etc).
 
 ## DEPENDENCIES
 <http://github.com/ngerakines/mochiweb>
+
 <http://github.com/JacobVorreuter/mochixpath>
+
 <http://github.com/JacobVorreuter/dynamic_compile>
 
 ## LICENSE
