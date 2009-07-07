@@ -43,12 +43,12 @@ main(Users) ->
     ]).
     
 validate_supported_event_types(S) ->
-    {string, ET} = ex_util:fetch(S, event_type),
-    {string, Auth} = ex_util:fetch(S, author),
-    {string, U} = ex_util:fetch(S, user),
+    ET = ex_util:fetch(S, event_type),
+    Auth = ex_util:fetch(S, author),
+    U = ex_util:fetch(S, user),
     etap:ok(ET == "PushEvent" orelse ET == "IssuesEvent", "event type matches"),
     etap:is(string:to_lower(Auth), string:to_lower(U), "author matches").
 
 validate_unsupported_event_types(S) -> 
-    {string, ET} = ex_util:fetch(S, event_type),
+    ET = ex_util:fetch(S, event_type),
     etap:ok(ET =/= "PushEvent" andalso ET =/= "IssuesEvent", "unsupported event type matches").

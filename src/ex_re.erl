@@ -21,38 +21,40 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_re).
--export([run/2]).
+-export([run/3]).
 
-%% @spec run(Regexp, Subject) -> Result
-%%		 Regexp = {re_pattern, _, _, _}
-%%		 Subject = {Type, Value}
-%%		 Result = {nil, _} | {string, _} | {list_of_strings, _}
-run(Regexp, {node, Subject}) when is_tuple(Regexp), is_tuple(Subject) ->
-    run(Regexp, ex_xpath:reassemble({node, Subject}));
-    
-run(Regexp, {list_of_nodes, Nodes}) when is_tuple(Regexp), is_list(Nodes) ->
-    String1 = lists:concat([begin 
-        {string, String} = ex_xpath:reassemble({node, Subject}), 
-        String 
-    end || {node, Subject} <- Nodes]),
-    run(Regexp, {string, String1});
-    
-run(Regexp, {list_of_strings, Strings}) when is_tuple(Regexp), is_list(Strings) ->
-    String1 = lists:concat([String || {string, String} <- Strings]), 
-    run(Regexp, {string, String1});
-    
-run(Regexp, {string, Subject}) when is_tuple(Regexp), is_list(Subject) ->
+-include("excavator.hrl").
+
+run(State, Regexp, Term) when is_tuple(Regexp) ->
+    Subject = stringify(State, Term),
 	case re:run(Subject, Regexp, [global]) of
 		nomatch -> 
-			{nil, []};
+			[];
 		{match, Match} ->
 			case process(Match, Subject, []) of
-				[] -> {nil, []};
-				[String] when is_list(String) -> {string, String};
-				[String|_] = List when is_list(String) -> {list_of_strings, lists:reverse(List)}
+				[] -> [];
+				[String] when is_list(String) -> String;
+				List when is_list(List) -> lists:reverse(List)
 			end
 	end.
 	
+stringify(_, HttpResponse) when is_record(HttpResponse, http_response) ->
+    HttpResponse#http_response.body;
+stringify(_, {A,B,C}) when is_binary(A), is_list(B), is_list(C) ->
+	ex_xpath:reassemble({A,B,C});
+stringify(S, List) when is_list(List) ->
+    lists:flatten([stringify(S, I) || I <- List]);
+stringify(S, Tuple) when is_tuple(Tuple) ->
+    list_to_tuple([stringify(S, I) || I<- tuple_to_list(Tuple)]);
+stringify(S, Key) when is_atom(Key) ->
+    case ?FETCH(S, Key)	of
+        undefined -> lists:flatten(io_lib:format("~p", [Key]));
+        Value -> stringify(S, Value)
+    end;
+stringify(_, Int) when is_integer(Int) -> Int;
+stringify(_, Term) ->
+    lists:flatten(io_lib:format("~p", [Term])).
+
 process([], _, Acc) -> Acc;
 
 process([ [ {_,_}, {Start,Length} ] |Tail], Subject, Acc) ->
@@ -60,4 +62,4 @@ process([ [ {_,_}, {Start,Length} ] |Tail], Subject, Acc) ->
 	process(Tail, Subject, Acc1);
 
 process(A,_,_) ->
-	erlang:error("Cannot process regexp results", [A]).
+	exit({error, {"Cannot process regexp results", A}}).

@@ -63,18 +63,18 @@ start() ->
 	],
     
     ValidateUser = fun(S) ->
-        {string, PageNum} = ex_util:fetch(S, page_num),
-        {string, Username} = ex_util:fetch(S, username),
+        PageNum = ex_util:fetch(S, page_num),
+        Username = ex_util:fetch(S, username),
 		etap:ok(lists:member(Username, proplists:get_value(list_to_integer(PageNum), TestData)), "valid user: " ++ Username)
     end,
     
     ValidateResults = fun(S) ->
-        {string, PageNum} = ex_util:fetch(S, page_num),
+        PageNum = ex_util:fetch(S, page_num),
         etap:ok(lists:member(list_to_integer(PageNum), [1,2,3]), "results ok")
     end,
     
     ValidateOnFail = fun(S) ->
-        {string, PageNum} = ex_util:fetch(S, page_num),
+        PageNum = ex_util:fetch(S, page_num),
         etap:ok(lists:member(list_to_integer(PageNum), [4]), "fail ok")
     end,
     
@@ -87,8 +87,9 @@ start() ->
                 {instr, assign, [search_results, {xpath, search_result_page, "//li[@class='result ']"}]},
                 {instr, assert, [search_results, list_of_nodes]},
                 {instr, each, [search_result, search_results, [
-	                {instr, assign, [username, {xpath, search_result, "//div[@class='msg']/a[1]/text()"}]},
-	                {instr, assert, [username, string]},
+                    {instr, assign, [username, {xpath, search_result, "//div[@class='msg']/a[1]/text()"}]},
+                    {instr, print, [username]},
+                    {instr, assert, [username, string]},
                     {instr, assign, [msg, {xpath, search_result, "string(//span[starts-with(@class, 'msgtxt')]/*)"}]},
                     {instr, assert, [msg, string]},
                     {instr, function, [ValidateUser]}

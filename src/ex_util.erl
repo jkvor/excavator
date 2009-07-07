@@ -21,7 +21,7 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_util).
--export([add/3, store/3, store_value/3, global_store/3, fetch/2, fetch_value/2, configure/3, fetch_config/2, evaluate/2, seconds/0]).
+-export([add/3, global_add/3, store/3, global_store/3, fetch/2, configure/3, fetch_config/2, seconds/0, typeof/1]).
 
 -include("excavator.hrl").
 
@@ -33,12 +33,18 @@ add(#state{dictionary=D}=S, K, V) ->
             error -> [V]
         end,
     S#state{dictionary=dict:store(K, V2, D)}.
+
+global_add(#state{parent=P}=S, K, V) ->
+    P1 = case P of
+        undefined -> P;
+        _ -> global_add(P, K, V)
+    end,
+    S1 = add(S, K, V),
+    io:format("S1#state{parent=P1}: ~p~n", [S1#state{parent=P1}]),
+    S1#state{parent=P1}.
     
 store(#state{dictionary=D}=S, K, V) ->
     S#state{dictionary=dict:store(K, V, D)}.
-    
-store_value(S, K, V) ->
-    store(S, K, {get_type(V), V}).
 
 global_store(#state{parent=P}=S, K, V) ->
     P1 = case P of
@@ -53,39 +59,7 @@ fetch(#state{dictionary=D}, K) ->
         {ok, V} -> V;
         error -> undefined
     end.
-    
-fetch_value(#state{dictionary=D}, K) ->
-    case dict:find(K, D) of
-        {ok, {_T, V}} -> strip_types(V);
-        error -> undefined
-    end.
-    
-strip_types({Type, Val}) when Type==string;Type==nil;Type==node;Type==list_of_nodes;Type==list_of_strings;Type==mixed ->
-    Val;
-strip_types(List) when is_list(List) ->
-    [strip_types(I) || I <- List];
-strip_types(Val) ->
-    Val.
-    
-get_type(undefined) -> nil;
-get_type([]) -> nil;
-get_type([{A,B,C}|Rest]) when is_binary(A), is_list(B), is_list(C) -> 
-    case [undefined || {D,E,F} <- Rest, is_binary(D), is_list(E), is_list(F)] of
-        [] -> list_of_nodes;
-        _ -> mixed
-    end;
-get_type([A|Rest]) when is_integer(A) ->
-    case [I || I <- Rest, not is_integer(I)] of
-        [] -> string;
-        _ -> mixed
-    end;    
-get_type([A|Rest]) when is_list(A) ->
-    case [I || I <- Rest, not is_list(I)] of
-        [] -> list_of_strings;
-        _ -> mixed
-    end;
-get_type({A,B,C}) when is_binary(A), is_list(B), is_list(C) -> node.
-    
+
 configure(#state{configuration=C}=S, K, V) ->
     S#state{configuration=dict:store(K, V, C)}.
     
@@ -95,14 +69,17 @@ fetch_config(#state{configuration=C}, K) ->
         error -> undefined
     end.
 
-evaluate(State, Tuple) when is_tuple(Tuple) ->
-    list_to_tuple([evaluate(State, I) || I <- tuple_to_list(Tuple)]);
-evaluate(State, Key) when is_atom(Key) ->
-    ?FETCH_VALUE(State, Key);
-evaluate(State, List) when is_list(List) ->
-    [evaluate(State, I) || I <- List];
-evaluate(_State, Other) -> Other.
-
 seconds() ->
     {_,Secs,Micro} = erlang:now(),
     Secs + (Micro / 1000000).
+
+typeof({A,B,C}) when is_binary(A), is_list(B), is_list(C) -> node;
+typeof(HttpResponse) when is_record(HttpResponse, http_response) -> http_response;
+typeof({range, A, B}) when is_integer(A), is_integer(B) -> range;
+typeof([H|_]=List) when is_integer(H) ->
+    lists:foldl(
+        fun (I, string) when is_integer(I) -> string;
+            (_, _) -> list
+        end, string, List);
+typeof(List) when is_list(List) -> list;
+typeof(_) -> term.

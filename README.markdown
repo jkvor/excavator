@@ -27,10 +27,11 @@ excavator runs off of template files written in Erlang. Templates contain custom
 		assign(user_ids, {regexp, users_txt, "id=([0-9]+)"}),
 		assign(pokemons, {http, get, "http://yummymeatwhiz.com/?page_id=223"})
 		assign(new_pokemon, {http, post, "http://yummymeatwhiz.com/?page_id=223", [{application_id, "monkeybrains"}], <<"Let me show you it">>})
-* __gassign__: the same as assign, associates value with state key in the global scope
+* __gassign__: the same as assign, but associates value with state key in the global scope
 * __add__: similar to assign, but instead of overwriting the value of a state key it will append the value and build up a list
 
 		add(user_ids, {xpath, user_xml, "//id/text()"})
+* __gadd__: the same as add, but global
 * __assert__: assert that the value associated with a state key meets certain criteria. The following assertions are supported:
 
 		assert(user_id, string)

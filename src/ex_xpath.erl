@@ -23,58 +23,37 @@
 -module(ex_xpath).
 -export([run/2, reassemble/1]).
 
-%% @spec run(XPath, Subject) -> Result
-%%		 XPath = string()
-%%		 Subject = {Type, Value}
-%%		 Result = {nil, []} | {node, _} | {list_of_nodes, _} | {string, _} | {list_of_strings, _}
+-include("excavator.hrl").
+
 run(XPath, {http_response, _, _, Body}) ->
-    run(XPath, {string, Body});
+    run(XPath, Body);
     
-run(XPath, {string, Subject0}) when is_list(XPath), is_list(Subject0) ->
-	case mochiweb_html:parse(Subject0) of
-		Subject when is_tuple(Subject) ->
-			run(XPath, {node, Subject});
-		_ ->
-			exit({?MODULE, ?LINE, XPath, Subject0})
-	end;
-	
-run(XPath, {node, Subject}) when is_list(XPath), is_tuple(Subject) ->
-	R = mochiweb_xpath:execute(XPath, Subject),
-	case R of
-		[] -> 
-			{nil, []};
-		[I|_] = String when is_integer(I) ->
-			{string, String};
-		List when is_list(List) ->
-			lists:foldr(
-				fun (Bin, {list_of_strings, Acc}) when is_binary(Bin) ->
-						{list_of_strings, [{string, binary_to_list(Bin)}|Acc]};
-					(Bin, {string, Acc}) when is_binary(Bin) ->
-						{list_of_strings, [{string, binary_to_list(Bin)}, {string, Acc}]};
-					(Bin, {undefined, []}) when is_binary(Bin) ->
-						{string, binary_to_list(Bin)};
-					(Bin, {node, _}=Acc) when is_binary(Bin) ->
-						{mixed, [{string, binary_to_list(Bin)},Acc]};
-					(Bin, {list_of_nodes, Acc}) when is_binary(Bin) ->
-						{mixed, [{string, binary_to_list(Bin)}|Acc]};
-					(Bin, {mixed, Acc}) when is_binary(Bin) ->
-						{mixed, [{string, binary_to_list(Bin)}|Acc]};
-					({_,_,_}=Node, {list_of_nodes, Acc}) ->
-						{list_of_nodes, [{node, Node}|Acc]};
-					({_,_,_}=Node, {undefined, []}) ->
-						{list_of_nodes, [{node, Node}]};
-					({_,_,_}=Node, {list_of_strings, Acc}) ->
-						{mixed, [{node, Node}|Acc]};
-					({_,_,_}=Node, {mixed, Acc}) ->
-						{mixed, [{node, Node}|Acc]};
-					({_,_,_}=Node, {string, _}=Acc) ->
-						{mixed, [{node, Node},Acc]};
-					(Other, {Type,Acc}) ->
-						exit({?MODULE, ?LINE, Other, {Type,Acc}})
-				end, {undefined, []}, List);
-		_ ->
-			exit({?MODULE, ?LINE, XPath, Subject})
+run(XPath, {A,B,C}) when is_binary(A), is_list(B), is_list(C) ->
+    run_internal(XPath, {A,B,C});
+    
+run(XPath, Subject0) when is_list(XPath), is_list(Subject0) ->
+    case ex_util:typeof(Subject0) of
+        string -> 
+        	case mochiweb_html:parse(Subject0) of
+        		Subject when is_tuple(Subject) ->
+        			run_internal(XPath, Subject);
+        		_ ->
+        			exit({?MODULE, ?LINE, XPath, Subject0})
+        	end;
+        list ->
+            run_internal(XPath, Subject0)
+    end.
+            
+run_internal(XPath, Subject) ->
+	Results = 
+	[case Result of
+	    Bin when is_binary(Bin) -> binary_to_list(Bin);
+	    _ -> Result
+	end || Result <- mochiweb_xpath:execute(XPath, Subject)],
+	case Results of
+	    [Single] -> Single;
+	    _ -> Results
 	end.
 	
-reassemble({node, Node}) ->
-    {string, binary_to_list(iolist_to_binary(mochiweb_html:to_html(Node)))}.
+reassemble({A,B,C}) when is_binary(A), is_list(B), is_list(C) ->
+    binary_to_list(iolist_to_binary(mochiweb_html:to_html({A,B,C}))).

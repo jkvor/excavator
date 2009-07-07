@@ -24,7 +24,7 @@ start() ->
     BadAlbumIDs  = ["9246d2023c3bee56"],
     
     ValidateAlbumID = fun(S) ->
-        {string, AID} = ex_util:fetch(S, album_id),
+        AID = ex_util:fetch(S, album_id),
         {http_response, Status, _, _} = ex_util:fetch(S, album_page),
         Result =
             case [lists:member(AID, GoodAlbumIDs), lists:member(AID, BadAlbumIDs)] of
@@ -37,12 +37,12 @@ start() ->
     end,
     
     ValidateOnFail = fun(S) ->
-        {string, AID} = ex_util:fetch(S, album_id),
+        AID = ex_util:fetch(S, album_id),
         etap:ok(not lists:member(AID, GoodAlbumIDs) andalso lists:member(AID, BadAlbumIDs), "failed ok")
     end,
     
     ValidateCommitData = fun(S) ->
-        Commit = ex_util:evaluate(S, {album_id, album_name}),
+        Commit = ex_eval:expand(S, {album_id, album_name}),
         etap:ok(lists:member(Commit, lists:zip(GoodAlbumIDs, GoodAlbumNames)), "commit data ok")
     end,
         
@@ -63,7 +63,7 @@ start() ->
                     [   {instr, assert, [album_page, {status, 200}]},
                         {instr, assert, [album_page, string]},
                         {instr, assign, [album_name_node, {xpath, album_page, "//div[@class='album-name']"}]},
-                        {instr, assert, [album_name_node, list_of_nodes]},
+                        {instr, assert, [album_name_node, node]},
                         {instr, assign, [album_name, {regexp, album_name_node, compile_re(" &gt; (.*)</div>")}]},
                         {instr, assert, [album_name, string]},
                         {instr, commit, [{album, beatles}, {album_id, album_name}]},

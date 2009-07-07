@@ -59,7 +59,7 @@ execute(State, [{Default, Function}|TailFunctions], Args) ->
 %% == Template Functions
 %% =============================================================================
 assign(State, Key, Term) ->
-    ?STORE(State, Key, compute(State, Term)).
+    ?STORE(State, Key, ?EXPAND(State, Term)).
     
 assign_next_state(#state{instructions=[_|TailInstrs]}=S) ->
 	S#state{instructions=TailInstrs, request_times=update_request_times(S)}.
@@ -70,7 +70,7 @@ assign_print(State, Key, _) ->
 	    
 %% =============================================================================
 gassign(State, Key, Term) ->
-    ?GLOBAL_STORE(State, Key, compute(State, Term)).
+    ?GLOBAL_STORE(State, Key, ?EXPAND(State, Term)).
 
 gassign_print(State, Key, _) ->
 	?INFO_MSG(">> assign/3: ~p~n", [Key]),
@@ -78,15 +78,26 @@ gassign_print(State, Key, _) ->
 	
 %% =============================================================================
 add(State, Key, Term) ->
-    ?ADD(State, Key, compute(State, Term)).
+    ?ADD(State, Key, ?EXPAND(State, Term)).
     
 add_print(State, Key, _) ->
 	?INFO_MSG(">> add/3: ~p~n", [Key]),
 	State.
 
 %% =============================================================================
+gadd(State, Key, Term) ->
+    ?GLOBAL_ADD(State, Key, ?EXPAND(State, Term)).
+
+gadd_print(State, Key, _) ->
+	?INFO_MSG(">> gadd/3: ~p~n", [Key]),
+	State.
+
+%% =============================================================================
 assert(State, Key, Assertion) ->
-    assert_true(Key, ?FETCH(State, Key), Assertion),
+    case assert_true(Key, ?EXPAND(State, Key), Assertion) of
+        true -> ok;
+        false -> exit({assertion_failed, {Key, ?EXPAND(State, Key), Assertion}})
+    end,
     State.
 	
 assert_print(State, Key, Assertion) ->
@@ -103,7 +114,7 @@ commit(State, Key, Value) ->
     end.
     
 commit(State, Key, Value, {CallbackModule, CallbackFunction}) ->
-    Value1 = ?EVALUATE(State, Value),
+    Value1 = ?EXPAND(State, Value),
     case apply(CallbackModule, CallbackFunction, [Key, Value1]) of
         State1 when is_record(State1, state) ->
             State1;
@@ -118,7 +129,7 @@ each(State, Key, Source, _) ->
     
 each_next_state(#state{instructions=[_|TailInstructions]}=State, _, Source, NewInstrs) ->
 	case ?FETCH(State, Source) of
-		{_, []} -> %% last Source value; remove "each" instruction from list
+		[] -> %% last Source value; remove "each" instruction from list
 			Parent = State#state{instructions=TailInstructions},
 			State#state{instructions=NewInstrs, parent=Parent};
 		_ -> %% Source still has values for next time around
@@ -134,7 +145,7 @@ condition_next_state(State, Op, TrueInstrs) ->
     condition_next_state(State, Op, TrueInstrs, []).
     
 condition_next_state(#state{instructions=[_|TailInstructions]}=State, {op, Op, Left, Right}, TrueInstrs, FalseInstrs) ->
-    case is_condition(State, Op, expand_operand(State, Left), expand_operand(State, Right)) of
+    case is_condition(State, Op, ?EXPAND(State, Left), ?EXPAND(State, Right)) of
         true ->
             Parent = State#state{instructions=TailInstructions},
             State#state{instructions=TrueInstrs, parent=Parent};
@@ -179,32 +190,12 @@ function(State, Fun) when is_function(Fun) ->
 
 %% =============================================================================    
 print(State, Key) ->
-    ?INFO_REPORT({print, compute(State, Key)}),
+    ?INFO_REPORT({print, ?EXPAND(State, Key)}),
     State.
       	       
 %% =============================================================================
 %% == Internal Functions
 %% =============================================================================
-flatten_url(State, {Url, Props}) ->
-    Url1 = flatten_url(State, Url),
-    Props1 = [
-        case V of
-            V1 when is_atom(V1) ->
-                {K, to_string(?FETCH(State, V))};
-            _ ->
-                {K, V}
-        end || {K,V} <- Props],
-    Props2 = mochiweb_util:urlencode(Props1),
-    Url1 ++ "?" ++ Props2;
-    
-flatten_url(State, Url) ->
-    lists:flatten([begin
-        case I of
-            String when is_list(String) -> String; 
-            Atom when is_atom(Atom) -> to_string(?FETCH(State, Atom));
-            Other -> Other 
-        end
-    end || I <- Url]).
     
 mk_f(Function, Postfix) ->
 	list_to_atom(lists:concat([Function, "_", Postfix])).
@@ -229,9 +220,9 @@ handle_failure(#state{fail={Err1, FailInstrs}}=S, Err2) ->
 handle_failure(_, Err) -> exit(Err).
 
 is_condition(S, Op, {op, Op1, Left, Right}, B) ->
-    is_condition(S, Op, is_condition(S, Op1,expand_operand(S, Left),expand_operand(S, Right)), B);
+    is_condition(S, Op, is_condition(S, Op1,?EXPAND(S, Left),?EXPAND(S, Right)), B);
 is_condition(S, Op, A, {op, Op1, Left, Right}) ->
-    is_condition(S, Op, A, is_condition(S, Op1,expand_operand(S, Left),expand_operand(S, Right)));
+    is_condition(S, Op, A, is_condition(S, Op1,?EXPAND(S, Left),?EXPAND(S, Right)));
 is_condition(_, 'orelse', A, B) when A orelse B -> true;
 is_condition(_, 'andalso', A, B) when A andalso B -> true;
 is_condition(_, '==', A, A) -> true;
@@ -243,19 +234,6 @@ is_condition(_, '>=', A, B) when A >= B -> true;
 is_condition(_, '<', A, B) when A < B -> true;
 is_condition(_, '=<', A, B) when A =< B -> true;
 is_condition(_, _, _, _) -> false.
-
-expand_operand(State, Operand) ->
-    case Operand of
-        Key when is_atom(Key) ->
-            case ?FETCH(State, Key) of
-                undefined ->
-                    Operand;
-                {_, Value} ->
-                    Value
-            end;
-        Other ->
-            Other
-    end.
 
 compare(Item, Item) -> true;
 
@@ -275,92 +253,48 @@ compare(Item1, Item2) when is_list(Item1), is_list(Item2) ->
 	
 compare(_, _) -> false.
     
-compute(State, {FirstLast, Key}) when FirstLast==first;FirstLast==last ->
-    case ?FETCH(State, Key) of
-        {Type, Values} when (Type==list_of_nodes orelse Type==list_of_strings) andalso is_list(Values) ->
-            [Val|_] = if FirstLast==first -> Values; true -> lists:reverse(Values) end,
-            Val;
-        Other ->
-            exit({bad_data, {FirstLast, Key, Other}})
+assert_true(_K, V, string) when is_record(V, http_response) ->
+    case V#http_response.body of
+        String when is_list(String), length(String) > 0 -> true;
+        _ -> false
     end;
-compute(State, {http, Method, Url}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
-    compute(State, {http, Method, Url, [], []});
-compute(State, {http, Method, Url, Headers}) when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
-    compute(State, {http, Method, Url, Headers, []});
-compute(State, {http, Method, Url, Headers, Body}) ->
-    Url1 = flatten_url(State, Url),
-    ex_web:request(Method, Url1, Headers, Body);
-compute(State, {xpath, Source, XPath}) ->
-    ex_xpath:run(XPath, ?FETCH(State, Source));
-compute(State, {regexp, Source, Regexp}) ->
-    ex_re:run(Regexp, ?FETCH(State, Source));
-compute(_State, {range, Current, Last}) ->
-    {range, Current, Last};
-compute(_State, {Type, Value}) when is_atom(Type) ->
-    {Type, Value};
-compute(_State, [H|_]=String) when is_integer(H) ->
-    {string, String};
-compute(_State, [[H|_]|_]=Strings) when is_integer(H) ->
-    {list_of_strings, [{string, String} || String <- Strings]};
-compute(_State, Int) when is_integer(Int) ->
-    {integer, Int};
-compute(_State, {_,_,_}=Node) ->
-    {node, Node};
-compute(_State, [{_,_,_}|_]=Nodes) ->
-    {list_of_nodes, [{node, Node} || Node <- Nodes]};
-compute(State, Key) when is_atom(Key) ->
-    case ?FETCH(State, Key) of
-        undefined -> Key;
-        Value -> Value
+assert_true(_K, V, {status, Status}) when is_record(V, http_response) ->
+    V#http_response.status == Status;
+assert_true(_K, V, list_of_strings) when is_list(V) ->
+    case lists:usort([ex_util:typeof(I) || I <- V]) of
+        [string] -> true;
+        _ -> false
     end;
-compute(State, [Atom|_]=List) when is_atom(Atom) ->
-    {mixed, [?FETCH(State, Item) || Item <- List]}.
-    
-assert_true(_K, {nil, Val}, nil) when Val==[]; Val==undefined -> ok;    
-assert_true(_K, {string, Val}, string) when is_list(Val), length(Val) > 0 -> ok;
-assert_true(_K, {node, Val}, node) when is_tuple(Val) -> ok;
-assert_true(_K, {list_of_strings, Val}, list_of_strings) when is_list(Val) -> [assert_true(_K, Item, string) || Item <- Val], ok;
-assert_true(_K, {list_of_nodes, Val}, list_of_nodes) when is_list(Val) -> [assert_true(_K, Item, node) || Item <- Val], ok;
-assert_true(_K, {http_response, _S, _H, Body}, string) when is_list(Body), length(Body) > 0 -> ok;
-assert_true(_K, {http_response, Status, _H, _B}, {status, Status}) -> ok;
-assert_true(_K, {mixed, List}, mixed) when is_list(List) -> ok;
-assert_true(Key, Val, Assertion) -> exit({assertion_failed, {Key, Val, Assertion}}).
+assert_true(_K, V, list_of_nodes) when is_list(V) ->
+    case lists:usort([ex_util:typeof(I) || I <- V]) of
+        [node] -> true;
+        _ -> false
+    end;
+assert_true(_K, V, Assertion) ->
+    ex_util:typeof(V) == Assertion.
 
 store_next_value(State, Key, Source, {range, Last, Last}) when is_integer(Last) ->
-    OldState = ?STORE(State, Source, {nil, []}),
-    ?STORE(OldState, Key, {string, integer_to_list(Last)});
+    OldState = ?STORE(State, Source, []),
+    ?STORE(OldState, Key, integer_to_list(Last));
     
 store_next_value(State, Key, Source, {range, Current, Last}) when is_integer(Current), is_integer(Last) ->
     OldState = ?STORE(State, Source, {range, Current+1, Last}),
-    ?STORE(OldState, Key, {string, integer_to_list(Current)});
+    ?STORE(OldState, Key, integer_to_list(Current));
     
-store_next_value(_State, _Key, Source, {_Type, Val}) when Val==undefined; Val==[] ->
+store_next_value(_State, _Key, Source, Val) when Val==undefined; Val==[] ->
     exit({?MODULE, ?LINE, fetch_failed, Source, Val});
     
-store_next_value(State, Key, Source, {Type, [Val]}) -> %% last item in list   
-	OldState = ?STORE(State, Source, {Type, []}),
-    ?STORE(OldState, Key, typify_value(Type, Val));
+store_next_value(State, Key, Source, [Val]) -> %% last item in list   
+	OldState = ?STORE(State, Source, []),
+    ?STORE(OldState, Key, Val);
     
-store_next_value(State, Key, Source, {Type, [Val|Tail]}) ->
-    OldState = ?STORE(State, Source, {Type, Tail}), %% insert list tail for source key
-    ?STORE(OldState, Key, typify_value(Type, Val)). %% insert item from source
-            
-typify_value(list_of_strings, {string, String}) ->
-    {string, String};
-typify_value(list_of_strings, String) when is_list(String) ->
-    {string, String};
-typify_value(list_of_nodes, {node, Node}) ->
-    {node, Node};
-typify_value(list_of_nodes, Node) ->
-    {node, Node}.
-    
+store_next_value(State, Key, Source, [Val|Tail]) ->
+    OldState = ?STORE(State, Source, Tail), %% insert list tail for source key
+    ?STORE(OldState, Key, Val). %% insert item from source
+                
 update_request_times(#state{request_times=Times}) ->
     Secs = ex_util:seconds(),
     [Secs|lists:filter(
         fun(S) ->
             S >= Secs-1
         end, Times)].
-        
-to_string(List) when is_list(List) -> List;
-to_string({string, String}) -> String;
-to_string({node, Node}) -> to_string(ex_xpath:reassemble({node, Node})).

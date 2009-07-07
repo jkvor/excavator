@@ -22,12 +22,13 @@
 -define(CRITICAL_REPORT(Args), ex_logger:critical_report(Args)).
 -define(CRITICAL_MSG(Format, Args), ex_logger:critical_msg(Format, Args)).
 
+-record(http_response, {status, headers, body}).
+
 -define(ADD, fun ex_util:add/3).
+-define(GLOBAL_ADD, fun ex_util:add/3).
 -define(STORE, fun ex_util:store/3).
--define(STORE_VALUE, fun ex_util:store_value/3).
 -define(GLOBAL_STORE, fun ex_util:global_store/3).
 -define(FETCH, fun ex_util:fetch/2).
--define(FETCH_VALUE, fun ex_util:fetch_value/2).
 -define(CONFIGURE, fun ex_util:configure/3).
 -define(FETCH_CONFIG, fun ex_util:fetch_config/2).    
--define(EVALUATE, fun ex_util:evaluate/2).
+-define(EXPAND, fun ex_eval:expand/2).
