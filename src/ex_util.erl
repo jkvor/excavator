@@ -39,9 +39,7 @@ global_add(#state{parent=P}=S, K, V) ->
         undefined -> P;
         _ -> global_add(P, K, V)
     end,
-    S1 = add(S, K, V),
-    io:format("S1#state{parent=P1}: ~p~n", [S1#state{parent=P1}]),
-    S1#state{parent=P1}.
+    add(S#state{parent=P1}, K, V).
     
 store(#state{dictionary=D}=S, K, V) ->
     S#state{dictionary=dict:store(K, V, D)}.
@@ -51,8 +49,7 @@ global_store(#state{parent=P}=S, K, V) ->
         undefined -> P;
         _ -> global_store(P, K, V)
     end,
-    S1 = store(S, K, V),
-    S1#state{parent=P1}.
+    store(S#state{parent=P1}, K, V).
     
 fetch(#state{dictionary=D}, K) ->
     case dict:find(K, D) of

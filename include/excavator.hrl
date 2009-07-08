@@ -25,7 +25,7 @@
 -record(http_response, {status, headers, body}).
 
 -define(ADD, fun ex_util:add/3).
--define(GLOBAL_ADD, fun ex_util:add/3).
+-define(GLOBAL_ADD, fun ex_util:global_add/3).
 -define(STORE, fun ex_util:store/3).
 -define(GLOBAL_STORE, fun ex_util:global_store/3).
 -define(FETCH, fun ex_util:fetch/2).

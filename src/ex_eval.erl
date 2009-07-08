@@ -85,4 +85,7 @@ flatten_url(State, {Url, Props}) ->
     Url1 ++ "?" ++ Props2;
     
 flatten_url(State, Url) ->
-    lists:flatten([expand(State, I) || I <- Url]).
+    case ex_util:typeof(Url) of
+        string -> Url;
+        list -> lists:concat([expand(State, I) || I <- Url])
+    end.

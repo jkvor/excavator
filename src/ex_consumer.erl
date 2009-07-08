@@ -37,6 +37,10 @@ execute({stop, State}, _, _) -> State;
 
 execute(State, [], _) -> State;
 
+execute(State, [{_, commit}|TailFunctions], Args) ->
+    commit(State, Args),
+    execute(State, TailFunctions, Args);
+    
 execute(State, [{Default, Function}|TailFunctions], Args) ->
     case proplists:get_all_values(Function, proplists:get_value(exports, ex_consumer:module_info())) of
         [] ->
@@ -105,17 +109,17 @@ assert_print(State, Key, Assertion) ->
 	State.
 
 %% =============================================================================
-commit(State, Key, Value) ->
+commit(State, Args) ->
     case ?FETCH_CONFIG(State, commit_callback) of
         undefined ->
-            commit(State, Key, Value, {ex_default_storage, store});
+            commit(State, ex_default_storage, store, Args);
         {M,F} ->
-            commit(State, Key, Value, {M, F})
+            commit(State, M, F, Args)
     end.
     
-commit(State, Key, Value, {CallbackModule, CallbackFunction}) ->
-    Value1 = ?EXPAND(State, Value),
-    case apply(CallbackModule, CallbackFunction, [Key, Value1]) of
+commit(State, CallbackModule, CallbackFunction, Args) ->
+    Args1 = ?EXPAND(State, Args),
+    case apply(CallbackModule, CallbackFunction, Args1) of
         State1 when is_record(State1, state) ->
             State1;
         _ ->
@@ -124,11 +128,11 @@ commit(State, Key, Value, {CallbackModule, CallbackFunction}) ->
 
 %% =============================================================================    
 each(State, Key, Source, _) ->
-    SourceVals = ?FETCH(State, Source),
+    SourceVals = ?EXPAND(State, Source),
     store_next_value(State, Key, Source, SourceVals).
     
 each_next_state(#state{instructions=[_|TailInstructions]}=State, _, Source, NewInstrs) ->
-	case ?FETCH(State, Source) of
+	case ?EXPAND(State, Source) of
 		[] -> %% last Source value; remove "each" instruction from list
 			Parent = State#state{instructions=TailInstructions},
 			State#state{instructions=NewInstrs, parent=Parent};
