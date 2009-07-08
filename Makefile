@@ -22,7 +22,7 @@ rel: all
 	erl -pa ebin -noshell -run excavator build_rel -s init stop
 	
 package: clean
-	@mkdir $(PKGNAME)-$(VERSION)/ && cp -rf dependencies ebin excavator include Makefile public README.markdown src support t $(PKGNAME)-$(VERSION)
+	@mkdir $(PKGNAME)-$(VERSION)/ && cp -rf ebin excavator include Makefile public README.markdown src support t $(PKGNAME)-$(VERSION)
 	@COPYFILE_DISABLE=true tar zcf $(PKGNAME)-$(VERSION).tgz $(PKGNAME)-$(VERSION)
 	@rm -rf $(PKGNAME)-$(VERSION)/
 	

@@ -58,6 +58,9 @@ build_rel() ->
             {sasl, "2.1.6"},
             {crypto, "1.6"},
 			{inets, "5.0.13"},
+            {mochiweb, "0.2"},
+            {mochixpath, "0.1"},
+            {dynamic_compile, "0.1"},
             {excavator, "0.0.1"}
         ]
     },
