@@ -34,11 +34,14 @@ run(XPath, {A,B,C}) when is_binary(A), is_list(B), is_list(C) ->
 run(XPath, Subject0) when is_list(XPath), is_list(Subject0) ->
     case ex_util:typeof(Subject0) of
         string -> 
-        	case mochiweb_html:parse(Subject0) of
+        	case (catch mochiweb_html:parse(Subject0)) of
+        	    {'EXIT', {{badmatch,[]},_}} ->
+        	        ?ERR_REPORT({?MODULE, ?LINE, XPath, xpath_expression_did_not_match}),
+        	        exit({error, xpath_expression_did_not_match});
+        	    {'EXIT', Error} ->
+        	        exit(Error);
         		Subject when is_tuple(Subject) ->
-        			run_internal(XPath, Subject);
-        		_ ->
-        			exit({?MODULE, ?LINE, XPath, Subject0})
+        			run_internal(XPath, Subject)
         	end;
         list ->
             run_internal(XPath, Subject0)
