@@ -126,19 +126,26 @@ commit(State, CallbackModule, CallbackFunction, Args) ->
             State
     end.
 
-%% =============================================================================    
-each(State, Key, Source, _) ->
-    SourceVals = ?EXPAND(State, Source),
-    store_next_value(State, Key, Source, SourceVals).
-    
-each_next_state(#state{instructions=[_|TailInstructions]}=State, _, Source, NewInstrs) ->
-	case ?EXPAND(State, Source) of
-		[] -> %% last Source value; remove "each" instruction from list
-			Parent = State#state{instructions=TailInstructions},
-			State#state{instructions=NewInstrs, parent=Parent};
-		_ -> %% Source still has values for next time around
-			State#state{instructions=NewInstrs, parent=State}
-	end.
+%% =============================================================================
+each(#state{instructions=[_|TailInstructions]}=State, InnerKey, SourceElems, NewInstrs) ->
+    case ex_eval:expand(State, SourceElems) of
+        SourceVals when SourceVals==undefined orelse SourceVals==[] ->
+            Parent = State#state{instructions=TailInstructions},
+            State#state{instructions=[], parent=Parent};
+        {range, Current, Last, _} when Current > Last ->
+            Parent = State#state{instructions=TailInstructions},
+            State#state{instructions=[], parent=Parent};
+        [Head|Tail] ->
+            Parent1 = ?STORE(State, SourceElems, Tail), %% insert list tail for source key
+            State1 = ?STORE(State, InnerKey, Head),
+            State1#state{instructions=NewInstrs, parent=Parent1};
+        {range, Current, Last, Fun} ->
+            Parent1 = ?STORE(State, SourceElems, {range, Fun(Current), Last, Fun}),
+            State1 = ?STORE(State, InnerKey, Current),
+            State1#state{instructions=NewInstrs, parent=Parent1}
+    end.    
+
+each_next_state(State, _, _, _) -> State.
         
 each_print(State, Key, Source, _) ->
 	?INFO_MSG(">> each/4 ~p in ~p~n", [Key, Source]),

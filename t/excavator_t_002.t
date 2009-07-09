@@ -65,17 +65,17 @@ start() ->
     ValidateUser = fun(S) ->
         PageNum = ex_util:fetch(S, page_num),
         Username = ex_util:fetch(S, username),
-		etap:ok(lists:member(Username, proplists:get_value(list_to_integer(PageNum), TestData)), "valid user: " ++ Username)
+		etap:ok(lists:member(Username, proplists:get_value(PageNum, TestData)), "valid user: " ++ Username)
     end,
     
     ValidateResults = fun(S) ->
         PageNum = ex_util:fetch(S, page_num),
-        etap:ok(lists:member(list_to_integer(PageNum), [1,2,3]), "results ok")
+        etap:ok(lists:member(PageNum, [1,2,3]), "results ok")
     end,
     
     ValidateOnFail = fun(S) ->
         PageNum = ex_util:fetch(S, page_num),
-        etap:ok(lists:member(list_to_integer(PageNum), [4]), "fail ok")
+        etap:ok(lists:member(PageNum, [4]), "fail ok")
     end,
     
     Instrs =
@@ -101,6 +101,3 @@ start() ->
     ex_engine:run(Instrs),
     
     ok.
-    
-compile_re(Regexp) ->
-    {ok, RE} = re:compile(Regexp), RE.

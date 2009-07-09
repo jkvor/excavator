@@ -54,8 +54,12 @@ expand(State, {regexp, Source, Regexp}) ->
     ex_re:run(State, Regexp, expand(State, Source));
     
 %% Range
-expand(_State, {range, Current, Last}) ->
-    {range, Current, Last};
+expand(_State, {range, Current, Last}) when (is_integer(Current) orelse is_float(Current)) andalso 
+                                            (is_integer(Last) orelse is_float(Last)) ->
+    {range, Current, Last, fun(C) -> C+1 end};
+
+expand(_State, {range, Current, Last, Fun}) when is_function(Fun) ->
+    {range, Current, Last, Fun};
     
 %% Key
 expand(State, Key) when is_atom(Key) ->
