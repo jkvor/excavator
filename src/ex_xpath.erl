@@ -36,8 +36,7 @@ run(XPath, Subject0) when is_list(XPath), is_list(Subject0) ->
         string -> 
         	case (catch mochiweb_html:parse(Subject0)) of
         	    {'EXIT', {{badmatch,[]},_}} ->
-        	        ?ERR_REPORT({?MODULE, ?LINE, XPath, xpath_expression_did_not_match}),
-        	        exit({error, xpath_expression_did_not_match});
+                    [];
         	    {'EXIT', Error} ->
         	        exit(Error);
         		Subject when is_tuple(Subject) ->

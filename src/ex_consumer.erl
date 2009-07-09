@@ -285,8 +285,8 @@ store_next_value(State, Key, Source, {range, Current, Last}) when is_integer(Cur
     OldState = ?STORE(State, Source, {range, Current+1, Last}),
     ?STORE(OldState, Key, integer_to_list(Current));
     
-store_next_value(_State, _Key, Source, Val) when Val==undefined; Val==[] ->
-    exit({?MODULE, ?LINE, fetch_failed, Source, Val});
+store_next_value(State, _Key, _Source, Val) when Val==undefined; Val==[] ->
+    State;
     
 store_next_value(State, Key, Source, [Val]) -> %% last item in list   
 	OldState = ?STORE(State, Source, []),
