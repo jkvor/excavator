@@ -67,6 +67,8 @@ module_name() ->
     list_to_atom([random:uniform(26) + 96 || _ <- lists:seq(1,32)]).
 
 build_instrs([], Acc) -> Acc;
+build_instrs([{atom,_,ok}|Tail], Acc) ->
+    build_instrs(Tail, Acc);
 build_instrs([Instr|Tail], Acc) ->
 	build_instrs(Tail, [build_instr(Instr)|Acc]).
 
@@ -81,6 +83,9 @@ build_instr({call, _, {atom, _, condition}, [Condition, TrueInstrs, FalseInstrs]
     
 build_instr({call, _, {atom, _, onfail}, [Error, Instrs]}) ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,onfail}, to_cons([Error, build_instr(Instrs)])]};
+
+build_instr({call, _, {atom, _, onfail}, [Error, Instrs, FailInstrs]}) ->
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,onfail}, to_cons([Error, build_instr(Instrs), build_instr(FailInstrs)])]};
 	
 build_instr({call, _, {atom, _, function}, [Function]}) ->
     {tuple, ?L, [{atom,?L,instr}, {atom,?L,function}, to_cons([Function])]};
@@ -90,6 +95,9 @@ build_instr({cons,_,Instr,{nil,_}}) ->
 	
 build_instr({cons,_,Instr,Cons}) ->
 	{cons, ?L, build_instr(Instr), build_instr(Cons)};
+	
+build_instr({call, _, {atom, _, assert}, [Condition]}) ->
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,assert}, to_cons([expand_condition(Condition)])]};	
 		
 build_instr({call, _, {atom, _, Instr}, Args}) 
 	when Instr==configure; Instr==assign; Instr==assert; 

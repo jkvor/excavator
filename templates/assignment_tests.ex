@@ -3,7 +3,15 @@
 %% * loop drawing from in-place value
 %% * loop drawing from in-place range
 %% * loop source mutability
+%% * local and global assignment
+%% * first, last commands
+%% * conditions
 main() ->
+    configure(lame, 10),
+    configure(qps, 11),
+    configure(commit_callback, {my_mod, my_func}),
+    function(fun validate_conf/1),
+    
     each(item, [1,2,3], [
         gadd(results1, item)
     ]),
@@ -36,8 +44,19 @@ main() ->
     each(item, {xpath, "<farm><turkey name=\"glen\" /><turkey name=\"gladis\" /></farm>", "//turkey/@name"}, [
         gadd(results5, item)
     ]),
-    function(fun validate_results5/1).
+    function(fun validate_results5/1),
         
+    condition({first, results5} == "glen" andalso {last, results5} == "gladis", [
+        gassign(result6a, true),
+        assign(result6b, true)
+    ]),
+    function(fun validate_results6/1).
+ 
+validate_conf(S) ->
+    etap:is(ex_util:fetch_config(S, lame), 10, "unknown config value"),
+    etap:is(ex_util:fetch_config(S, qps), 11, "qps config value"),
+    etap:is(ex_util:fetch_config(S, commit_callback), {my_mod, my_func}, "commit_callback config value").
+       
 validate_results1(S) ->
     Results = ex_util:fetch(S, results1),
     etap:is(Results, [1,2,3], "results match for each loop").
@@ -64,3 +83,8 @@ validate_results4(S) ->
 validate_results5(S) ->
     Results = ex_util:fetch(S, results5),
     etap:is(Results, ["glen", "gladis"], "results match for each loop").
+    
+validate_results6(S) ->
+    etap:is(ex_util:fetch(S, result6a), true, "condition assignment ok"),
+    etap:is(ex_util:fetch(S, result6b), undefined, "condition assignment ok").
+    

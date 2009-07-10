@@ -97,6 +97,23 @@ gadd_print(State, Key, _) ->
 	State.
 
 %% =============================================================================
+assert(State, {op, Op, Left, Right}) ->
+    case is_condition(State, Op, ?EXPAND(State, Left), ?EXPAND(State, Right)) of
+        true -> ok;
+        false -> exit({assertion_failed, {op, Op, Left, Right}})
+    end,
+    State;
+assert(State, Term) ->
+    case ?EXPAND(State, Term) of
+        true -> ok;
+        _ -> exit({assertion_failed, Term})
+    end,
+    State.
+    
+assert_print(State, Condition) ->
+    ?INFO_MSG(">> assert/2 ~p~n", [Condition]),
+	State.
+
 assert(State, Key, Assertion) ->
     case assert_true(Key, ?EXPAND(State, Key), Assertion) of
         true -> ok;
@@ -250,6 +267,8 @@ is_condition(_, _, _, _) -> false.
 
 compare(Item, Item) -> true;
 
+compare('_', _) -> true;
+
 compare(Item1, Item2) when is_tuple(Item1), is_tuple(Item2) ->
 	compare(tuple_to_list(Item1), tuple_to_list(Item2));
 	
@@ -271,18 +290,24 @@ assert_true(_K, V, string) when is_record(V, http_response) ->
         String when is_list(String), length(String) > 0 -> true;
         _ -> false
     end;
+    
 assert_true(_K, V, {status, Status}) when is_record(V, http_response) ->
     V#http_response.status == Status;
+    
+assert_true(_K, [], list_of_strings) -> true;
 assert_true(_K, V, list_of_strings) when is_list(V) ->
     case lists:usort([ex_util:typeof(I) || I <- V]) of
         [string] -> true;
         _ -> false
     end;
+    
+assert_true(_K, [], list_of_nodes) -> true;
 assert_true(_K, V, list_of_nodes) when is_list(V) ->
     case lists:usort([ex_util:typeof(I) || I <- V]) of
         [node] -> true;
         _ -> false
     end;
+    
 assert_true(_K, V, Assertion) ->
     ex_util:typeof(V) == Assertion.
 

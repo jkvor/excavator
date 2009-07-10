@@ -3,7 +3,7 @@
 %%! -pa ../excavator -pa ebin -sasl errlog_type error -boot start_sasl -noshell
 
 main(_) ->
-    etap:plan(unknown),
+    etap:plan(3),
     case (catch start()) of
         {'EXIT', Err} ->
             io:format("# ~p~n", [Err]),
@@ -19,10 +19,7 @@ start() ->
     application:start(excavator),
     test_server:start_link(),
 
-    ex_engine:run(ex_pp:parse("templates/iteration_tests.ex", [])),
-    
-    ex_engine:run(ex_pp:parse("templates/assignment_tests.ex", [])),
-    
-    ex_engine:run(ex_pp:parse("templates/assertion_tests.ex", [])),
+    Instrs = ex_pp:parse("templates/commit_tests.ex", []),
+    ex_engine:run(Instrs),
     
     ok.
