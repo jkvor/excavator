@@ -25,6 +25,10 @@
 
 -include("excavator.hrl").
 
+run(State, Regexp, Term) when is_list(Regexp) ->
+    {ok, RE} = re:compile(Regexp),
+    run(State, RE, Term);
+    
 run(State, Regexp, Term) when is_tuple(Regexp) ->
     Subject = stringify(State, Term),
 	case re:run(Subject, Regexp, [global]) of

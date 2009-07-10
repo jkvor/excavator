@@ -18,86 +18,65 @@ start() ->
     application:start(inets),
     application:start(excavator),
     test_server:start_link(),
+
+    GoodAlbumIDs = ["b917d0542e3ab9a7", "2021ab38530960de", "4177542aee34ad84"],
+    GoodAlbumNames = ["The Beatles (White Album) [Disc 1]", "The Beatles (White Album) [Disc 2]", "With The Beatles"],
+    BadAlbumIDs  = ["9246d2023c3bee56"],
     
-    TestData = [
-        {1,["returnthis",
-            "jclopes",
-            "skeptomai",
-            "twonds",
-            "jchris",
-            "arjunram",
-            "archaelus",
-            "nitin",
-            "jacobvorreuter",
-            "jj1bdx",
-            "mickael",
-            "arnaudsj",
-            "dysinger",
-            "FrancescoC",
-            "williamsjoe"]},
-		{2,["dysinger",
-			"ryankanno",
-			"bascule",
-			"twleung",
-			"nitin",
-			"pib",
-			"ngerakines",
-			"breakpointer",
-			"janl",
-			"justinsheehy",
-			"moonpolysoft",
-			"kevsmith"]},
-		{3,["jchris",
-			"seancribbs",
-			"etrepum",
-			"jeffreyrr",
-			"janl",
-			"williamsjoe",
-			"markimbriaco",
-			"twleung",
-			"sethladd",
-			"mickael",
-			"mojombo",
-			"dysinger",
-			"boorad"]}
-	],
-    
-    ValidateUser = fun(S) ->
-        PageNum = ex_util:fetch(S, page_num),
-        Username = ex_util:fetch(S, username),
-		etap:ok(lists:member(Username, proplists:get_value(PageNum, TestData)), "valid user: " ++ Username)
-    end,
-    
-    ValidateResults = fun(S) ->
-        PageNum = ex_util:fetch(S, page_num),
-        etap:ok(lists:member(PageNum, [1,2,3]), "results ok")
+    ValidateAlbumID = fun(S) ->
+        AID = ex_util:fetch(S, album_id),
+        {http_response, Status, _, _} = ex_util:fetch(S, album_page),
+        Result =
+            case [lists:member(AID, GoodAlbumIDs), lists:member(AID, BadAlbumIDs)] of
+                [true, false] ->
+                    Status == 200;
+                [false, true] ->
+                    Status == 404
+            end,
+        etap:ok(Result, "album_id ok")
     end,
     
     ValidateOnFail = fun(S) ->
-        PageNum = ex_util:fetch(S, page_num),
-        etap:ok(lists:member(PageNum, [4]), "fail ok")
+        AID = ex_util:fetch(S, album_id),
+        etap:ok(not lists:member(AID, GoodAlbumIDs) andalso lists:member(AID, BadAlbumIDs), "failed ok")
     end,
     
+    ValidateCommitData = fun(S) ->
+        Commit = ex_eval:expand(S, {album_id, album_name}),
+        etap:ok(lists:member(Commit, lists:zip(GoodAlbumIDs, GoodAlbumNames)), "commit data ok")
+    end,
+        
     Instrs =
-        [   {instr, assign, [page_range, {range, 1, 3}]},
-            {instr, each, [page_num, page_range, [
-                {instr, assign, [search_result_page, {http, get, ["http://127.0.0.1:8888/search_twitter_page", page_num, ".html"]}]},
-                {instr, assert, [search_result_page, {status, 200}]},
-                {instr, assert, [search_result_page, string]},
-                {instr, assign, [search_results, {xpath, search_result_page, "//li[@class='result ']"}]},
-                {instr, assert, [search_results, list_of_nodes]},
-                {instr, each, [search_result, search_results, [
-                    {instr, assign, [username, {xpath, search_result, "//div[@class='msg']/a[1]/text()"}]},
-                    {instr, print, [username]},
-                    {instr, assert, [username, string]},
-                    {instr, assign, [msg, {xpath, search_result, "string(//span[starts-with(@class, 'msgtxt')]/*)"}]},
-                    {instr, assert, [msg, string]},
-                    {instr, function, [ValidateUser]}
-                ]]},
-                {instr, function, [ValidateResults]}
+        [   {instr, assign, [artist_page, {http, get, "http://127.0.0.1:8888/gracenote_albums.html"}]},
+            {instr, assert, [artist_page, {status, 200}]},
+            {instr, assert, [artist_page, string]},
+            {instr, assign, [albums, {xpath, artist_page, "//div[@class='album-meta-data-wrapper']"}]},
+            {instr, assert, [albums, list_of_nodes]},
+            {instr, each, [album, albums, [
+                {instr, assign, [album_href, {xpath, album, "//a[1]/@href"}]},
+                {instr, assign, [album_id, {regexp, album_href, compile_re("tui_id=(.*)tui")}]},
+                {instr, assert, [album_id, string]},
+                {instr, assign, [album_page, {http, get, ["http://127.0.0.1:8888/gracenote_album_", album_id, ".html"]}]},
+                {instr, function, [ValidateAlbumID]},
+                {instr, onfail, [
+                    {assertion_failed, {album_page, '_', {status, 200}}},
+                    [   {instr, assert, [album_page, {status, 200}]},
+                        {instr, assert, [album_page, string]},
+                        {instr, assign, [album_name_node, {xpath, album_page, "//div[@class='album-name']"}]},
+                        {instr, assert, [album_name_node, node]},
+                        {instr, assign, [album_name, {regexp, album_name_node, compile_re(" &gt; (.*)</div>")}]},
+                        {instr, assert, [album_name, string]},
+                        {instr, commit, [{album, beatles}, {album_id, album_name}]},
+                        {instr, function, [ValidateCommitData]}
+                    ],
+                    [{instr, function, [ValidateOnFail]}]
+                ]}
             ]]}
         ],
         
     ex_engine:run(Instrs),
     
     ok.
+    
+compile_re(Regexp) ->
+    {ok, RE} = re:compile(Regexp), RE.

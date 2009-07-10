@@ -19,7 +19,6 @@ start() ->
     application:start(excavator),
     test_server:start_link(),
 
-    Instrs = ex_pp:parse("templates/iteration_tests.ex", []),
+    Instrs = ex_pp:parse("templates/github.ex", [["jacobvorreuter", "ngerakines"]]),
     ex_engine:run(Instrs),
-    
     ok.

@@ -127,8 +127,8 @@ commit(State, CallbackModule, CallbackFunction, Args) ->
     end.
 
 %% =============================================================================
-each(#state{instructions=[_|TailInstructions]}=State, InnerKey, SourceElems, NewInstrs) ->
-    case ex_eval:expand(State, SourceElems) of
+each(#state{instructions=[{instr, each, [InnerKey, SourceElems, NewInstrs]}|TailInstructions]}=State, _, _, _) ->
+    case ?EXPAND(State, SourceElems) of
         SourceVals when SourceVals==undefined orelse SourceVals==[] ->
             Parent = State#state{instructions=TailInstructions},
             State#state{instructions=[], parent=Parent};
@@ -136,11 +136,13 @@ each(#state{instructions=[_|TailInstructions]}=State, InnerKey, SourceElems, New
             Parent = State#state{instructions=TailInstructions},
             State#state{instructions=[], parent=Parent};
         [Head|Tail] ->
-            Parent1 = ?STORE(State, SourceElems, Tail), %% insert list tail for source key
+            NewEachInstr = {instr, each, [InnerKey, Tail, NewInstrs]},
+            Parent1 = State#state{instructions=[NewEachInstr|TailInstructions]},
             State1 = ?STORE(State, InnerKey, Head),
             State1#state{instructions=NewInstrs, parent=Parent1};
         {range, Current, Last, Fun} ->
-            Parent1 = ?STORE(State, SourceElems, {range, Fun(Current), Last, Fun}),
+            NewEachInstr = {instr, each, [InnerKey, {range, Fun(Current), Last, Fun}, NewInstrs]},
+            Parent1 = State#state{instructions=[NewEachInstr|TailInstructions]},
             State1 = ?STORE(State, InnerKey, Current),
             State1#state{instructions=NewInstrs, parent=Parent1}
     end.    

@@ -21,7 +21,7 @@ excavator runs off of template files written in Erlang. Templates contain custom
 
 		configure(qps, 10) %% queries-per-second
 		configure(commit_callback, {my_monkey_maker, new_monkey})
-* __assign__: assign a static value of result of an instruction to a state key in the current scope
+* __assign__: assign a static value to a state key in the current scope
 
 		assign(user_ids, {xpath, users_xml, "//id/text()"})
 		assign(user_ids, {regexp, users_txt, "id=([0-9]+)"}),
@@ -45,12 +45,20 @@ excavator runs off of template files written in Erlang. Templates contain custom
 
 		print(username)
 		print("Hello World")
-* __commit___: calls either the default commit mfa, or the commit_callback module and function set as a configuration parameter with a commit_key/state_key pair as the arguments. The commit_key is used to overload the commit function and allow multiple commit points in a template. The state_key is used to pull the associated value and pass that in as the second argument to the commit function.
+* __commit___: calls either the default commit mfa, or the commit_callback module and function set as a configuration parameter with the arguments given. 
  
-		commit({user, friend_profile}, profile_url)
-		commit(username, username)
-* __each__: iterate over a list associated with a state key
+		commit(username, profile_url, list_of_friends)
+		commit(username)
+* __each__: iterate over a list or range
+		each(day, ["Monday", "Tuesday", "Wednesday"], [
+			print(day)
+		])
 
+		each(page_num, {range, 1, 10}, [
+			print(page_num)
+		])
+		
+		assign(users, {xpath, friend_list, "//friend"}),
 		each(user, users, [
 			print(user)
 		])
