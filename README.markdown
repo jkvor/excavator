@@ -45,7 +45,7 @@ __templates/github-public-activity.ex__
 	            assign(published, {xpath, entry, "//published/text()"}),
 	            assert(published, string),
                 
-	            %% call commit function
+	            %% call commit function (io:format/2 in this case)
 	            commit("committing for ~s: ~s, ~s~n", [Username, event_type, published])
 	        ])
 	    ]).
