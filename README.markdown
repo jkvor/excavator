@@ -1,5 +1,5 @@
 ## About
-__excavator__ is an Erlang application for ingesting data from various sources (APIs, data feeds, web content, etc). __excavator__ runs off of template files written in Erlang. Templates contain custom meta functions that are processed into instruction sets for the __excavator__ engine to ingest. A full listing of these custom functions and their definitions can be found below in the __Template Functions__ section.
+Excavator is an Erlang application for ingesting data from various sources (APIs, data feeds, web content, etc). Excavator runs off of template files written in Erlang. Templates contain custom meta functions that are processed into instruction sets for the excavator engine to ingest. A full listing of these custom functions and their definitions can be found below in the __Template Functions__ section.
 
 ## Dependencies
 
