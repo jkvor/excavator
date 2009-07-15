@@ -42,19 +42,15 @@ parse(Filename, MainArgs) when is_list(Filename) ->
         	case B of
         		{function,_,main,Arity,[{clause,_,Args,[],Tokens}]} ->
                     Tokens1 = lists:reverse(build_instrs(Tokens, [])),
-        			%ModName = string:join(string:tokens(filename:absname(Filename), "/"), "."),
         			Forms = [
         				{attribute,1,file,{Filename,1}},
-        				{attribute,1,module,module_name()},
+        				{attribute,1,module,module_name(Filename, application:get_env(excavator, randomize_module_names))},
         				{attribute,2,compile,[export_all]},
         				{function,3,main,Arity,[{clause,3,Args,[],[to_cons(Tokens1)]}]}
         			|Rest],
         			{ok, Mod, Bins} = compile:forms(Forms),
         			code:load_binary(Mod, atom_to_list(Mod), Bins),
-        			Result = erlang:apply(Mod, main, MainArgs),
-        			code:delete(Mod),
-        			code:soft_purge(Mod),
-        			Result;
+        			erlang:apply(Mod, main, MainArgs);
         		Other1 ->
         			exit({missing_main_function, Other1})
         	end;
@@ -64,10 +60,13 @@ parse(Filename, MainArgs) when is_list(Filename) ->
 			exit({parse_error, Other})
 	end.
 	
-module_name() ->
+module_name(_, {ok, true}) ->
     {A,B,C} = now(),
     random:seed(A,B,C),
-    list_to_atom([random:uniform(26) + 96 || _ <- lists:seq(1,32)]).
+    list_to_atom([random:uniform(26) + 96 || _ <- lists:seq(1,32)]);
+
+module_name(Filename, _) ->
+    list_to_atom(binary_to_list(erlang:md5(Filename))).
 
 build_instrs([], Acc) -> Acc;
 build_instrs([{atom,_,ok}|Tail], Acc) ->
