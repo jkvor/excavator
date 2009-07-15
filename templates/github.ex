@@ -1,6 +1,5 @@
 main(Users) ->
-    assign(users, Users),
-    each(user, users, [
+    each(user, Users, [
         %% fetch user's public activity
         assign(public_activity, {http, get, ["http://127.0.0.1:8888/github-", user, ".xml"]}),
         assert(public_activity, {status, 200}),

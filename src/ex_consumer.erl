@@ -166,8 +166,12 @@ each(#state{instructions=[{instr, each, [InnerKey, SourceElems, NewInstrs]}|Tail
 
 each_next_state(State, _, _, _) -> State.
         
-each_print(State, Key, Source, _) ->
-	?INFO_MSG(">> each/4 ~p in ~p~n", [Key, Source]),
+each_print(State, Key, Source, _) when is_atom(Source) ->
+    ?INFO_MSG(">> each/4 ~p in ~p~n", [Key, Source]),
+	State;
+	
+each_print(State, Key, _, _) ->
+	?INFO_MSG(">> each/4 ~p~n", [Key]),
 	State.
 
 %% =============================================================================     

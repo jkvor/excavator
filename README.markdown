@@ -1,8 +1,8 @@
 ## About
-excavator is an Erlang application for ingesting data from various 
-sources (APIs, data feeds, web content, etc).
+__excavator__ is an Erlang application for ingesting data from various sources (APIs, data feeds, web content, etc). __excavator__ runs off of template files written in Erlang. Templates contain custom meta functions that are processed into instruction sets for the __excavator__ engine to ingest. A full listing of these custom functions and their definitions can be found below in the __Template Functions__ section.
 
 ## Dependencies
+
 <http://github.com/ngerakines/mochiweb>
 
 <http://github.com/JacobVorreuter/mochixpath>
@@ -13,8 +13,87 @@ sources (APIs, data feeds, web content, etc).
 
 <http://github.com/JacobVorreuter/mochiweb_server_behavior> (required only if running test suite)
 
-## Templates
-excavator runs off of template files written in Erlang. Templates contain custom meta functions that are processed into instruction sets for the excavator engine to ingest. A full listing of these custom functions and their definitions can be found below in the __Template Functions__ section.
+## Install
+
+	$ make && sudo make install
+	
+## Sample Template
+
+__templates/github-public-activity.ex__
+
+	main(Username) ->
+	    configure(commit_callback, {io, format}),
+
+	    %% fetch user's public activity
+	    assign(public_activity, {http, get, ["http://github.com/", Username, ".atom"]}),
+	    assert(public_activity, {status, 200}),
+
+	    each(entry, {xpath, public_activity, "//entry"}, [
+
+	        %% pull entry_id fields
+	        assign(entry_id, {xpath, entry, "//id/text()"}),
+	        assert(entry_id, string),
+    
+	        %% pull event_type fields
+	        assign(event_type, {regexp, entry_id, "tag:github.com,[0-9]{4}:(.*)/[0-9]*"}),
+	        assert(event_type, string),
+
+	        %% process PUSH and ISSUES events
+	        condition(event_type == "PushEvent", [
+    
+	            %% pull published date
+	            assign(published, {xpath, entry, "//published/text()"}),
+	            assert(published, string),
+                
+	            %% call commit function
+	            commit("committing for ~s: ~s, ~s~n", [Username, event_type, published])
+	        ])
+	    ]).
+	
+## Running Github Example
+
+	$ erl -boot excavator
+	...
+	Eshell V5.7.1  (abort with ^G)
+	1> ex_loglevel:set(error).
+	{module,ex_logger}
+	2> ex_engine:run(ex_pp:parse("templates/github-public-activity.ex", ["jacobvorreuter"])).
+	
+	=PROGRESS REPORT==== 15-Jul-2009::15:46:49 ===
+	          supervisor: {local,inet_gethost_native_sup}
+	             started: [{pid,<0.75.0>},{mfa,{inet_gethost_native,init,[[]]}}]
+
+	=PROGRESS REPORT==== 15-Jul-2009::15:46:49 ===
+	          supervisor: {local,kernel_safe_sup}
+	             started: [{pid,<0.74.0>},
+	                       {name,inet_gethost_native_sup},
+	                       {mfa,{inet_gethost_native,start_link,[]}},
+	                       {restart_type,temporary},
+	                       {shutdown,1000},
+	                       {child_type,worker}]
+	committing for jacobvorreuter: PushEvent, 2009-07-15T14:47:00-07:00
+	committing for jacobvorreuter: PushEvent, 2009-07-15T12:41:50-07:00
+	...
+	committing for jacobvorreuter: PushEvent, 2009-06-20T18:30:50-07:00
+	ok
+	
+## Running Tests
+
+	$ make test
+	sh ebin/excavator.app.in 0.0.1
+	mkdir -p ebin/
+	(cd src;make)
+	make[1]: Nothing to be done for `all'.
+	(cd t;make)
+	make[1]: Nothing to be done for `all'.
+	prove t/*.t
+	t/excavator_t_001....ok                                                      
+	t/excavator_t_002....ok                                                      
+	t/excavator_t_003....ok                                                      
+	t/excavator_t_004....ok                                                      
+	t/excavator_t_005....ok                                                      
+	All tests successful.
+	Files=5, Tests=212,  3 wallclock secs ( 1.97 cusr +  0.51 csys =  2.48 CPU)
 
 ## Template Functions
 * __configure__: set a configuration parameter. The following examples illustrate supported conifguration parameters:
@@ -83,49 +162,7 @@ excavator runs off of template files written in Erlang. Templates contain custom
 * __function__: provides a mechanism for executing custom logic. The instruction expects a single parameter, which is a function or arity 1. The function's argument is the state object.
 
 		function(fun(State) -> io:format("POKEMONS!! ~p~n", [ex_util:fetch_value(State, pokemons)]) end)
-
-## Example Templates
-The convention when creating excavator templates is to use the .ex extension. The file must contain a main/1 function and valid erlang code.
-
-	main([Username, Environment]) ->
-		assign(username, Username),
-		assert(username, string),
-		
-		condition(Environment == [], [
-			gassign(pokemons_page, {http, get, ["http://yummymeatwhiz.com/", username, "/pokemons"]})
-		], [
-			gassign(pokemons_page, {http, get, ["http://", env, ".yummymeatwhiz.com/", username, "/pokemons"]})
-		]),
-		assert(pokemons_page, {status, 200}),
-		
-		assign(pokemons, {xpath, pokemons_page, "//div[@class='pokemon']"}),
-		assert(pokemons, list_of_nodes),
-		
-		each(pokemon, pokemons, [
-			assign(name, {xpath, pokemon, "//div[@class='name']/text()"}),
-			assert(name, string),
-			commit(pokemon_name, name)
-		]),
-		
-		condition(name == undefined, [
-			%% name will always be undefined because its
-			%% value was assigned in a child scope. Had
-			%% name been assigned using the gassign instruction,
-			%% a value would be present in the current scope.
-			print("name is undefined")
-		]).
-
-## Getting started
-
-	$ make rel
-	$ sudo make install
-	$ erl -name excavator@`hostname` +W w +A 1 +Ktrue -boot excavator
-		
-## Running excavator
-To initiate a single run of a template you must parse the template and then feed the instructions to the excavator engine:
-
-	(excavator@idk.local)1> ex_engine:run(ex_pp:parse("templates/github.ex", ["jvorreuter", "ngerakines"])).
-		
+	
 ## License
 	%% Copyright (c) 2009 Jacob Vorreuter <jacob.vorreuter@gmail.com>
 	%% 
