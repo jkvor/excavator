@@ -50,7 +50,7 @@ __templates/github-public-activity.ex__
 	        ])
 	    ]).
 	
-## Running Github Example
+## Executing Github Example Template
 
 	$ erl -boot excavator
 	...
