@@ -51,7 +51,10 @@ parse(Filename, MainArgs) when is_list(Filename) ->
         			|Rest],
         			{ok, Mod, Bins} = compile:forms(Forms),
         			code:load_binary(Mod, atom_to_list(Mod), Bins),
-        			erlang:apply(Mod, main, MainArgs);
+        			Result = erlang:apply(Mod, main, MainArgs),
+        			code:delete(Mod),
+        			code:soft_purge(Mod),
+        			Result;
         		Other1 ->
         			exit({missing_main_function, Other1})
         	end;
