@@ -27,13 +27,13 @@
 
 %% {first, key}
 %% {last, key}
-expand(State, {FirstLast, Key}) when (FirstLast==first orelse FirstLast==last) andalso is_atom(Key) ->
-    case ?FETCH(State, Key) of
+expand(State, {FirstLast, Values0}) when (FirstLast==first orelse FirstLast==last) ->
+    case expand(State, Values0) of
         Values when is_list(Values) ->
             [Val|_] = if FirstLast==first -> Values; true -> lists:reverse(Values) end,
             Val;
-        undefined ->
-            {expand(State, FirstLast), Key}
+        _ ->
+            {expand(State, FirstLast), Values0}
     end;
     
 %% HTTP requests

@@ -31,15 +31,14 @@ run(State, Regexp, Term) when is_list(Regexp) ->
     
 run(State, Regexp, Term) when is_tuple(Regexp) ->
     Subject = stringify(State, Term),
-	case re:run(Subject, Regexp, [global]) of
+	case re:run(Subject, Regexp, [{capture, all_but_first, list}, global]) of
 		nomatch -> 
 			[];
-		{match, Match} ->
-			case process(Match, Subject, []) of
-				[] -> [];
-				[String] when is_list(String) -> String;
-				List when is_list(List) -> lists:reverse(List)
-			end
+		{match, Matches} ->
+		    lists:reverse(lists:foldl(
+		        fun ([], Acc) -> Acc;
+		            (Items, Acc) -> lists:append(lists:reverse([Item || Item <- Items, Item =/= []]), Acc)
+		        end, [], Matches))
 	end.
 	
 stringify(_, HttpResponse) when is_record(HttpResponse, http_response) ->
@@ -58,12 +57,3 @@ stringify(S, Key) when is_atom(Key) ->
 stringify(_, Int) when is_integer(Int) -> Int;
 stringify(_, Term) ->
     lists:flatten(io_lib:format("~p", [Term])).
-
-process([], _, Acc) -> Acc;
-
-process([ [ {_,_}, {Start,Length} ] |Tail], Subject, Acc) ->
-	Acc1 = [string:substr(Subject, Start+1, Length)|Acc],
-	process(Tail, Subject, Acc1);
-
-process(A,_,_) ->
-	exit({error, {"Cannot process regexp results", A}}).
