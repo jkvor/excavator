@@ -41,8 +41,17 @@ global_add(#state{parent=P}=S, K, V) ->
     end,
     add(S#state{parent=P1}, K, V).
     
-store(#state{dictionary=D}=S, K, V) ->
-    S#state{dictionary=dict:store(K, V, D)}.
+store(S, K, V) when is_tuple(K), is_tuple(V) ->
+    store(S, tuple_to_list(K), tuple_to_list(V));
+store(S, Keys, Values) when is_list(Keys), is_list(Values), length(Keys) == length(Values) ->
+    lists:foldl(
+        fun({K, V}, S1) ->
+            store(S1, K, V)
+        end, S, lists:zip(Keys, Values));    
+store(#state{dictionary=D}=S, K, V) when is_atom(K) ->
+    S#state{dictionary=dict:store(K, V, D)};
+store(_, K, V) ->
+    exit({error, {cannot_store_value_in_key, K, V}}).
 
 global_store(#state{parent=P}=S, K, V) ->
     P1 = case P of
@@ -79,4 +88,5 @@ typeof([H|_]=List) when is_integer(H) ->
             (_, _) -> list
         end, string, List);
 typeof(List) when is_list(List) -> list;
+typeof(Fun) when is_function(Fun) -> function;
 typeof(_) -> term.

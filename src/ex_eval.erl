@@ -47,11 +47,11 @@ expand(State, {http, Method, Url, Headers, Body}) ->
     
 %% XPath
 expand(State, {xpath, Source, XPath}) ->
-    ex_xpath:run(XPath, expand(State, Source));
+    ex_xpath:run(expand(State, XPath), expand(State, Source));
     
 %% Regexp
 expand(State, {regexp, Source, Regexp}) ->
-    ex_re:run(State, Regexp, expand(State, Source));
+    ex_re:run(State, expand(State, Regexp), expand(State, Source));
     
 %% Range
 expand(_State, {range, Current, Last}) when (is_integer(Current) orelse is_float(Current)) andalso 
@@ -60,6 +60,20 @@ expand(_State, {range, Current, Last}) when (is_integer(Current) orelse is_float
 
 expand(_State, {range, Current, Last, Fun}) when is_function(Fun) ->
     {range, Current, Last, Fun};
+    
+%% Concat
+expand(State, {concat, Source}) ->
+    case expand(State, Source) of
+        List when is_list(List) -> lists:concat(List);
+        _ -> {concat, Source}
+    end;
+    
+%% Length
+expand(State, {length, Source}) ->
+    case expand(State, Source) of
+        List when is_list(List) -> length(List);
+        _ -> {length, Source}
+    end;
     
 %% Key
 expand(State, Key) when is_atom(Key) ->

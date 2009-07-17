@@ -4,7 +4,8 @@
     parent, %% state()
 	fail, %% {Error::tuple(), FailInstructions::list()}
 	request_times = [], %% [seconds()]
-    configuration=dict:new()
+    configuration=dict:new(),
+    last_value
 }).
 
 -define(DBG_REPORT(Args), ex_logger:debug_report(Args)).

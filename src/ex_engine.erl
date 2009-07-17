@@ -30,11 +30,11 @@
 run(Instructions) when is_list(Instructions) ->
     run(#state{instructions=Instructions});
     
-run(#state{instructions=[], parent=undefined}) ->
-    ok;
-
-run(#state{instructions=[], parent=Parent}) when is_record(Parent, state) ->
-    run(Parent);
+run(#state{instructions=[], parent=undefined, last_value=LastValue}) ->
+    LastValue;
+    
+run(#state{instructions=[], parent=Parent, last_value=LastValue}) when is_record(Parent, state) ->
+    run(Parent#state{last_value=LastValue});
     
 run(State) when is_record(State, state) ->
     run(ex_consumer:execute(State)).

@@ -17,6 +17,12 @@ main() ->
     assert([], list_of_nodes),
     assert([{<<"html">>, [], []}], list_of_nodes),
     
+    assign(bar, "Bar"),
+    assign(foobar, {concat, ["Foo ", bar]}),
+    assert(foobar == "Foo Bar"),
+    
+    assert({length, [1,2,3]} == 3),
+    
     onfail({assertion_failed,{{ack},'_',string}}, [
         gassign(result1a, true),
         assert({ack}, string),

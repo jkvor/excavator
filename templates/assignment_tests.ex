@@ -50,7 +50,13 @@ main() ->
         gassign(result6a, true),
         assign(result6b, true)
     ]),
-    function(fun validate_results6/1).
+    function(fun validate_results6/1),
+      
+    assign({result7a, result7b}, {"Hello", "World"}),
+    assign([result7c, {result7d, result7e}], ["My", {"Name", "Is"}]),
+    function(fun validate_results7/1),
+                  
+    ok.
  
 validate_conf(S) ->
     etap:is(ex_util:fetch_config(S, lame), 10, "unknown config value"),
@@ -87,4 +93,11 @@ validate_results5(S) ->
 validate_results6(S) ->
     etap:is(ex_util:fetch(S, result6a), true, "condition assignment ok"),
     etap:is(ex_util:fetch(S, result6b), undefined, "condition assignment ok").
+
+validate_results7(S) ->
+    etap:is(ex_util:fetch(S, result7a), "Hello", "complex term assignment ok"),
+    etap:is(ex_util:fetch(S, result7b), "World", "complex term assignment ok"),
+    etap:is(ex_util:fetch(S, result7c), "My", "complex term assignment ok"),
+    etap:is(ex_util:fetch(S, result7d), "Name", "complex term assignment ok"),
+    etap:is(ex_util:fetch(S, result7e), "Is", "complex term assignment ok").
     

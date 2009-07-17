@@ -30,35 +30,49 @@
 
 parse(Filename) when is_list(Filename) -> parse(Filename, []).
 parse(Filename, MainArgs) when is_list(Filename) ->
-	case catch epp:parse_file(Filename,[],[]) of
-		{ok, [A,B|Rest]} ->			
-			case A of
-        		{attribute,_,file,{_,_}} ->
-        			ok;
-        		Other ->
-        			exit({bad_file_attribute, Other})
-        	end,
-        	
-        	case B of
-        		{function,_,main,Arity,[{clause,_,Args,[],Tokens}]} ->
-                    Tokens1 = lists:reverse(build_instrs(Tokens, [])),
-        			Forms = [
-        				{attribute,1,file,{Filename,1}},
-        				{attribute,1,module,module_name(Filename, application:get_env(excavator, randomize_module_names))},
-        				{attribute,2,compile,[export_all]},
-        				{function,3,main,Arity,[{clause,3,Args,[],[to_cons(Tokens1)]}]}
-        			|Rest],
-        			{ok, Mod, Bins} = compile:forms(Forms),
-        			code:load_binary(Mod, atom_to_list(Mod), Bins),
-        			erlang:apply(Mod, main, MainArgs);
-        		Other1 ->
-        			exit({missing_main_function, Other1})
-        	end;
-		{'EXIT', Err} ->
-			exit(Err);
-		Other ->
-			exit({parse_error, Other})
-	end.
+    case catch epp:parse_file(Filename,[],[]) of
+        {ok, Forms} -> 
+            {_,Indices} = lists:foldl(
+                fun ({attribute,_,file,{_,_}}, {I, Acc}) ->
+                        {I+1, [{attribute, I}|Acc]};
+                    ({function,_,main,_,_}, {I, Acc}) ->
+                        {I+1, [{main, [I | proplists:get_value(main, Acc, [])]}|Acc]};
+                    (_, {I, Acc}) ->
+                        {I+1, Acc}
+                end, {1, []}, Forms),
+            
+            case proplists:get_value(attribute, Indices) of
+                1 -> ok;
+                _ -> exit({error, bad_file_attribute})
+            end,
+            
+            case proplists:get_value(main, Indices) of
+                undefined -> exit({error, missing_main_function});
+                _ -> ok
+            end,
+            
+            Forms1 = 
+                [{attribute,1,file,{Filename,1}},
+                 {attribute,1,module,module_name(Filename, application:get_env(excavator, randomize_module_names))},
+                 {attribute,1,compile,[export_all]}] ++
+                [process_root_level_form(Form) || Form <- lists:nthtail(1, Forms)],
+            
+            {ok, Mod, Bins} = compile:forms(Forms1),
+            code:load_binary(Mod, atom_to_list(Mod), Bins),
+            erlang:apply(Mod, main, MainArgs);
+            
+        {'EXIT', Err} -> 
+            exit(Err);
+        Other -> 
+            exit({parse_error, Other})
+    end.
+    
+process_root_level_form({function,L,main,Arity,Clauses}) ->
+    {function,L,main,Arity,[
+            {clause,L1,Args,Guards,[to_cons(lists:reverse(build_instrs(Tokens, [])))]}
+        || {clause,L1,Args,Guards,Tokens} <- Clauses]};
+    
+process_root_level_form(Form) -> Form.
 	
 module_name(_, {ok, true}) ->
     {A,B,C} = now(),
@@ -108,8 +122,8 @@ build_instr({call, _, {atom, _, Instr}, Args})
 		 Instr==gassign; Instr==gadd ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,Instr}, to_cons(Args)]};
 	
-build_instr(Instr) ->
-	exit({unrecognized_instruction, Instr}).
+build_instr(Term) -> 
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,term}, to_cons([Term])]}.
 	
 expand_condition({op, _, Op, Left, Right}) ->
     {tuple, ?L, [{atom, ?L, op}, {atom, ?L, Op}, expand_condition(Left), expand_condition(Right)]};

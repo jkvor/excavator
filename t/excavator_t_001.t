@@ -25,4 +25,8 @@ start() ->
     
     ex_engine:run(ex_pp:parse("templates/assertion_tests.ex", [])),
     
+    etap:is(ex_engine:run(ex_pp:parse("templates/overloaded.ex", [a])), "ABCD", "overloaded ok"),
+    etap:is(ex_engine:run(ex_pp:parse("templates/overloaded.ex", [b])), "ABCE", "overloaded ok"),
+    etap:is(ex_engine:run(ex_pp:parse("templates/overloaded.ex", [a, b])), "ABCF", "overloaded ok"),
+    
     ok.

@@ -35,10 +35,14 @@ run(State, Regexp, Term) when is_tuple(Regexp) ->
 		nomatch -> 
 			[];
 		{match, Matches} ->
-		    lists:reverse(lists:foldl(
+		    Results = lists:reverse(lists:foldl(
 		        fun ([], Acc) -> Acc;
 		            (Items, Acc) -> lists:append(lists:reverse([Item || Item <- Items, Item =/= []]), Acc)
-		        end, [], Matches))
+		        end, [], Matches)),
+		    case Results of
+		        [A] -> A;
+		        _ -> Results
+		    end
 	end.
 	
 stringify(_, HttpResponse) when is_record(HttpResponse, http_response) ->

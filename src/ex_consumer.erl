@@ -27,7 +27,7 @@
 
 %% @spec execute(instr(), State) -> State1
 execute(#state{instructions=[{instr, Function, Args}|_]}=State) ->    
-    execute(State, [
+    execute(State#state{last_value=ok}, [
 		{fun print_state/1, mk_f(Function, print)},
 		{fun default/1, Function},  
 		{fun next_state/1, mk_f(Function, next_state)}
@@ -63,7 +63,8 @@ execute(State, [{Default, Function}|TailFunctions], Args) ->
 %% == Template Functions
 %% =============================================================================
 assign(State, Key, Term) ->
-    ?STORE(State, Key, ?EXPAND(State, Term)).
+    Value = ?EXPAND(State, Term),
+    ?STORE(State#state{last_value=Value}, Key, Value).
     
 assign_next_state(#state{instructions=[_|TailInstrs]}=S) ->
 	S#state{instructions=TailInstrs, request_times=update_request_times(S)}.
@@ -82,7 +83,8 @@ gassign_print(State, Key, _) ->
 	
 %% =============================================================================
 add(State, Key, Term) ->
-    ?ADD(State, Key, ?EXPAND(State, Term)).
+    Value = ?EXPAND(State, Term),
+    ?ADD(State#state{last_value=Value}, Key, Value).
     
 add_print(State, Key, _) ->
 	?INFO_MSG(">> add/3: ~p~n", [Key]),
@@ -226,7 +228,15 @@ function(State, Fun) when is_function(Fun) ->
 print(State, Key) ->
     ?INFO_REPORT({print, ?EXPAND(State, Key)}),
     State.
-      	       
+    
+%% =============================================================================    
+term_print(State, Term) ->
+    ?INFO_MSG(">> term/1 ~p~n", [Term]),
+    State.
+    
+term(State, Term) ->
+    State#state{last_value=?EXPAND(State, Term)}.
+  	       
 %% =============================================================================
 %% == Internal Functions
 %% =============================================================================
