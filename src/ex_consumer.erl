@@ -163,6 +163,11 @@ each(#state{instructions=[{instr, each, [InnerKey, SourceElems, NewInstrs]}|Tail
             NewEachInstr = {instr, each, [InnerKey, {range, Fun(Current), Last, Fun}, NewInstrs]},
             Parent1 = State#state{instructions=[NewEachInstr|TailInstructions]},
             State1 = ?STORE(State, InnerKey, Current),
+            State1#state{instructions=NewInstrs, parent=Parent1};
+        Element ->
+            NewEachInstr = {instr, each, [InnerKey, [], NewInstrs]},
+            Parent1 = State#state{instructions=[NewEachInstr|TailInstructions]},
+            State1 = ?STORE(State, InnerKey, Element),
             State1#state{instructions=NewInstrs, parent=Parent1}
     end.    
 

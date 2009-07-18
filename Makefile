@@ -1,4 +1,4 @@
-VERSION=0.0.1
+VERSION=0.2
 PKGNAME=excavator
 LIBDIR=`erl -eval 'io:format("~s~n", [code:lib_dir()])' -s init stop -noshell`
 ROOTDIR=`erl -eval 'io:format("~s~n", [code:root_dir()])' -s init stop -noshell`
