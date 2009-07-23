@@ -52,12 +52,12 @@ build_rel() ->
     {ok, FD} = file:open("excavator.rel", [write]),
     RelInfo = {release,
         {"excavator", "0.2"},
-        {erts, "5.7.1"}, [
-            {kernel, "2.13.1"},
-            {stdlib, "1.16.1"},
+        {erts, "5.7.2"}, [
+            {kernel, "2.13.2"},
+            {stdlib, "1.16.2"},
             {sasl, "2.1.6"},
             {crypto, "1.6"},
-			{inets, "5.0.13"},
+			{inets, "5.1"},
             {mochiweb, "0.2"},
             {mochixpath, "0.1"},
             {dynamic_compile, "0.1"},

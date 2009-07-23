@@ -24,7 +24,7 @@ rel: compile
 	erl -pa ebin -noshell -run excavator build_rel -s init stop
 	
 package: clean
-	@mkdir $(PKGNAME)-$(VERSION)/ && cp -rf ebin excavator include Makefile public README.markdown src support t $(PKGNAME)-$(VERSION)
+	@mkdir $(PKGNAME)-$(VERSION)/ && cp -rf ebin include Makefile public README.markdown src support t $(PKGNAME)-$(VERSION)
 	@COPYFILE_DISABLE=true tar zcf $(PKGNAME)-$(VERSION).tgz $(PKGNAME)-$(VERSION)
 	@rm -rf $(PKGNAME)-$(VERSION)/
 	
@@ -33,5 +33,3 @@ install:
 	@mkdir -p $(prefix)/$(ROOTDIR)/bin
 	for i in ebin/*.beam include/*.hrl ebin/*.app; do install $$i $(prefix)/$(LIBDIR)/$(PKGNAME)-$(VERSION)/$$i ; done
 	cp *.boot $(prefix)/$(ROOTDIR)/bin/
-	@mkdir -p $(prefix)/etc/init.d
-	cp excavator $(prefix)/etc/init.d/
