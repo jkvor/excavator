@@ -43,7 +43,6 @@ request(Method, Url, Headers, [])
 request(Method, Url, Headers, Body) 
  when Method == post; Method == put ->
     ContentType = proplists:get_value("Content-Type", Headers, "text/html"),
-    io:format("http:request(~p, ~p, ~p, ~p)~n", [Method, {Url, Headers, ContentType, Body}, [], []]),
 	case http:request(Method, {Url, Headers, ContentType, Body}, [], []) of
 		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> {http_response, RspStatus, RspHeaders, RspBody};
 		{error, Reason} -> exit({?MODULE, ?LINE, Reason})
