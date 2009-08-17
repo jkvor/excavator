@@ -121,7 +121,7 @@ build_instr({call, _, {atom, _, Instr}, Args})
 		 Instr==onfail; Instr==commit; Instr==add;
 		 Instr==gassign; Instr==gadd ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,Instr}, to_cons(Args)]};
-	
+	    
 build_instr(Term) -> 
     {tuple, ?L, [{atom,?L,instr}, {atom,?L,term}, to_cons([Term])]}.
 	

@@ -43,8 +43,18 @@ expand(State, {http, Method, Url, Headers}) when Method==options;Method==get;Met
     expand(State, {http, Method, Url, Headers, []});
 expand(State, {http, Method, Url, Headers, Body}) ->
     Url1 = flatten_url(State, Url),
-    ex_web:request(Method, Url1, Headers, Body);
+    ex_web:request(Method, Url1, expand(State, Headers), expand(State, Body));
     
+%% HTTP Cookie Value
+expand(State, {cookie, Key, HttpRespKey}) ->
+    Cookies = get_cookies(expand(State, HttpRespKey)),
+    case proplists:get_value(Key, Cookies) of
+        {cookie, _, Fields} ->
+            proplists:get_value(Key, Fields);
+        _ ->
+            undefined
+    end;
+         
 %% XPath
 expand(State, {xpath, Source, XPath}) ->
     ex_xpath:run(expand(State, XPath), expand(State, Source));
@@ -106,4 +116,27 @@ flatten_url(State, Url) ->
     case ex_util:typeof(Url) of
         string -> Url;
         list -> lists:concat([expand(State, I) || I <- Url])
+    end.
+    
+get_cookies({http_response, _, Headers, _}) ->
+    case proplists:get_all_values("set-cookie", Headers) of
+        [] -> 
+            [];
+        Values ->
+            dict:to_list(lists:foldl(
+                fun(CookieString, Dict) ->
+                     Fields =
+                        [begin
+                            case string:tokens(Field, "=") of
+                                [Key] ->
+                                    {string:strip(Key), ""};
+                                [Key, Val] ->
+                                    {string:strip(Key), string:strip(Val)};
+                                [Key | Vals] ->
+                                    {string:strip(Key), string:strip(string:join(Vals, "="))}
+                            end
+                        end || Field <- string:tokens(CookieString, ";")],
+                     [{Name,_}|_] = Fields,
+                     dict:store(Name, {cookie, CookieString, Fields}, Dict)
+                end, dict:new(), Values))
     end.

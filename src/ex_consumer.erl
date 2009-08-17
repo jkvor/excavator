@@ -317,10 +317,15 @@ assert_true(_K, [], list_of_strings) -> true;
 assert_true(_K, V, list_of_strings) when is_list(V) ->
     case lists:usort([ex_util:typeof(I) || I <- V]) of
         [string] -> true;
-        _ -> false
+        _ -> 
+            case ex_util:typeof(V) of
+                string -> true;
+                _ -> false
+            end
     end;
     
 assert_true(_K, [], list_of_nodes) -> true;
+assert_true(_K, {A,B,C}, list_of_nodes) when is_binary(A), is_list(B), is_list(C) -> true;
 assert_true(_K, V, list_of_nodes) when is_list(V) ->
     case lists:usort([ex_util:typeof(I) || I <- V]) of
         [node] -> true;
