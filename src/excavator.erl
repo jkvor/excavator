@@ -51,7 +51,7 @@ init(_) ->
 build_rel() ->
     {ok, FD} = file:open("excavator.rel", [write]),
     RelInfo = {release,
-        {"excavator", "0.2"},
+        {"excavator", "0.3"},
         {erts, "5.7.2"}, [
             {kernel, "2.13.2"},
             {stdlib, "1.16.2"},
@@ -61,7 +61,7 @@ build_rel() ->
             {mochiweb, "0.2"},
             {mochixpath, "0.1"},
             {dynamic_compile, "0.1"},
-            {excavator, "0.2"}
+            {excavator, "0.3"}
         ]
     },
     io:format(FD, "~p.", [RelInfo]),

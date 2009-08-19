@@ -69,7 +69,7 @@ parse(Filename, MainArgs) when is_list(Filename) ->
     
 process_root_level_form({function,L,main,Arity,Clauses}) ->
     {function,L,main,Arity,[
-            {clause,L1,Args,Guards,[to_cons(lists:reverse(build_instrs(Tokens, [])))]}
+            {clause,L1,Args,Guards,[to_cons(build_instrs(Tokens))]}
         || {clause,L1,Args,Guards,Tokens} <- Clauses]};
     
 process_root_level_form(Form) -> Form.
@@ -82,36 +82,33 @@ module_name(_, {ok, true}) ->
 module_name(Filename, _) ->
     list_to_atom(binary_to_list(erlang:md5(Filename))).
 
-build_instrs([], Acc) -> Acc;
-build_instrs([{atom,_,ok}|Tail], Acc) ->
-    build_instrs(Tail, Acc);
-build_instrs([Instr|Tail], Acc) ->
-	build_instrs(Tail, [build_instr(Instr)|Acc]).
+build_instrs(Tokens) ->
+    [build_instr(Token) || Token <- Tokens].
 
+build_cons_instrs({cons,_,Instr,{nil,_}}) ->
+	{cons, ?L, build_instr(Instr), {nil,?L}};
+
+build_cons_instrs({cons,_,Instr,Cons}) ->
+	{cons, ?L, build_instr(Instr), build_cons_instrs(Cons)}.
+    	
 build_instr({call, _, {atom, _, each}, [Key, Source, Instrs]}) ->
-	{tuple, ?L, [{atom,?L,instr}, {atom,?L,each}, to_cons([Key, Source, build_instr(Instrs)])]};
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,each}, to_cons([Key, Source, build_cons_instrs(Instrs)])]};
 
 build_instr({call, _, {atom, _, condition}, [Condition, Instrs]}) ->
-    {tuple, ?L, [{atom,?L,instr}, {atom,?L,condition}, to_cons([expand_condition(Condition), build_instr(Instrs)])]};
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,condition}, to_cons([expand_condition(Condition), build_cons_instrs(Instrs)])]};
 
 build_instr({call, _, {atom, _, condition}, [Condition, TrueInstrs, FalseInstrs]}) ->
-    {tuple, ?L, [{atom,?L,instr}, {atom,?L,condition}, to_cons([expand_condition(Condition), build_instr(TrueInstrs), build_instr(FalseInstrs)])]};
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,condition}, to_cons([expand_condition(Condition), build_cons_instrs(TrueInstrs), build_cons_instrs(FalseInstrs)])]};
     
 build_instr({call, _, {atom, _, onfail}, [Error, Instrs]}) ->
-	{tuple, ?L, [{atom,?L,instr}, {atom,?L,onfail}, to_cons([Error, build_instr(Instrs)])]};
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,onfail}, to_cons([Error, build_cons_instrs(Instrs)])]};
 
 build_instr({call, _, {atom, _, onfail}, [Error, Instrs, FailInstrs]}) ->
-	{tuple, ?L, [{atom,?L,instr}, {atom,?L,onfail}, to_cons([Error, build_instr(Instrs), build_instr(FailInstrs)])]};
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,onfail}, to_cons([Error, build_cons_instrs(Instrs), build_cons_instrs(FailInstrs)])]};
 	
 build_instr({call, _, {atom, _, function}, [Function]}) ->
     {tuple, ?L, [{atom,?L,instr}, {atom,?L,function}, to_cons([Function])]};
-	
-build_instr({cons,_,Instr,{nil,_}}) ->
-	{cons, ?L, build_instr(Instr), {nil,?L}};
-	
-build_instr({cons,_,Instr,Cons}) ->
-	{cons, ?L, build_instr(Instr), build_instr(Cons)};
-	
+		
 build_instr({call, _, {atom, _, assert}, [Condition]}) ->
     {tuple, ?L, [{atom,?L,instr}, {atom,?L,assert}, to_cons([expand_condition(Condition)])]};	
 		
@@ -121,9 +118,20 @@ build_instr({call, _, {atom, _, Instr}, Args})
 		 Instr==onfail; Instr==commit; Instr==add;
 		 Instr==gassign; Instr==gadd ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,Instr}, to_cons(Args)]};
-	    
-build_instr(Term) -> 
-    {tuple, ?L, [{atom,?L,instr}, {atom,?L,term}, to_cons([Term])]}.
+
+build_instr({Type, _, _} = Term) when Type == atom; 
+                                      Type == tuple; 
+                                      Type == integer;
+                                      Type == float;
+                                      Type == bin;
+                                      %%Type == var;
+                                      Type == string ->
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,term}, to_cons([Term])]};
+    
+build_instr({cons, _, _, _} = Cons) ->
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,term}, to_cons([Cons])]};
+    
+build_instr(Term) -> Term.
 	
 expand_condition({op, _, Op, Left, Right}) ->
     {tuple, ?L, [{atom, ?L, op}, {atom, ?L, Op}, expand_condition(Left), expand_condition(Right)]};

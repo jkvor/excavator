@@ -24,6 +24,7 @@
 -define(CRITICAL_MSG(Format, Args), ex_logger:critical_msg(Format, Args)).
 
 -record(http_response, {status, headers, body}).
+-record(http_request, {method=get, url=[], headers=[], body=[]}).
 
 -define(ADD, fun ex_util:add/3).
 -define(GLOBAL_ADD, fun ex_util:global_add/3).
