@@ -4,13 +4,13 @@
 %% * each loop with range and list
 %% * global add
 main() ->
-    assign(items, {range, 1, 5.5}),
+    assign(items, range(1, 5.5)),
     each(item, items, [
         gadd(results1, item)
     ]),
     function(fun validate_results1/1),
 
-    assign(items, {range, "A", "E", fun inc_letter/1}),
+    assign(items, range("A", "E", fun inc_letter/1)),
     each(item, items, [
         gadd(results2, item)
     ]),

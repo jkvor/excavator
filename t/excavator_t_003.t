@@ -2,6 +2,8 @@
 %% -*- erlang -*-
 %%! -pa ../excavator -pa ebin -sasl errlog_type error -boot start_sasl -noshell
 
+-include_lib("excavator/include/excavator.hrl").
+
 main(_) ->
     etap:plan(unknown),
     case (catch start()) of
@@ -81,7 +83,7 @@ start() ->
     Instrs =
         [   {instr, assign, [page_range, {range, 1, 3}]},
             {instr, each, [page_num, page_range, [
-                {instr, assign, [search_result_page, {http, get, ["http://127.0.0.1:8888/search_twitter_page", page_num, ".html"]}]},
+                {instr, assign, [search_result_page, #http_req{url=["http://127.0.0.1:8888/search_twitter_page", page_num, ".html"]}]},
                 {instr, assert, [search_result_page, {status, 200}]},
                 {instr, assert, [search_result_page, string]},
                 {instr, assign, [search_results, {xpath, search_result_page, "//li[@class='result ']"}]},

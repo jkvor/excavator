@@ -19,14 +19,10 @@ start() ->
     application:start(excavator),
     test_server:start_link(),
 
-    %[a,b,c] = ex_engine:run(ex_pp:parse("templates/non_instr_tests.ex")),
-
-    ok = ex_engine:run(ex_pp:parse("templates/iteration_tests.ex", [])),
-    
-    ok = ex_engine:run(ex_pp:parse("templates/assignment_tests.ex", [])),
-    
-    ok = ex_engine:run(ex_pp:parse("templates/assertion_tests.ex", [])),
-    
+    etap:is(ex_engine:run(ex_pp:parse("templates/non_instr_tests.ex")), [a,b,c], "correct response from non_instr_tests.ex"),
+    etap:is(ex_engine:run(ex_pp:parse("templates/iteration_tests.ex", [])), ok, "correct response from iteration_tests.ex"),
+    etap:is(ex_engine:run(ex_pp:parse("templates/assignment_tests.ex", [])), ok, "correct response from assignment_tests.ex"),
+    etap:is(ex_engine:run(ex_pp:parse("templates/assertion_tests.ex", [])), ok, "correct response from assertion_tests.ex"),
     etap:is(ex_engine:run(ex_pp:parse("templates/overloaded.ex", [a])), "ABCD", "overloaded ok"),
     etap:is(ex_engine:run(ex_pp:parse("templates/overloaded.ex", [b])), "ABCE", "overloaded ok"),
     etap:is(ex_engine:run(ex_pp:parse("templates/overloaded.ex", [a, b])), "ABCF", "overloaded ok"),

@@ -25,7 +25,7 @@
 
 -include("excavator.hrl").
 
-run(XPath, {http_response, _, _, Body}) ->
+run(XPath, #http_resp{body=Body}) ->
     run(XPath, Body);
     
 run(XPath, {A,B,C}) when is_binary(A), is_list(B), is_list(C) ->

@@ -25,24 +25,24 @@ __templates/github-public-activity.ex__
 	    configure(commit_callback, {io, format}),
 
 	    %% fetch user's public activity
-	    assign(public_activity, {http, get, ["http://github.com/", Username, ".atom"]}),
+	    assign(public_activity, #http_req{url=["http://github.com/", Username, ".atom"]}),
 	    assert(public_activity, {status, 200}),
 
-	    each(entry, {xpath, public_activity, "//entry"}, [
+	    each(entry, xpath(public_activity, "//entry"), [
 
 	        %% pull entry_id fields
-	        assign(entry_id, {xpath, entry, "//id/text()"}),
+	        assign(entry_id, xpath(entry, "//id/text()")),
 	        assert(entry_id, string),
     
 	        %% pull event_type fields
-	        assign(event_type, {regexp, entry_id, "tag:github.com,[0-9]{4}:(.*)/[0-9]*"}),
+	        assign(event_type, regexp(entry_id, "tag:github.com,[0-9]{4}:(.*)/[0-9]*")),
 	        assert(event_type, string),
 
 	        %% process PUSH and ISSUES events
 	        condition(event_type == "PushEvent", [
     
 	            %% pull published date
-	            assign(published, {xpath, entry, "//published/text()"}),
+	            assign(published, xpath(entry, "//published/text()")),
 	            assert(published, string),
                 
 	            %% call commit function (io:format/2 in this case)
@@ -102,14 +102,14 @@ __templates/github-public-activity.ex__
 		configure(commit_callback, {my_monkey_maker, new_monkey})
 * __assign__: assign a static value to a state key in the current scope
 
-		assign(user_ids, {xpath, users_xml, "//id/text()"})
-		assign(user_ids, {regexp, users_txt, "id=([0-9]+)"}),
-		assign(pokemons, {http, get, "http://yummymeatwhiz.com/?page_id=223"})
-		assign(new_pokemon, {http, post, "http://yummymeatwhiz.com/?page_id=223", [{application_id, "monkeybrains"}], <<"Let me show you it">>})
+		assign(user_ids, xpath(users_xml, "//id/text()"))
+		assign(user_ids, regexp(users_txt, "id=([0-9]+)")),
+		assign(pokemons, #http_req{url="http://yummymeatwhiz.com/?page_id=223"})
+		assign(new_pokemon, #http_req{method=post, url="http://yummymeatwhiz.com/?page_id=223", headers=[{application_id, "monkeybrains"}], body=<<"Let me show you it">>})
 * __gassign__: the same as assign, but associates value with state key in the global scope
 * __add__: similar to assign, but instead of overwriting the value of a state key it will append the value and build up a list
 
-		add(user_ids, {xpath, user_xml, "//id/text()"})
+		add(user_ids, xpath(user_xml, "//id/text()"))
 * __gadd__: the same as add, but global
 * __assert__: assert that the value associated with a state key meets certain criteria. The following assertions are supported:
 
@@ -133,11 +133,11 @@ __templates/github-public-activity.ex__
 			print(day)
 		])
 
-		each(page_num, {range, 1, 10}, [
+		each(page_num, range(1, 10), [
 			print(page_num)
 		])
 		
-		assign(users, {xpath, friend_list, "//friend"}),
+		assign(users, xpath(friend_list, "//friend")),
 		each(user, users, [
 			print(user)
 		])
@@ -154,7 +154,7 @@ __templates/github-public-activity.ex__
 * __onfail__: suppress exceptions of a certain type inside a block of code
 
 		onfail({assertion_failed, {users_xml, '_', {status, 200}}}, [
-			assign(pokemons, {http, get, "http://yummymeatwhiz.com/?page_id=223"})
+			assign(pokemons, #http_req{url="http://yummymeatwhiz.com/?page_id=223"})
 			assert(pokemons, {status, 200}),
 			print("if the pokemons request did not return successfully, this instruction will not execute")
 		]),

@@ -17,7 +17,7 @@ main() ->
     ]),
     function(fun validate_results1/1),
     
-    each(item, {range, 1, 3}, [
+    each(item, range(1, 3), [
         gadd(results2, item)
     ]),
     function(fun validate_results2/1),
@@ -36,17 +36,17 @@ main() ->
         
     function(fun validate_original/1),
             
-    each(item, {regexp, "a_b_c_d", "([a-z]+)"}, [
+    each(item, regexp("a_b_c_d", "([a-z]+)"), [
         gadd(results4, item)
     ]),
     function(fun validate_results4/1),
         
-    each(item, {xpath, "<farm><turkey name=\"glen\" /><turkey name=\"gladis\" /></farm>", "//turkey/@name"}, [
+    each(item, xpath("<farm><turkey name=\"glen\" /><turkey name=\"gladis\" /></farm>", "//turkey/@name"), [
         gadd(results5, item)
     ]),
     function(fun validate_results5/1),
         
-    condition({first, results5} == "glen" andalso {last, results5} == "gladis", [
+    condition(first(results5) == "glen" andalso last(results5) == "gladis", [
         gassign(result6a, true),
         assign(result6b, true)
     ]),

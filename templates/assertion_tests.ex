@@ -10,15 +10,15 @@ main() ->
     
     assert([1,a,"asdf"], list),
     
-    assert({http_response, 200, [], "<html/>"}, {status, 200}),
-    assert({http_response, 200, [], "<html/>"}, string),
+    assert({http_resp, 200, [], "<html/>", []}, {status, 200}),
+    assert({http_resp, 200, [], "<html/>", []}, string),
     
     assert({<<"html">>, [], []}, node),
     assert([], list_of_nodes),
     assert([{<<"html">>, [], []}], list_of_nodes),
     
     assign(bar, "Bar"),
-    assign(foobar, {concat, ["Foo ", bar]}),
+    assign(foobar, concat(["Foo ", bar])),
     assert(foobar == "Foo Bar"),
     
     assert({length, [1,2,3]} == 3),
@@ -65,9 +65,10 @@ main() ->
     function(fun validate_result5/1),
 
     assign(my_list, ["random", "butter"]),
-    assert({first, my_list} == "random"),
+    assert(first(my_list) == "random"),
+    assert(last(my_list) == "butter"),
     onfail({assertion_failed, '_'}, [
-        assert({first, my_list} == "butter")
+        assert(first(my_list) == "butter")
     ], [
         gassign(result6, true)
     ]),

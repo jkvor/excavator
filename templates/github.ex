@@ -1,32 +1,32 @@
 main(Users) ->
     each(user, Users, [
         %% fetch user's public activity
-        assign(public_activity, {http, get, ["http://127.0.0.1:8888/github-", user, ".xml"]}),
+        assign(public_activity, #http_req{url=["http://127.0.0.1:8888/github-", user, ".xml"]}),
         assert(public_activity, {status, 200}),
         
         %% pull entry nodes
-        assign(entries, {xpath, public_activity, "//entry"}),
+        assign(entries, xpath(public_activity, "//entry")),
         assert(entries, list_of_nodes),
         
         each(entry, entries, [
         
             %% pull entry_id fields
-            assign(entry_id, {xpath, entry, "//id/text()"}),
+            assign(entry_id, xpath(entry, "//id/text()")),
             assert(entry_id, string),
             
             %% pull event_type fields
-            assign(event_type, {regexp, entry_id, "tag:github.com,[0-9]{4}:(.*)/[0-9]*"}),
+            assign(event_type, regexp(entry_id, "tag:github.com,[0-9]{4}:(.*)/[0-9]*")),
             assert(event_type, string),
             
             %% process PUSH and ISSUES events
             condition((event_type == "PushEvent") orelse (event_type == "IssuesEvent"), [
             
                 %% pull published date
-                assign(published, {xpath, entry, "//published/text()"}),
+                assign(published, xpath(entry, "//published/text()")),
                 assert(published, string),
 
                 %% pull author field
-                assign(author, {xpath, entry, "//author/name/text()"}),
+                assign(author, xpath(entry, "//author/name/text()")),
                 assert(author, string),
                 
                 %% commit published date and event type

@@ -21,8 +21,8 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_pp).
-%-export([parse/1, parse/2]).
--compile(export_all).
+-export([parse/1, parse/2]).
+-export([purge/1, delete/1]).
 
 -define(L, 4).
 
@@ -30,49 +30,93 @@
 
 parse(Filename) when is_list(Filename) -> parse(Filename, []).
 parse(Filename, MainArgs) when is_list(Filename) ->
-    case catch epp:parse_file(Filename,[],[]) of
-        {ok, Forms} -> 
-            {_,Indices} = lists:foldl(
-                fun ({attribute,_,file,{_,_}}, {I, Acc}) ->
-                        {I+1, [{attribute, I}|Acc]};
-                    ({function,_,main,_,_}, {I, Acc}) ->
-                        {I+1, [{main, [I | proplists:get_value(main, Acc, [])]}|Acc]};
-                    (_, {I, Acc}) ->
-                        {I+1, Acc}
-                end, {1, []}, Forms),
-            
-            case proplists:get_value(attribute, Indices) of
-                1 -> ok;
-                _ -> exit({error, bad_file_attribute})
-            end,
-            
-            case proplists:get_value(main, Indices) of
-                undefined -> exit({error, missing_main_function});
-                _ -> ok
-            end,
-            
-            Forms1 = 
-                [{attribute,1,file,{Filename,1}},
-                 {attribute,1,module,module_name(Filename, application:get_env(excavator, randomize_module_names))},
-                 {attribute,1,compile,[export_all]}] ++
-                [process_root_level_form(Form) || Form <- lists:nthtail(1, Forms)],
-            
-            {ok, Mod, Bins} = compile:forms(Forms1),
-            code:load_binary(Mod, atom_to_list(Mod), Bins),
-            erlang:apply(Mod, main, MainArgs);
-            
-        {'EXIT', Err} -> 
-            exit(Err);
-        Other -> 
-            exit({parse_error, Other})
+    ModuleName = module_name(Filename, application:get_env(excavator, randomize_module_names)),
+    case code:is_loaded(ModuleName) of
+        {file, _} -> ok;
+        false ->
+            case catch epp:parse_file(Filename,[],[]) of
+                {ok, Forms} -> 
+                    {_,Indices} = lists:foldl(
+                        fun ({attribute,_,file,{_,_}}, {I, Acc}) ->
+                                {I+1, [{attribute, I}|Acc]};
+                            ({function,_,main,_,_}, {I, Acc}) ->
+                                {I+1, [{main, [I | proplists:get_value(main, Acc, [])]}|Acc]};
+                            (_, {I, Acc}) ->
+                                {I+1, Acc}
+                        end, {1, []}, Forms),
+
+                    case proplists:get_value(attribute, Indices) of
+                        1 -> ok;
+                        _ -> exit({error, bad_file_attribute})
+                    end,
+
+                    case proplists:get_value(main, Indices) of
+                        undefined -> exit({error, missing_main_function});
+                        _ -> ok
+                    end,
+
+                    Forms1 = 
+                        [{attribute,1,file,{Filename,1}},
+                         {attribute,1,module, ModuleName},
+                         {attribute,1,compile,[export_all]}] ++
+                         parse_include() ++
+                        [process_root_level_form(Form) || Form <- lists:nthtail(1, Forms)],
+
+                    {ok, Mod, Bins} = compile:forms(Forms1, [verbose,report_errors]),
+                    code:load_binary(Mod, atom_to_list(Mod), Bins);
+                {'EXIT', Err} -> 
+                    exit(Err);
+                Other -> 
+                    exit({parse_error, Other})
+            end
+    end,
+    erlang:apply(ModuleName, main, MainArgs).
+    
+purge(Filename) ->
+    ModuleName = module_name(Filename, application:get_env(excavator, randomize_module_names)),
+    code:purge(ModuleName).
+    
+delete(Filename) ->
+    ModuleName = module_name(Filename, application:get_env(excavator, randomize_module_names)),
+    code:delete(ModuleName).
+    
+parse_include() ->
+    Filename = case code:lib_dir(excavator) of
+        {error, bad_name} -> "./include/excavator.hrl";
+        LibDir -> LibDir ++ "/include/excavator.hrl"
+    end,
+    case epp:parse_file(Filename,[],[]) of
+        {ok, Forms} ->
+            lists:foldl(fun
+                ({attribute,_,record,_}=Record, Acc) ->
+                    [Record|Acc];
+                (_, Acc) ->
+                    Acc
+                end, [], Forms);
+        _ ->
+            []
     end.
     
 process_root_level_form({function,L,main,Arity,Clauses}) ->
-    {function,L,main,Arity,[
-            {clause,L1,Args,Guards,[to_cons(build_instrs(Tokens))]}
-        || {clause,L1,Args,Guards,Tokens} <- Clauses]};
-    
+    {function,L,main,Arity,[begin
+        {I1, Instrs} = lists:foldl(fun
+            ({tuple,_,[{atom,_,instr}|_]}=Instr, {I, Acc}) ->
+                {I+1, [assign_instr(Instr, I, L1)|Acc]};
+            (Other, {I, Acc}) ->
+                {I, [Other|Acc]}
+            end, 
+            {1, [{match,L1,{var,L1,acc_var(1)},{nil,L1}}]}, 
+            build_instrs(Tokens)),
+        Instrs1 = lists:reverse([{var,L1,acc_var(I1)}|Instrs]),
+        {clause,L1,Args,Guards,Instrs1}
+    end || {clause,L1,Args,Guards,Tokens} <- Clauses]};
 process_root_level_form(Form) -> Form.
+
+acc_var(I) ->
+    list_to_atom(lists:concat(["InternalExcavatorInstructionsAcc", I])).
+    
+assign_instr(Instr, I, L) ->
+    {match,L,{var,L,acc_var(I+1)},{call,L,{remote,L,{atom,L,lists},{atom,L,append}},[{var,L,acc_var(I)},{cons,L,Instr,{nil,L}}]}}.
 	
 module_name(_, {ok, true}) ->
     {A,B,C} = now(),
@@ -92,7 +136,7 @@ build_cons_instrs({cons,_,Instr,Cons}) ->
 	{cons, ?L, build_instr(Instr), build_cons_instrs(Cons)}.
     	
 build_instr({call, _, {atom, _, each}, [Key, Source, Instrs]}) ->
-	{tuple, ?L, [{atom,?L,instr}, {atom,?L,each}, to_cons([Key, Source, build_cons_instrs(Instrs)])]};
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,each}, to_cons([Key, expand_arg(Source), build_cons_instrs(Instrs)])]};
 
 build_instr({call, _, {atom, _, condition}, [Condition, Instrs]}) ->
     {tuple, ?L, [{atom,?L,instr}, {atom,?L,condition}, to_cons([expand_condition(Condition), build_cons_instrs(Instrs)])]};
@@ -110,14 +154,19 @@ build_instr({call, _, {atom, _, function}, [Function]}) ->
     {tuple, ?L, [{atom,?L,instr}, {atom,?L,function}, to_cons([Function])]};
 		
 build_instr({call, _, {atom, _, assert}, [Condition]}) ->
-    {tuple, ?L, [{atom,?L,instr}, {atom,?L,assert}, to_cons([expand_condition(Condition)])]};	
-		
-build_instr({call, _, {atom, _, Instr}, Args}) 
-	when Instr==configure; Instr==assign; Instr==assert; 
-		 Instr==print; Instr==function; 
-		 Instr==onfail; Instr==commit; Instr==add;
-		 Instr==gassign; Instr==gadd ->
-	{tuple, ?L, [{atom,?L,instr}, {atom,?L,Instr}, to_cons(Args)]};
+    {tuple, ?L, [{atom,?L,instr}, {atom,?L,assert}, to_cons([expand_condition(Condition)])]};
+    
+build_instr({call, _, {atom, _, Instr}, Args}) when Instr == configure; 
+                                                    Instr == assign; 
+                                                    Instr == assert; 
+                                                    Instr == print; 
+                                                    Instr == function; 
+                                                    Instr == onfail; 
+                                                    Instr == commit; 
+                                                    Instr == add;
+                                                    Instr == gassign; 
+                                                    Instr == gadd ->
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,Instr}, to_cons(expand_args(Args))]};
 
 build_instr({Type, _, _} = Term) when Type == atom; 
                                       Type == tuple; 
@@ -136,7 +185,33 @@ build_instr(Term) -> Term.
 expand_condition({op, _, Op, Left, Right}) ->
     {tuple, ?L, [{atom, ?L, op}, {atom, ?L, Op}, expand_condition(Left), expand_condition(Right)]};
     
-expand_condition(Other) -> Other.
+expand_condition(Other) -> expand_arg(Other).
+
+expand_args(Args) ->
+    [expand_arg(Arg) || Arg <- Args].
+    
+expand_arg({call, _, {atom, _, xpath}, [Key, XPath]}) ->
+    {tuple, ?L, [{atom,?L,xpath}, Key, expand_arg(XPath)]};
+
+expand_arg({call, _, {atom, _, regexp}, [Key, Regexp]}) ->
+    {tuple, ?L, [{atom,?L,regexp}, Key, expand_arg(Regexp)]};
+
+expand_arg({call, _, {atom, _, first}, [Key]}) ->
+    {tuple, ?L, [{atom,?L,first}, expand_arg(Key)]};
+
+expand_arg({call, _, {atom, _, last}, [Key]}) ->
+    {tuple, ?L, [{atom,?L,last}, expand_arg(Key)]};
+
+expand_arg({call, _, {atom, _, concat}, [Key]}) ->
+    {tuple, ?L, [{atom,?L,concat}, expand_arg(Key)]};
+
+expand_arg({call, _, {atom, _, range}, [Start, End]}) ->
+    {tuple, ?L, [{atom,?L,range}, expand_arg(Start), expand_arg(End)]};
+
+expand_arg({call, _, {atom, _, range}, [Start, End, Fun]}) ->
+    {tuple, ?L, [{atom,?L,range}, expand_arg(Start), expand_arg(End), expand_arg(Fun)]};
+
+expand_arg(Other) -> Other.
 
 preprocess_arg({tuple, _, [{atom,_,regexp},{atom,_,Key},{string,_,Regexp}]}) ->
 	{ok, {re_pattern, A, B, Bin}} = re:compile(Regexp),

@@ -23,6 +23,8 @@
 -module(ex_web).
 -export([request/4]).
 
+-include("excavator.hrl").
+
 -define(HEADERS, [
     {"Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"},
     {"Accept-Language","en-us,en;q=0.5"},
@@ -36,14 +38,41 @@ request(Method, Url, [], Body) -> request(Method, Url, ?HEADERS, Body);
 request(Method, Url, Headers, []) 
  when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
 	case http:request(Method, {Url, Headers}, [], []) of
-		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> {http_response, RspStatus, RspHeaders, RspBody};
-		{error, Reason} -> exit({?MODULE, ?LINE, Reason})
+		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> 
+		    #http_resp{status=RspStatus, headers=RspHeaders, body=RspBody, cookies=get_cookies(RspHeaders)};
+		{error, Reason} -> 
+		    exit({?MODULE, ?LINE, Reason})
 	end;
 	
 request(Method, Url, Headers, Body) 
  when Method == post; Method == put ->
     ContentType = proplists:get_value("Content-Type", Headers, "text/html"),
 	case http:request(Method, {Url, Headers, ContentType, Body}, [], []) of
-		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> {http_response, RspStatus, RspHeaders, RspBody};
-		{error, Reason} -> exit({?MODULE, ?LINE, Reason})
+		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> 
+		    #http_resp{status=RspStatus, headers=RspHeaders, body=RspBody, cookies=get_cookies(RspHeaders)};
+		{error, Reason} -> 
+		    exit({?MODULE, ?LINE, Reason})
 	end.
+
+get_cookies(Headers) ->
+    case proplists:get_all_values("set-cookie", Headers) of
+        [] -> 
+            [];
+        Values ->
+            dict:to_list(lists:foldl(
+                fun(CookieString, Dict) ->
+                     Fields =
+                        [begin
+                            case string:tokens(Field, "=") of
+                                [Key] ->
+                                    {string:strip(Key), ""};
+                                [Key, Val] ->
+                                    {string:strip(Key), string:strip(Val)};
+                                [Key | Vals] ->
+                                    {string:strip(Key), string:strip(string:join(Vals, "="))}
+                            end
+                        end || Field <- string:tokens(CookieString, ";")],
+                     [{Name,_}|_] = Fields,
+                     dict:store(Name, {cookie, CookieString, Fields}, Dict)
+                end, dict:new(), Values))
+    end.

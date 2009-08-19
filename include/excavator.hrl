@@ -8,6 +8,9 @@
     last_value
 }).
 
+-record(http_resp, {status, headers, body, cookies}).
+-record(http_req, {method=get, url=[], headers=[], body=[]}).
+
 -define(DBG_REPORT(Args), ex_logger:debug_report(Args)).
 -define(DBG_MSG(Format, Args), ex_logger:debug_msg(Format, Args)).
 
@@ -22,9 +25,6 @@
 
 -define(CRITICAL_REPORT(Args), ex_logger:critical_report(Args)).
 -define(CRITICAL_MSG(Format, Args), ex_logger:critical_msg(Format, Args)).
-
--record(http_response, {status, headers, body}).
--record(http_request, {method=get, url=[], headers=[], body=[]}).
 
 -define(ADD, fun ex_util:add/3).
 -define(GLOBAL_ADD, fun ex_util:global_add/3).

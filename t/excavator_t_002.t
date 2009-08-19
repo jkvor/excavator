@@ -2,6 +2,8 @@
 %% -*- erlang -*-
 %%! -pa ../excavator -pa ebin -sasl errlog_type error -boot start_sasl -noshell
 
+-include_lib("excavator/include/excavator.hrl").
+
 main(_) ->
     etap:plan(unknown),
     case (catch start()) of
@@ -25,7 +27,7 @@ start() ->
     
     ValidateAlbumID = fun(S) ->
         AID = ex_util:fetch(S, album_id),
-        {http_response, Status, _, _} = ex_util:fetch(S, album_page),
+        {http_resp, Status, _, _, _} = ex_util:fetch(S, album_page),
         Result =
             case [lists:member(AID, GoodAlbumIDs), lists:member(AID, BadAlbumIDs)] of
                 [true, false] ->
@@ -47,7 +49,7 @@ start() ->
     end,
         
     Instrs =
-        [   {instr, assign, [artist_page, {http, get, "http://127.0.0.1:8888/gracenote_albums.html"}]},
+        [   {instr, assign, [artist_page, #http_req{url="http://127.0.0.1:8888/gracenote_albums.html"}]},
             {instr, assert, [artist_page, {status, 200}]},
             {instr, assert, [artist_page, string]},
             {instr, assign, [albums, {xpath, artist_page, "//div[@class='album-meta-data-wrapper']"}]},
@@ -56,7 +58,7 @@ start() ->
                 {instr, assign, [album_href, {xpath, album, "//a[1]/@href"}]},
                 {instr, assign, [album_id, {regexp, album_href, compile_re("tui_id=(.*)tui")}]},
                 {instr, assert, [album_id, string]},
-                {instr, assign, [album_page, {http, get, ["http://127.0.0.1:8888/gracenote_album_", album_id, ".html"]}]},
+                {instr, assign, [album_page, #http_req{url=["http://127.0.0.1:8888/gracenote_album_", album_id, ".html"]}]},
                 {instr, function, [ValidateAlbumID]},
                 {instr, onfail, [
                     {assertion_failed, {album_page, '_', {status, 200}}},

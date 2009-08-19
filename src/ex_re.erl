@@ -45,8 +45,8 @@ run(State, Regexp, Term) when is_tuple(Regexp) ->
 		    end
 	end.
 	
-stringify(_, HttpResponse) when is_record(HttpResponse, http_response) ->
-    HttpResponse#http_response.body;
+stringify(_, HttpResponse) when is_record(HttpResponse, http_resp) ->
+    HttpResponse#http_resp.body;
 stringify(_, {A,B,C}) when is_binary(A), is_list(B), is_list(C) ->
 	ex_xpath:reassemble({A,B,C});
 stringify(S, List) when is_list(List) ->

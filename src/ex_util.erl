@@ -80,7 +80,7 @@ seconds() ->
     Secs + (Micro / 1000000).
 
 typeof({A,B,C}) when is_binary(A), is_list(B), is_list(C) -> node;
-typeof(HttpResponse) when is_record(HttpResponse, http_response) -> http_response;
+typeof(HttpResponse) when is_record(HttpResponse, http_resp) -> http_resp;
 typeof({range, A, B}) when is_integer(A), is_integer(B) -> range;
 typeof([H|_]=List) when is_integer(H) ->
     lists:foldl(

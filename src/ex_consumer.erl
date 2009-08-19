@@ -304,14 +304,14 @@ compare(Item1, Item2) when is_list(Item1), is_list(Item2) ->
 	
 compare(_, _) -> false.
     
-assert_true(_K, V, string) when is_record(V, http_response) ->
-    case V#http_response.body of
+assert_true(_K, V, string) when is_record(V, http_resp) ->
+    case V#http_resp.body of
         String when is_list(String), length(String) > 0 -> true;
         _ -> false
     end;
     
-assert_true(_K, V, {status, Status}) when is_record(V, http_response) ->
-    V#http_response.status == Status;
+assert_true(_K, V, {status, Status}) when is_record(V, http_resp) ->
+    V#http_resp.status == Status;
     
 assert_true(_K, [], list_of_strings) -> true;
 assert_true(_K, V, list_of_strings) when is_list(V) ->
