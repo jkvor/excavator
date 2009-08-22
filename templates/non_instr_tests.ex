@@ -7,4 +7,5 @@ main() ->
     {a,b,c},
     [a,b,c],
     {ABC, _} = {[a,b,c], abc},
+    (fun() -> abc end)(),
     ABC.
