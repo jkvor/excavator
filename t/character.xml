@@ -1,0 +1,14 @@
+<character>
+    <name>Korale</name>
+    <realm>Medivh</realm>
+    <realm_class>US</realm_class>
+    <race>Human</race>
+    <class>Priest</class>
+    <stats>
+        <int>814</int>
+        <wis>1103</wis>
+        <str>9</str>
+        <sta>401</sta>
+        <agi>20</agi>
+    </stats>
+</character>

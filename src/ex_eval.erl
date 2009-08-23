@@ -35,7 +35,11 @@ expand(State, {FirstLast, Values0}) when (FirstLast==first orelse FirstLast==las
         _ ->
             {expand(State, FirstLast), Values0}
     end;
-    
+
+expand(_State, {file, FileLocation}) when is_list(FileLocation) ->
+    {ok, Data} = file:read_file(FileLocation),
+    binary_to_list(Data);
+
 %% HTTP requests
 expand(State, {http_req, Method, Url, Headers, Body}) ->
     Url1 = flatten_url(State, Url),
