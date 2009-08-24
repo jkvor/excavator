@@ -211,6 +211,9 @@ expand_arg({call, _, {atom, _, range}, [Start, End]}) ->
 expand_arg({call, _, {atom, _, range}, [Start, End, Fun]}) ->
     {tuple, ?L, [{atom,?L,range}, expand_arg(Start), expand_arg(End), expand_arg(Fun)]};
 
+expand_arg({call, _, {atom, _, read_file}, [Filename]}) ->
+	{tuple, ?L, [{atom,?L,file}, expand_arg(Filename)]};
+
 expand_arg(Other) -> Other.
 
 preprocess_arg({tuple, _, [{atom,_,regexp},{atom,_,Key},{string,_,Regexp}]}) ->

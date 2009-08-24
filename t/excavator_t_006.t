@@ -14,12 +14,14 @@ main(_) ->
     ok.
     
 start() ->
+	error_logger:tty(false),
     application:start(inets),
     application:start(excavator),
 
     Instrs = ex_pp:parse("templates/file_tests.ex", ["t/character.xml"]),
-    io:format("Instrs ~p~n", [Instrs]),
-    Var = ex_engine:run(Instrs),    
-    io:format("Results ~p~n", [Var]),
-    
+    {Name, Stats} = ex_engine:run(Instrs),
+
+	etap:is(Name, "Korale", "name matches ok"),
+	etap:is(Stats, ["814","1103","9","401","20"], "stats match ok"),
+
     ok.
