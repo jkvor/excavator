@@ -99,6 +99,17 @@ gadd_print(State, Key, _) ->
 	State.
 
 %% =============================================================================
+call_print(State, Module, Function, Args) ->
+	?INFO_MSG(">> print/3: ~p~n", [Module, Function, Args]),
+	State.
+	
+call(State, Module, Function, Args) ->
+	case apply(?EXPAND(State, Module), ?EXPAND(State, Function), [?EXPAND(State, Arg) || Arg <- Args]) of
+		S when is_record(S, state) -> S;
+		Other -> State#state{last_value=Other}
+	end.
+
+%% =============================================================================
 assert(State, {op, Op, Left, Right}) ->
     case is_condition(State, Op, ?EXPAND(State, Left), ?EXPAND(State, Right)) of
         true -> ok;

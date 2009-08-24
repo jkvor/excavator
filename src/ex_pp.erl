@@ -30,6 +30,10 @@
 
 parse(Filename) when is_list(Filename) -> parse(Filename, []).
 parse(Filename, MainArgs) when is_list(Filename) ->
+	ModuleName = compile(Filename),
+	erlang:apply(ModuleName, main, MainArgs).
+	
+compile(Filename) ->
     ModuleName = module_name(Filename, application:get_env(excavator, randomize_module_names)),
     case code:is_loaded(ModuleName) of
         {file, _} -> ok;
@@ -70,7 +74,7 @@ parse(Filename, MainArgs) when is_list(Filename) ->
                     exit({parse_error, Other})
             end
     end,
-    erlang:apply(ModuleName, main, MainArgs).
+	ModuleName.
     
 purge(Filename) ->
     ModuleName = module_name(Filename, application:get_env(excavator, randomize_module_names)),
@@ -135,6 +139,9 @@ build_cons_instrs({cons,_,Instr,{nil,_}}) ->
 build_cons_instrs({cons,_,Instr,Cons}) ->
 	{cons, ?L, build_instr(Instr), build_cons_instrs(Cons)}.
     	
+build_instr({call, _, {atom, _, call}, [Module, Function, Args]}) ->
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,call}, to_cons([expand_arg(Module), expand_arg(Function), expand_arg(Args)])]};
+	
 build_instr({call, _, {atom, _, each}, [Key, Source, Instrs]}) ->
 	{tuple, ?L, [{atom,?L,instr}, {atom,?L,each}, to_cons([Key, expand_arg(Source), build_cons_instrs(Instrs)])]};
 
@@ -155,7 +162,15 @@ build_instr({call, _, {atom, _, function}, [Function]}) ->
 		
 build_instr({call, _, {atom, _, assert}, [Condition]}) ->
     {tuple, ?L, [{atom,?L,instr}, {atom,?L,assert}, to_cons([expand_condition(Condition)])]};
+
+build_instr({call, _, {atom, _, configure}, [qps, Value]}) when is_float(Value) ->
+	validate_qps_value(Value),
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,configure}, to_cons(expand_args([qps, Value]))]};
     
+build_instr({call, _, {atom, _, configure}, [qps, Value, Prefix]}) when is_float(Value) ->
+	validate_qps_value(Value),
+	{tuple, ?L, [{atom,?L,instr}, {atom,?L,configure}, to_cons(expand_args([qps, Value, Prefix]))]};
+	
 build_instr({call, _, {atom, _, Instr}, Args}) when Instr == configure; 
                                                     Instr == assign; 
                                                     Instr == assert; 
@@ -214,6 +229,9 @@ expand_arg({call, _, {atom, _, range}, [Start, End, Fun]}) ->
 expand_arg({call, _, {atom, _, read_file}, [Filename]}) ->
 	{tuple, ?L, [{atom,?L,file}, expand_arg(Filename)]};
 
+expand_arg({call, _, {atom, _, call}, [Module, Function, Args]}) ->
+	{tuple, ?L, [{atom,?L,call}, expand_arg(Module), expand_arg(Function), expand_arg(Args)]};
+	
 expand_arg(Other) -> Other.
 
 preprocess_arg({tuple, _, [{atom,_,regexp},{atom,_,Key},{string,_,Regexp}]}) ->
@@ -232,3 +250,12 @@ preprocess_arg(Arg) -> Arg.
 	
 to_cons([]) -> {nil, ?L};
 to_cons([Arg|Tail]) -> {cons,?L,preprocess_arg(Arg),to_cons(Tail)}.
+
+validate_qps_value(Value) ->
+	Multiplied = Value * 10,
+	case (Multiplied - trunc(Multiplied)) of
+		0 ->
+			ok;
+		_ ->
+			exit({bad_qps_value, {Value, "must be a multiple of 0.1"}})
+	end.

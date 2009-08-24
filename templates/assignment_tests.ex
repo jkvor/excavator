@@ -55,8 +55,14 @@ main() ->
     assign({result7a, result7b}, {"Hello", "World"}),
     assign([result7c, {result7d, result7e}], ["My", {"Name", "Is"}]),
     function(fun validate_results7/1),
+	
+	assign(doc, frances),
+	assign(file, farmer),
+	assign(will_have_her_revenge, "ok"),
+	assign(concat_result, call(lists, concat, [[doc, '/', file, '.', 3]])),
+	function(fun validate_results8/1),
                   
-    ok.
+    call(erlang, list_to_atom, [will_have_her_revenge]).
  
 validate_conf(S) ->
     etap:is(ex_util:fetch_config(S, lame), 10, "unknown config value"),
@@ -101,3 +107,5 @@ validate_results7(S) ->
     etap:is(ex_util:fetch(S, result7d), "Name", "complex term assignment ok"),
     etap:is(ex_util:fetch(S, result7e), "Is", "complex term assignment ok").
     
+validate_results8(S) ->
+	etap:is(ex_util:fetch(S, concat_result), "frances/farmer.3", "call(lists, concat, _) ok").

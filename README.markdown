@@ -96,6 +96,12 @@ __templates/github-public-activity.ex__
 	Files=5, Tests=212,  3 wallclock secs ( 1.97 cusr +  0.51 csys =  2.48 CPU)
 
 ## Template Functions
+* __call__: call an arbitrary mfa:
+
+		call(erlang, atom_to_list, [ok]) %% == "ok"		
+* __read_file_: read from file
+
+		read_file("path/to/file.extension")
 * __configure__: set a configuration parameter. The following examples illustrate supported conifguration parameters:
 
 		configure(qps, 10) %% queries-per-second

@@ -25,6 +25,10 @@
 
 -include("excavator.hrl").
 
+%% call(M,F,A)
+expand(State, {call, M, F, A}) ->
+	apply(expand(State, M), expand(State, F), [expand(State, Arg) || Arg <- A]);
+
 %% {first, key}
 %% {last, key}
 expand(State, {FirstLast, Values0}) when (FirstLast==first orelse FirstLast==last) ->
@@ -36,12 +40,14 @@ expand(State, {FirstLast, Values0}) when (FirstLast==first orelse FirstLast==las
             {expand(State, FirstLast), Values0}
     end;
 
+%% Read File
 expand(_State, {file, FileLocation}) when is_list(FileLocation) ->
     {ok, Data} = file:read_file(FileLocation),
     binary_to_list(Data);
 
 %% HTTP requests
 expand(State, {http_req, Method, Url, Headers, Body}) ->
+	ex_throttler:throttle(State, Url),
     Url1 = flatten_url(State, Url),
     ex_web:request(Method, Url1, expand(State, Headers), expand(State, Body));
     

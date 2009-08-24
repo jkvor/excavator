@@ -29,7 +29,7 @@
          handle_info/2, terminate/2, code_change/3]).
    
 %% api callbacks
--export([start_link/0, add/1, info/1, remove/1]).
+-export([start_link/0, add/2, info/1, remove/1]).
 
 -include("excavator.hrl").
 
@@ -41,17 +41,14 @@
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
-%% @spec add(Filename | Instrs) -> pid()
+%% @spec add(Filename, MainArgs) -> pid()
 %%       Filename = string()
+%%		 MainArgs = list()
 %%       Instrs = list()
 %% @doc add a set of instructions to the scheduler and get back 
 %% the pid of the spawned scheduler process
-add([H|_]=Instrs) when is_tuple(H) ->
-    State = #state{instructions=Instrs},
-    gen_server:call(?MODULE, {add, State, undefined}, infinity);
-    
-add(Filename) when is_list(Filename) -> 
-    RefreshStateFun = fun() -> #state{instructions=ex_pp:parse(Filename)} end,
+add(Filename, MainArgs) when is_list(Filename), is_list(MainArgs) ->
+    RefreshStateFun = fun() -> #state{instructions=ex_pp:parse(Filename, MainArgs)} end,
     gen_server:call(?MODULE, {add, RefreshStateFun(), RefreshStateFun}, infinity).
     
 info(Pid) when is_pid(Pid) ->
@@ -139,26 +136,7 @@ code_change(_OldVsn, State, _Extra) ->
  
 %%--------------------------------------------------------------------
 %%% Internal functions
-%%--------------------------------------------------------------------
-
-next(#state{instructions=[{instr, assign, Http}|_], request_times=[Last|_]=Times}=State, RefreshStateFun) when is_tuple(Http), element(1, Http) == http ->
-    case ex_util:fetch_config(State, qps) of
-        undefined -> 
-            ok;
-        QPS when is_integer(QPS) ->
-            Now = ex_util:seconds(),
-            case (length(Times) >= QPS andalso Last >= Now - 1) of
-                true ->
-                    timer:sleep(trunc(1000 * (Now - Last)));
-                false ->
-                    ok
-            end
-    end,
-    run(State, RefreshStateFun);
-    
-next(State, RefreshStateFun) ->
-    run(State, RefreshStateFun).
-    
+%%--------------------------------------------------------------------    
 run(State, RefreshStateFun) ->
     case next_state(ex_consumer:execute(State)) of
         done ->
@@ -182,5 +160,5 @@ loop(State, RefreshStateFun) ->
         {From, terminate} ->
             From ! {self(), ok}
     after 0 ->
-        loop(next(State, RefreshStateFun), RefreshStateFun)
+        loop(run(State, RefreshStateFun), RefreshStateFun)
     end.
