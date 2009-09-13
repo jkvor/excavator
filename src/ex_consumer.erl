@@ -164,6 +164,17 @@ each(#state{instructions=[{instr, each, [InnerKey, SourceElems, NewInstrs]}|Tail
             Parent1 = State#state{instructions=[NewEachInstr|TailInstructions]},
             State1 = ?STORE(State, InnerKey, Current),
             State1#state{instructions=NewInstrs, parent=Parent1};
+		IoDevice when is_pid(IoDevice) ->
+			case read_line(IoDevice) of
+				eof ->
+					Parent = State#state{instructions=TailInstructions},
+		            State#state{instructions=[], parent=Parent};
+				Line ->
+					NewEachInstr = {instr, each, [InnerKey, SourceElems, NewInstrs]},
+		            Parent1 = State#state{instructions=[NewEachInstr|TailInstructions]},
+		            State1 = ?STORE(State, InnerKey, Line),
+					State1#state{instructions=NewInstrs, parent=Parent1}
+			end;	
         Element ->
             NewEachInstr = {instr, each, [InnerKey, [], NewInstrs]},
             Parent1 = State#state{instructions=[NewEachInstr|TailInstructions]},
@@ -360,3 +371,18 @@ update_request_times(#state{request_times=Times}) ->
         fun(S) ->
             S >= Secs-1
         end, Times)].
+
+read_line(IoDevice) ->
+	read_line(IoDevice, <<>>).
+	
+read_line(IoDevice, Acc) ->
+	case file:read(IoDevice, 1) of
+		{ok, "\n" = NL} ->
+			binary_to_list(<<Acc/binary, (list_to_binary(NL))/binary>>);
+		{ok, Char} ->
+			read_line(IoDevice, <<Acc/binary, (list_to_binary(Char))/binary>>);
+		eof ->
+			eof;
+		{error, Reason} ->
+			exit(failed_to_read_line, Reason)
+	end.

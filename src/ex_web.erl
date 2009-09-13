@@ -21,7 +21,7 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_web).
--export([request/4]).
+-export([request/5]).
 
 -include("excavator.hrl").
 
@@ -33,21 +33,25 @@
     {"User-Agent","Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.5) Gecko/2008120121 Firefox/3.0.5"}
 ]).
 
-request(Method, Url, [], Body) -> request(Method, Url, ?HEADERS, Body);
+request(Method, Url, [], Body, Options) -> request(Method, Url, ?HEADERS, Body, Options);
 
-request(Method, Url, Headers, []) 
+request(Method, Url, Headers, [], Options) 
  when Method==options;Method==get;Method==head;Method==delete;Method==trace ->
-	case http:request(Method, {Url, Headers}, [], []) of
+	case http:request(Method, {Url, Headers}, [], Options) of
+		{ok, saved_to_file} ->
+			#http_resp{};
 		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> 
 		    #http_resp{status=RspStatus, headers=RspHeaders, body=RspBody, cookies=get_cookies(RspHeaders)};
 		{error, Reason} -> 
 		    exit({?MODULE, ?LINE, Reason})
 	end;
 	
-request(Method, Url, Headers, Body) 
+request(Method, Url, Headers, Body, Options) 
  when Method == post; Method == put ->
     ContentType = proplists:get_value("Content-Type", Headers, "text/html"),
-	case http:request(Method, {Url, Headers, ContentType, Body}, [], []) of
+	case http:request(Method, {Url, Headers, ContentType, Body}, [], Options) of
+		{ok, saved_to_file} ->
+			#http_resp{};
 		{ok, {{_,RspStatus,_}, RspHeaders, RspBody}} -> 
 		    #http_resp{status=RspStatus, headers=RspHeaders, body=RspBody, cookies=get_cookies(RspHeaders)};
 		{error, Reason} -> 

@@ -40,10 +40,18 @@ expand(_State, {file, FileLocation}) when is_list(FileLocation) ->
     {ok, Data} = file:read_file(FileLocation),
     binary_to_list(Data);
 
+expand(_State, {open, FileLocation, Modes}) when is_list(FileLocation) ->
+	case file:open(FileLocation, Modes) of
+		{ok, IoDevice} ->
+			IoDevice;
+		{error, Reason} ->
+			exit({failed_to_open_file, Reason})
+	end;
+
 %% HTTP requests
-expand(State, {http_req, Method, Url, Headers, Body}) ->
+expand(State, {http_req, Method, Url, Headers, Body, Options}) ->
     Url1 = flatten_url(State, Url),
-    ex_web:request(Method, Url1, expand(State, Headers), expand(State, Body));
+    ex_web:request(Method, Url1, expand(State, Headers), expand(State, Body), expand(State, Options));
     
 %% HTTP Cookie Value
 expand(State, {cookie, CookieName, HttpRespKey}) ->

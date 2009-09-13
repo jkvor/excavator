@@ -3,4 +3,10 @@ main(Filename) ->
     assign(character_xml, read_file(Filename)),
     assign(name, xpath(character_xml, "/character/name/text()")),
     assign(stats, xpath(character_xml, "/character/stats/*/text()")),
-    {name, stats}.
+
+	assign(file_handle, open_file(Filename, [read])),
+	each(line, file_handle, [
+		gadd(lines, line)
+	]),
+	
+    {name, stats, lines}.

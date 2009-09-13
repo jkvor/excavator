@@ -29,8 +29,23 @@ run(State, Regexp, Term) when is_list(Regexp) ->
     {ok, RE} = re:compile(Regexp),
     run(State, RE, Term);
     
+run(_State, Regexp, [L|_]=Subject) when is_tuple(Regexp), is_list(L) ->
+	lists:reverse(lists:foldl(
+		fun(Sub, Acc) ->
+			case run_internal(Sub, Regexp) of
+				[] -> Acc;
+				Res -> [Res|Acc]
+			end
+		end, [], Subject));
+	
 run(State, Regexp, Term) when is_tuple(Regexp) ->
     Subject = stringify(State, Term),
+	run_internal(Subject, Regexp).
+
+run_internal([], _) ->
+	[];
+	
+run_internal([I|_]=Subject, Regexp) when is_integer(I), is_tuple(Regexp) ->
 	case re:run(Subject, Regexp, [{capture, all_but_first, list}, global]) of
 		nomatch -> 
 			[];
