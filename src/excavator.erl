@@ -49,15 +49,12 @@ init(_) ->
    ]}}.
 
 build_rel() ->
+	Apps = [kernel,stdlib,sasl,crypto,inets],
     {ok, FD} = file:open("excavator.rel", [write]),
     RelInfo = {release,
         {"excavator", "0.3"},
-        {erts, "5.7.2"}, [
-            {kernel, "2.13.2"},
-            {stdlib, "1.16.2"},
-            {sasl, "2.1.6"},
-            {crypto, "1.6"},
-			{inets, "5.1"},
+        get_app_version(erts), 
+		[get_app_version(AppName) || AppName <- Apps] ++ [
             {mochiweb, "0.2"},
             {mochixpath, "0.1"},
             {dynamic_compile, "0.1"},
@@ -68,3 +65,15 @@ build_rel() ->
     file:close(FD),
     systools:make_script("excavator", [local]),
     ok.
+
+get_app_version(AppName) ->
+	case code:lib_dir(AppName) of
+		{error, bad_name} ->
+			exit({bad_name, AppName});
+		Dir ->
+			case lists:reverse(string:tokens(Dir, "-")) of
+				[Vsn|_] -> {AppName, Vsn};
+				_ ->
+					exit({failed_to_tokenize, Dir})
+			end
+	end.
