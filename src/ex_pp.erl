@@ -235,6 +235,9 @@ expand_arg({call, _, {atom, _, last}, [Key]}) ->
 expand_arg({call, _, {atom, _, concat}, [Key]}) ->
     {tuple, ?L, [{atom,?L,concat}, expand_arg(Key)]};
 
+expand_arg({call, _, {atom, _, strip}, [Key]}) ->
+    {tuple, ?L, [{atom,?L,strip}, expand_arg(Key)]};
+
 expand_arg({call, _, {atom, _, range}, [Start, End]}) ->
     {tuple, ?L, [{atom,?L,range}, expand_arg(Start), expand_arg(End)]};
 

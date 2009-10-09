@@ -89,6 +89,13 @@ expand(State, {concat, Source}) ->
         List when is_list(List) -> lists:concat(List);
         _ -> {concat, Source}
     end;
+
+%% Strip
+expand(State, {strip, Source}) ->
+	case expand(State, Source) of
+		List when is_list(List) -> string:strip(List);
+		_ -> {strip, Source}
+	end;
     
 %% Length
 expand(State, {length, Source}) ->
