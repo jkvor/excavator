@@ -1,0 +1,12 @@
+[
+	{deps, [
+		{"ngerakines/mochiweb", []},
+		{"JacobVorreuter/mochixpath", [{tag, "1.1"}]},
+		{"JacobVorreuter/dynamic_compile", [{sha, "cea709a3f1ffb0a5e6d0fa6e87cfdd3862c01e9d"}]},
+		{"ngerakines/etap", []},
+		{"JacobVorreuter/mochiweb_server_behavior", []}
+	]},
+	{build_command, "make"},
+	{install_command, "make install"},
+	{test_command, "make test"}
+].
