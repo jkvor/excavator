@@ -77,6 +77,6 @@ get_cookies(Headers) ->
                             end
                         end || Field <- string:tokens(CookieString, ";")],
                      [{Name,_}|_] = Fields,
-                     dict:store(Name, {cookie, CookieString, Fields}, Dict)
+                     dict:store(Name, {resp_cookie, CookieString, Fields}, Dict)
                 end, dict:new(), Values))
     end.

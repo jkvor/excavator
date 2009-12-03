@@ -21,7 +21,7 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_pp).
--export([parse/1, parse/2]).
+-export([parse/1, parse/2, forms/2]).
 -export([purge/1, delete/1]).
 
 -define(L, 4).
@@ -33,46 +33,52 @@ parse(Filename, MainArgs) when is_list(Filename) ->
 	ModuleName = compile(Filename),
 	erlang:apply(ModuleName, main, MainArgs).
 	
+forms(Filename, ModuleName) ->
+	case (catch epp:parse_file(Filename,[],[])) of
+        {ok, Forms} -> 
+            {_,Indices} = lists:foldl(
+                fun ({attribute,_,file,{_,_}}, {I, Acc}) ->
+                        {I+1, [{attribute, I}|Acc]};
+                    ({function,_,main,_,_}, {I, Acc}) ->
+                        {I+1, [{main, [I | proplists:get_value(main, Acc, [])]}|Acc]};
+                    (_, {I, Acc}) ->
+                        {I+1, Acc}
+                end, {1, []}, Forms),
+
+            case proplists:get_value(attribute, Indices) of
+                1 -> ok;
+                _ -> exit({error, bad_file_attribute})
+            end,
+
+            case proplists:get_value(main, Indices) of
+                undefined -> exit({error, missing_main_function});
+                _ -> ok
+            end,
+
+            [{attribute,1,file,{Filename,1}},
+             {attribute,1,module, ModuleName},
+             {attribute,1,compile,[export_all]}] ++
+             parse_include() ++
+            [process_root_level_form(Form) || Form <- lists:nthtail(1, Forms)];
+
+        {'EXIT', Err} -> 
+            exit(Err);
+        Other -> 
+            exit({parse_error, Other})
+    end.
+
 compile(Filename) ->
     ModuleName = module_name(Filename, application:get_env(excavator, randomize_module_names)),
     case code:is_loaded(ModuleName) of
         {file, _} -> ok;
         false ->
-            case catch epp:parse_file(Filename,[],[]) of
-                {ok, Forms} -> 
-                    {_,Indices} = lists:foldl(
-                        fun ({attribute,_,file,{_,_}}, {I, Acc}) ->
-                                {I+1, [{attribute, I}|Acc]};
-                            ({function,_,main,_,_}, {I, Acc}) ->
-                                {I+1, [{main, [I | proplists:get_value(main, Acc, [])]}|Acc]};
-                            (_, {I, Acc}) ->
-                                {I+1, Acc}
-                        end, {1, []}, Forms),
-
-                    case proplists:get_value(attribute, Indices) of
-                        1 -> ok;
-                        _ -> exit({error, bad_file_attribute})
-                    end,
-
-                    case proplists:get_value(main, Indices) of
-                        undefined -> exit({error, missing_main_function});
-                        _ -> ok
-                    end,
-
-                    Forms1 = 
-                        [{attribute,1,file,{Filename,1}},
-                         {attribute,1,module, ModuleName},
-                         {attribute,1,compile,[export_all]}] ++
-                         parse_include() ++
-                        [process_root_level_form(Form) || Form <- lists:nthtail(1, Forms)],
-
-                    {ok, Mod, Bins} = compile:forms(Forms1, [verbose,report_errors]),
-                    code:load_binary(Mod, atom_to_list(Mod), Bins);
-                {'EXIT', Err} -> 
-                    exit(Err);
-                Other -> 
-                    exit({parse_error, Other})
-            end
+            Forms = forms(Filename, ModuleName),
+			case compile:forms(Forms, [verbose,report_errors]) of
+				{ok, Mod, Bins} ->
+					code:load_binary(Mod, atom_to_list(Mod), Bins);
+				error ->
+					exit(normal)
+			end
     end,
 	ModuleName.
     
@@ -250,8 +256,20 @@ expand_arg({call, _, {atom, _, read_file}, [Filename]}) ->
 expand_arg({call, _, {atom, _, open_file}, [Filename, Modes]}) ->
 	{tuple, ?L, [{atom,?L,open}, expand_arg(Filename), expand_arg(Modes)]};
 	
+expand_arg({call, _, {atom, _, cookie}, [CookieName, Key]}) ->
+	{tuple, ?L, [{atom,?L,cookie}, expand_arg(CookieName), expand_arg(Key)]};	
+	
 expand_arg({call, _, {atom, _, call}, [Module, Function, Args]}) ->
 	{tuple, ?L, [{atom,?L,call}, expand_arg(Module), expand_arg(Function), expand_arg(Args)]};
+	
+expand_arg({tuple, _, Args}) ->
+	{tuple, ?L, expand_args(Args)};
+	
+expand_arg({cons, _, Arg, {nil, _}}) ->
+	{cons, ?L, expand_arg(Arg), {nil, ?L}};
+	
+expand_arg({cons, _, Arg, Cons}) ->
+	{cons, ?L, expand_arg(Arg), expand_arg(Cons)};
 	
 expand_arg(Other) -> Other.
 

@@ -58,7 +58,7 @@ expand(State, {cookie, CookieName, HttpRespKey}) ->
     case expand(State, HttpRespKey) of
         #http_resp{cookies=Cookies} ->
             case proplists:get_value(CookieName, Cookies) of
-                {cookie, _, Fields} ->
+                {resp_cookie, _, Fields} ->
                     proplists:get_value(CookieName, Fields);
                 _ ->
                     undefined
