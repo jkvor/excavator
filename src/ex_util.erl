@@ -89,4 +89,5 @@ typeof([H|_]=List) when is_integer(H) ->
         end, string, List);
 typeof(List) when is_list(List) -> list;
 typeof(Fun) when is_function(Fun) -> function;
+typeof(Atom) when is_atom(Atom) -> atom;
 typeof(_) -> term.

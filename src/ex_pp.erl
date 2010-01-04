@@ -107,8 +107,8 @@ parse_include() ->
             []
     end.
     
-process_root_level_form({function,L,main,Arity,Clauses}) ->
-    {function,L,main,Arity,[begin
+process_root_level_form({function,L,FuncName,Arity,Clauses}) ->
+    {function,L,FuncName,Arity,[begin
         {I1, Instrs} = lists:foldl(fun
             ({tuple,_,[{atom,_,instr}|_]}=Instr, {I, Acc}) ->
                 {I+1, [assign_instr(Instr, I, L1)|Acc]};
@@ -133,8 +133,10 @@ module_name(_, {ok, true}) ->
     random:seed(A,B,C),
     list_to_atom([random:uniform(26) + 96 || _ <- lists:seq(1,32)]);
 
-module_name(Filename, _) ->
-    list_to_atom(binary_to_list(erlang:md5(Filename))).
+module_name(FilePath, _) ->
+	[Filename|_] = lists:reverse(string:tokens(FilePath, "/")),
+	[ModuleName|_] = string:tokens(Filename, "."),
+	list_to_atom(ModuleName).
 
 build_instrs(Tokens) ->
     [build_instr(Token) || Token <- Tokens].

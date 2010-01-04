@@ -133,6 +133,7 @@ flatten_url(State, {Url, Props}) ->
     
 flatten_url(State, Url) ->
     case ex_util:typeof(Url) of
+		atom -> expand(State, Url);
         string -> Url;
         list -> lists:concat([expand(State, I) || I <- Url])
     end.
