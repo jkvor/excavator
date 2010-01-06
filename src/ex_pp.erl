@@ -107,8 +107,8 @@ parse_include() ->
             []
     end.
     
-process_root_level_form({function,L,FuncName,Arity,Clauses}) ->
-    {function,L,FuncName,Arity,[begin
+process_root_level_form({function,L,main,Arity,Clauses}) ->
+    {function,L,main,Arity,[begin
         {I1, Instrs} = lists:foldl(fun
             ({tuple,_,[{atom,_,instr}|_]}=Instr, {I, Acc}) ->
                 {I+1, [assign_instr(Instr, I, L1)|Acc]};
