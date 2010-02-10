@@ -87,6 +87,7 @@ typeof([H|_]=List) when is_integer(H) ->
         fun (I, string) when is_integer(I) -> string;
             (_, _) -> list
         end, string, List);
+typeof(List) when is_binary(List) -> binary;
 typeof(List) when is_list(List) -> list;
 typeof(Fun) when is_function(Fun) -> function;
 typeof(Atom) when is_atom(Atom) -> atom;
