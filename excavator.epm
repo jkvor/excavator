@@ -2,6 +2,6 @@
 	{"clones/mochiweb", []},
 	{"mochixpath", []},
 	{"dynamic_compile", []},
-	{"etap", []},
+	{"epm/etap", []},
 	{"mochiweb_server_behavior", []}
 ]}].
