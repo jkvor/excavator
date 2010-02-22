@@ -8,8 +8,8 @@
     last_value
 }).
 
--record(http_resp, {status, headers, body, cookies}).
 -record(http_req, {method=get, url=[], headers=[], body=[], options=[]}).
+-record(http_resp, {status, headers, body, cookies}).
 
 -define(DBG_REPORT(Args), ex_logger:debug_report(Args)).
 -define(DBG_MSG(Format, Args), ex_logger:debug_msg(Format, Args)).

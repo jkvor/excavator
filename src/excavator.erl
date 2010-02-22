@@ -55,7 +55,7 @@ build_rel() ->
         {"excavator", "0.3"},
         get_app_version(erts), 
 		[get_app_version(AppName) || AppName <- Apps] ++ [
-            {mochiweb, "0.2"},
+            {mochiweb, "0.01"},
             {mochixpath, "0.1"},
             {dynamic_compile, "0.1"},
             {excavator, "0.3"}

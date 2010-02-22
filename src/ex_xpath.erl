@@ -31,9 +31,9 @@ run(XPath, #http_resp{body=Body}) ->
 run(XPath, {A,B,C}) when is_binary(A), is_list(B), is_list(C) ->
     run_internal(XPath, {A,B,C});
     
-run(XPath, Subject0) when is_list(XPath), is_list(Subject0) ->
+run(XPath, Subject0) when is_list(XPath) ->
     case ex_util:typeof(Subject0) of
-        string -> 
+        String when String == string; String == binary -> 
         	case (catch mochiweb_html:parse(Subject0)) of
         	    {'EXIT', {{badmatch,[]},_}} ->
                     [];

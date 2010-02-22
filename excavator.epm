@@ -1,5 +1,7 @@
 [{deps, [
 	{"clones/mochiweb", []},
 	{"mochixpath", []},
-	{"dynamic_compile", []}
+	{"dynamic_compile", []},
+	{"etap", []},
+	{"JacobVorreuter/mochiweb_server_behavior", []}
 ]}].

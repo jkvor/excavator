@@ -21,7 +21,7 @@
 %% FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 %% OTHER DEALINGS IN THE SOFTWARE.
 -module(ex_web).
--export([request/5]).
+-export([request/1, request/2, request/3, request/4, request/5]).
 
 -include("excavator.hrl").
 
@@ -33,6 +33,18 @@
     {"User-Agent","Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.5) Gecko/2008120121 Firefox/3.0.5"}
 ]).
 
+request(Url) ->
+	request(get, Url, [], [], []).
+
+request(Method, Url) ->
+	request(Method, Url, [], [], []).
+
+request(Method, Url, Headers) ->
+	request(Method, Url, Headers, [], []).
+	
+request(Method, Url, Headers, Body) ->
+	request(Method, Url, Headers, Body, []).
+	
 request(Method, Url, [], Body, Options) -> request(Method, Url, ?HEADERS, Body, Options);
 
 request(Method, Url, Headers, [], Options) 
@@ -77,6 +89,6 @@ get_cookies(Headers) ->
                             end
                         end || Field <- string:tokens(CookieString, ";")],
                      [{Name,_}|_] = Fields,
-                     dict:store(Name, {cookie, CookieString, Fields}, Dict)
+                     dict:store(Name, {resp_cookie, CookieString, Fields}, Dict)
                 end, dict:new(), Values))
     end.

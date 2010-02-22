@@ -12,6 +12,6 @@ ${MODULES}
     ]},
     {registered, []},
     {mod, {excavator, []}},
-    {applications, [kernel, stdlib, inets]}
+    {applications, [kernel, stdlib, inets, dynamic_compile, mochixpath]}
 ]}.
 EOF
