@@ -55,6 +55,9 @@ main() ->
     assign({result7a, result7b}, {"Hello", "World"}),
     assign([result7c, {result7d, result7e}], ["My", {"Name", "Is"}]),
     function(fun validate_results7/1),
+	
+	assign(myvar1, " hello "),
+	assign(myvar2, eval(string:strip(myvar1))),
                   
     ok.
  
