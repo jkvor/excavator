@@ -3,5 +3,5 @@
 	{"mochixpath", []},
 	{"dynamic_compile", []},
 	{"etap", []},
-	{"JacobVorreuter/mochiweb_server_behavior", []}
+	{"mochiweb_server_behavior", []}
 ]}].
